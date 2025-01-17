@@ -1,4 +1,4 @@
-import NinjaImage from "../../../ninja.png";
+import NinjaImage from "./ninja.png";
 
 const RegisterPage = () => {
   return (

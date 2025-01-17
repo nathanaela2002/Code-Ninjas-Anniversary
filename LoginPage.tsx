@@ -1,6 +1,6 @@
-import NinjaImage from "../../../ninja.png";
+import NinjaImage from "./ninja.png";
 
-const RegisterPage = () => {
+const LoginPage = () => {
   return (
     <div
       className="flex w-screen min-h-screen overflow-auto items-stretch relative"
@@ -10,7 +10,7 @@ const RegisterPage = () => {
       }}
     >
       {/* Left Section (Text) - No more individual gradient here */}
-      <div className="hidden md:flex w-1/3 relative flex-col justify-center mt-[-28rem] pl-14">
+      <div className="hidden md:flex w-1/3 relative flex-col justify-center mt-[-22rem] pl-14">
         <h1
           className="text-4xl font-semibold font-syne text-white"
           style={{
@@ -42,7 +42,7 @@ const RegisterPage = () => {
       <div className="w-full md:w-2/3 bg-white rounded-l-[2rem] flex flex-col items-center justify-center py-16">
         <div className="w-3/4 px-8">
           <h2
-            className="text-5xl font-semibold font-syne text-create-blue text-center mb-10"
+            className="text-5xl font-semibold font-syne text-create-blue text-center mb-20"
             style={{
               textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
             }}
@@ -52,7 +52,7 @@ const RegisterPage = () => {
         </div>
 
         {/* Form Section */}
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md px-8">
           <h3
             className="text-4xl font-semibold font-syne text-left mb-6"
             style={{
@@ -63,28 +63,9 @@ const RegisterPage = () => {
           </h3>
 
           <form className="space-y-4">
-            <div className="flex gap-4">
-              <input
-                type="text"
-                placeholder="First Name"
-                className="w-1/2 p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                className="w-1/2 p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
             <input
               type="text"
               placeholder="Username"
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-
-            <input
-              type="email"
-              placeholder="Email"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
@@ -98,14 +79,14 @@ const RegisterPage = () => {
               type="submit"
               className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
             >
-              Create Account
+              Login
             </button>
           </form>
 
           <p className="text-center text-gray-600 mt-4">
-            Already have an account?{" "}
-            <a href="/login" className="text-blue-500 underline">
-              Login
+            Don&apos;t have an account?{" "}
+            <a href="/register" className="text-blue-500 underline">
+              Sign Up
             </a>
           </p>
         </div>
@@ -114,4 +95,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;
