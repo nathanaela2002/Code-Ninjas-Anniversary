@@ -1,15 +1,15 @@
-import NinjaImage from "../../../ninja.png";
+import NinjaImage from "./ninja.png";
 
 const LoginPage = () => {
   return (
     <div
-      className="flex w-screen min-h-screen overflow-auto items-stretch relative"
-      // 1) Entire page gets the gradient background
+      className="flex w-screen h-screen overflow-hidden items-stretch relative"
+      // 1) Entire page gets the gradient background and is constrained to the viewport height
       style={{
         background: "linear-gradient(to bottom, #68c4ee, #005dab)",
       }}
     >
-      {/* Left Section (Text) - No more individual gradient here */}
+      {/* Left Section (Text) */}
       <div className="hidden md:flex w-1/3 relative flex-col justify-center mt-[-22rem] pl-14">
         <h1
           className="text-4xl font-semibold font-syne text-white"
@@ -59,7 +59,7 @@ const LoginPage = () => {
               textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
             }}
           >
-            Join the Challenge!
+            Welcome!
           </h3>
 
           <form className="space-y-4">
