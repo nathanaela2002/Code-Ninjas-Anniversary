@@ -2,38 +2,54 @@ import React from 'react';
 import NinjaImage from "./ninja.png";
 import DefaultAvatar from "./default.png";
 import LOGOImage from "./codeninjalogo.png";
+import { Link } from "react-router-dom";
 
 //
 // --- HOME PAGE COMPONENT ---
 //
+
+// Import the EditProfileModal component
+import EditProfileModal from "./EditProfileModal";
+
 export default function HomePage() {
   // Sample data for some other part of your page (e.g., "Weeks" section):
-
+  const openEditProfileModal = () => {
+    const modal = document.getElementById("edit_profile_modal") as HTMLDialogElement;
+    if (modal) {
+      modal.showModal(); //show the modal
+      document.body.style.overflow = "hidden"; // Disable scrolling
+    }
+  };
   return (
     <div className="w-full min-h-screen font-sans bg-white text-gray-800">
       {/**
        * HEADER (NAV)
        * ------------------------------------------------------------------
        */}
-      <header className="h-16 w-full flex items-center justify-between px-6 bg-white shadow-sm">
+      <header className="h-16 w-full flex items-center justify-between px-6 bg-white shadow-sm border-b-2 border-gray-300">
         {/* Left - Logo */}
         <div className="flex items-center space-x-2">
-          <img
-            src={LOGOImage}//Code ninjas logo
-            className="h-8 w-auto object-contain"
-          />
-          <span className="font-bold text-lg">Code Ninjas</span>
+          <a href="/" className="flex items-center space-x-2">
+            <img
+              src={LOGOImage} // Code ninjas logo
+              className="h-8 w-auto object-contain"
+              alt="Code Ninjas Logo"
+            />
+            <span className="font-bold text-lg">Code Ninjas</span>
+          </a>
         </div>
         {/* Right - User Info */}
         <div className="flex items-center space-x-2">
+          <span className="font-bold">8th</span>
+          {/* Clickable avatar that opens the Edit Profile modal */}
           <img
-            src={DefaultAvatar} //User profile pic
-            className="h-8 w-auto object-contain"
+            src={DefaultAvatar} // User profile pic
+            className="h-8 w-auto object-contain cursor-pointer"
+            alt="User Avatar"
+            onClick={openEditProfileModal}
           />
           <span className="font-bold">Ted Schultz</span>
-          <span className="">
-            102 pts
-          </span>
+          <span>102 pts</span>
         </div>
       </header>
 
@@ -65,9 +81,9 @@ export default function HomePage() {
               Cody back safely and prove your ninja expertise!
             </p>
 
-            <a href="/RiddlePage">
+            <a href="/riddle:id">
               <button className="bg-yellow-400 text-white text-lg font-semibold px-6 py-2 rounded-md shadow hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition">
-                Riddles
+                Learn More...
               </button>
             </a>
           </div>
@@ -77,16 +93,17 @@ export default function HomePage() {
         <section className="relative mb-16">
           <div className="flex flex-wrap items-start justify-center space-x-4 md:space-x-6">
             {[
-              { label: 'Week 1', sub: 'Operators' },
-              { label: 'Week 2', sub: 'Sequencing' },
-              { label: 'Week 3', sub: 'TBD...' },
-              { label: 'Week 4', sub: 'TBD...' },
-              { label: 'Week 5', sub: 'TBD...' },
-              { label: 'Week 6', sub: 'TBD...' },
-              { label: 'Week 7', sub: 'TBD...' },
+              { label: "Week 1", sub: "Operators", id: 1 },
+              { label: "Week 2", sub: "Sequencing", id: 2 },
+              { label: "Week 3", sub: "TBD...", id: 3 },
+              { label: "Week 4", sub: "TBD...", id: 4 },
+              { label: "Week 5", sub: "TBD...", id: 5 },
+              { label: "Week 6", sub: "TBD...", id: 6 },
+              { label: "Week 7", sub: "TBD...", id: 7 },
             ].map((item, idx) => (
-              <div
+              <Link
                 key={idx}
+                to={`/riddle/${item.id}`} // Navigate to the specific riddle page
                 className="flex flex-col items-center mb-6 transform hover:scale-105 transition"
               >
                 {/* “Polaroid” style container */}
@@ -94,7 +111,7 @@ export default function HomePage() {
                   <span className="font-bold text-sm">{item.label}</span>
                 </div>
                 <span className="text-xs text-gray-600">{item.sub}</span>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
@@ -107,13 +124,55 @@ export default function HomePage() {
       <Leaderboard />
 
       {/**
-       * FOOTER
-       * ------------------------------------------------------------------
-       */}
-      <footer className="mt-10 pb-6 text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} Code Ninjas. All rights reserved.
+        * FOOTER
+        * ------------------------------------------------------------------
+        */}
+        <footer className="mt-10 pb-6 bg-blue-200 text-white text-sm">
+        <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-5 gap-4 text-gray-700">
+          {/* Column 1 - Center */}
+          <div>
+            <h2 className="font-semibold mb-2">Center</h2>
+            <ul className="space-y-1">
+              <li><a href="#" className="hover:underline">Code Ninjas Aurora</a></li>
+            </ul>
+          </div>
+
+
+          {/* Column 2 - Company */}
+          <div>
+            <h2 className="font-semibold mb-2">Company</h2>
+            <ul className="space-y-1">
+              <li><a href="#" className="hover:underline">About</a></li>
+              <li><a href="#" className="hover:underline">Contacts</a></li>
+              <li><a href="#" className="hover:underline">FAQ</a></li>
+            </ul>
+          </div>
+
+          {/* Column 3 - Legal */}
+          <div>
+            <h2 className="font-semibold mb-2">Legal</h2>
+            <ul className="space-y-1">
+              <li><a href="#" className="hover:underline">Terms & Conditions</a></li>
+              <li><a href="#" className="hover:underline">Privacy Policy</a></li>
+            </ul>
+          </div>
+
+          {/* Column 4 - Social Links */}
+          <div>
+            <h2 className="font-semibold mb-2">Follow Us</h2>
+            <div className="flex space-x-4">
+              <a href="#" className="hover:opacity-75">Facebook</a>
+              <a href="#" className="hover:opacity-75">Instagram</a>
+              <a href="#" className="hover:opacity-75">X</a>
+              <a href="#" className="hover:opacity-75">LinkedIn</a>
+            </div>
+          </div>
+        </div>
       </footer>
+      {/* Include the EditProfileModal at the bottom so it can be shown/hidden */}
+      <EditProfileModal />
     </div>
+    
   );
 }
 
@@ -288,3 +347,5 @@ const Leaderboard: React.FC = () => {
     </div>
   );
 };
+
+
