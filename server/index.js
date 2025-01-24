@@ -17,7 +17,7 @@ const multer = require("multer");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const User = require("./models/User");
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config({ path: "../client/.env" });
 
 const uploadMiddleware = multer({
   dest: "./uploads/ ",
@@ -33,7 +33,7 @@ const uploadMiddleware = multer({
 
 app.use(express.json());
 app.use(cookieParser());
-app.use("/uploads".express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 mongoose
   .connect(process.env.VITE_MONGO_URI)
