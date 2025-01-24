@@ -3,13 +3,13 @@ import React, { useState } from "react";
 const EditProfileModal: React.FC = () => {
   // State to manage the form data for profile editing
   const [formData, setFormData] = useState({
-    fullName: "Guest User",
-    username: "guest",
-    email: "guest@email.com",
-    bio: "Bio",
-    link: "",
+    firstName: "Ted",
+    lastName: "Schultz",
+    username: "teddybear135",
+    email: "laurenhs@gmail.com",
     currentPassword: "",
     newPassword: "",
+    profileImage: "",
   });
 
   // Handle input field changes
@@ -48,38 +48,62 @@ const EditProfileModal: React.FC = () => {
               console.log(formData);
             }}
           >
-            {/* Input fields for full name and username */}
-            <div className="grid grid-cols-2 gap-4">
-              <input
-                type="text"
-                className="w-full p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F]"
-                value={formData.fullName}
-                name="fullName"
-                onChange={handleInputChange}
-              />
-              <input
-                type="text"
-                className="w-full p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F]"
-                value={formData.username}
-                name="username"
-                onChange={handleInputChange}
-              />
+            {/* Edit Profile Image Section */}
+            <div className="grid grid-cols-3 gap-4 items-center">
+              <div className="col-span-1 flex flex-col items-center">
+                <div className="w-40 h-40 rounded-full border border-[#BCCCDC] flex items-center justify-center overflow-hidden ml-16">
+                  <img
+                    src={formData.profileImage || "placeholder-image-url"}
+                    alt="Profile"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <label className="mt-2 text-blue-500 cursor-pointer hover:underline">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                  />
+                </label>
+              </div>
+
+              {/* Input fields for full name */}
+              <div className="col-span-2 grid grid-cols-1 gap-4">
+                <input
+                  type="text"
+                  className="w-7/8 p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F] ml-auto"
+                  value={formData.firstName}
+                  name="firstName"
+                  placeholder="First Name"
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="text"
+                  className="w-7/8 p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F] ml-auto"
+                  value={formData.lastName}
+                  name="lastName"
+                  placeholder="Last Name"
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
 
-            {/* Input fields for email and bio */}
+            {/* Input fields for username and email */}
             <div className="grid grid-cols-2 gap-4">
+              <textarea
+                className="w-full p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F] resize-none"
+                value={formData.username}
+                name="username"
+                placeholder="Username"
+                rows={1}
+                onChange={handleInputChange}
+              />
               <input
                 type="email"
                 className="w-full p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F]"
                 value={formData.email}
                 name="email"
-                onChange={handleInputChange}
-              />
-              <textarea
-                className="w-full p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F] resize-none"
-                value={formData.bio}
-                name="bio"
-                rows={1}
+                placeholder="Email"
                 onChange={handleInputChange}
               />
             </div>
@@ -104,16 +128,6 @@ const EditProfileModal: React.FC = () => {
               />
             </div>
 
-            {/* Input field for personal link */}
-            <input
-              type="text"
-              placeholder="Link"
-              className="w-full p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F]"
-              value={formData.link}
-              name="link"
-              onChange={handleInputChange}
-            />
-
             {/* Update button */}
             <button
               type="submit"
@@ -122,6 +136,7 @@ const EditProfileModal: React.FC = () => {
               Update
             </button>
           </form>
+
         </div>
       </dialog>
     </>

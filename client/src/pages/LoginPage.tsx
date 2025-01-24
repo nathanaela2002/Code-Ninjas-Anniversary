@@ -89,6 +89,12 @@ const LoginPage = () => {
               Sign Up
             </a>
           </p>
+          <p className="text-center text-gray-600 mt-2">
+            Forgot passsord?{" "}
+            <a href="/reset-password" className="text-blue-500 underline">
+              Click Here
+            </a>
+          </p>
         </div>
       </div>
     </div>
