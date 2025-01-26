@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import NinjaImage from "./ninja.png";
 import DefaultAvatar from "./default.png";
 import LOGOImage from "./codeninjalogo.png";
@@ -14,7 +14,9 @@ import EditProfileModal from "./EditProfileModal";
 export default function HomePage() {
   // Sample data for some other part of your page (e.g., "Weeks" section):
   const openEditProfileModal = () => {
-    const modal = document.getElementById("edit_profile_modal") as HTMLDialogElement;
+    const modal = document.getElementById(
+      "edit_profile_modal",
+    ) as HTMLDialogElement;
     if (modal) {
       modal.showModal(); //show the modal
       document.body.style.overflow = "hidden"; // Disable scrolling
@@ -77,8 +79,8 @@ export default function HomePage() {
             </h1>
             <p className="mb-6 text-gray-700 leading-relaxed">
               Help Cody return home by solving a series of clever riddles and
-              challenges in the coming weeks. Complete all 7 tasks to bring
-              Cody back safely and prove your ninja expertise!
+              challenges in the coming weeks. Complete all 7 tasks to bring Cody
+              back safely and prove your ninja expertise!
             </p>
 
             <a href="/riddle:id">
@@ -124,27 +126,42 @@ export default function HomePage() {
       <Leaderboard />
 
       {/**
-        * FOOTER
-        * ------------------------------------------------------------------
-        */}
-        <footer className="mt-10 pb-6 bg-blue-200 text-white text-sm">
+       * FOOTER
+       * ------------------------------------------------------------------
+       */}
+      <footer className="mt-10 pb-6 bg-blue-200 text-white text-sm">
         <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-5 gap-4 text-gray-700">
           {/* Column 1 - Center */}
           <div>
             <h2 className="font-semibold mb-2">Center</h2>
             <ul className="space-y-1">
-              <li><a href="#" className="hover:underline">Code Ninjas Aurora</a></li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Code Ninjas Aurora
+                </a>
+              </li>
             </ul>
           </div>
-
 
           {/* Column 2 - Company */}
           <div>
             <h2 className="font-semibold mb-2">Company</h2>
             <ul className="space-y-1">
-              <li><a href="#" className="hover:underline">About</a></li>
-              <li><a href="#" className="hover:underline">Contacts</a></li>
-              <li><a href="#" className="hover:underline">FAQ</a></li>
+              <li>
+                <a href="#" className="hover:underline">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Contacts
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  FAQ
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -152,8 +169,16 @@ export default function HomePage() {
           <div>
             <h2 className="font-semibold mb-2">Legal</h2>
             <ul className="space-y-1">
-              <li><a href="#" className="hover:underline">Terms & Conditions</a></li>
-              <li><a href="#" className="hover:underline">Privacy Policy</a></li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Terms & Conditions
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Privacy Policy
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -161,10 +186,18 @@ export default function HomePage() {
           <div>
             <h2 className="font-semibold mb-2">Follow Us</h2>
             <div className="flex space-x-4">
-              <a href="#" className="hover:opacity-75">Facebook</a>
-              <a href="#" className="hover:opacity-75">Instagram</a>
-              <a href="#" className="hover:opacity-75">X</a>
-              <a href="#" className="hover:opacity-75">LinkedIn</a>
+              <a href="#" className="hover:opacity-75">
+                Facebook
+              </a>
+              <a href="#" className="hover:opacity-75">
+                Instagram
+              </a>
+              <a href="#" className="hover:opacity-75">
+                X
+              </a>
+              <a href="#" className="hover:opacity-75">
+                LinkedIn
+              </a>
             </div>
           </div>
         </div>
@@ -172,10 +205,8 @@ export default function HomePage() {
       {/* Include the EditProfileModal at the bottom so it can be shown/hidden */}
       <EditProfileModal />
     </div>
-    
   );
 }
-
 
 // --- LEADERBOARD COMPONENT ---
 type leaderBoardEntry = {
@@ -188,27 +219,128 @@ type leaderBoardEntry = {
 // Example data for the leaderboard
 const leaderboardData: leaderBoardEntry[] = [
   // Top 3
-  { id: 1, name: 'Nathanael Ann', points: 102, avatarUrl: 'https://via.placeholder.com/60?text=NA' },
-  { id: 2, name: 'Bryan Yang', points: 83, avatarUrl: 'https://via.placeholder.com/60?text=BY' },
-  { id: 3, name: 'Daniel Yang', points: 80, avatarUrl: 'https://via.placeholder.com/60?text=DY' },
+  // TODO: Is the id referring to the position or the user id? For Ted: if it refers to the user id then change the leaderboard endpoint accordingly, currently we have it as position id
+  {
+    id: 1,
+    name: "Nathanael Ann",
+    points: 102,
+    avatarUrl: "https://via.placeholder.com/60?text=NA",
+  },
+  {
+    id: 2,
+    name: "Bryan Yang",
+    points: 83,
+    avatarUrl: "https://via.placeholder.com/60?text=BY",
+  },
+  {
+    id: 3,
+    name: "Daniel Yang",
+    points: 80,
+    avatarUrl: "https://via.placeholder.com/60?text=DY",
+  },
   // The rest of the leaderboard
-  { id: 4, name: 'Becky Bartell', points: 75, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 5, name: 'Tamara Schmidt', points: 74, avatarUrl: 'https://via.placeholder.com/60?text=TS' },
-  { id: 6, name: 'Marsha Fisher', points: 65, avatarUrl: 'https://via.placeholder.com/60?text=MF' },
-  { id: 7, name: 'Juanita Cormier', points: 54, avatarUrl: 'https://via.placeholder.com/60?text=JC' },
-  { id: 8, name: 'You', points: 50, avatarUrl: 'https://via.placeholder.com/60?text=U' },
-  { id: 9, name: 'Gary Sanford', points: 41, avatarUrl: 'https://via.placeholder.com/60?text=GS' },
-  { id: 10, name: 'Ricardo Veum', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=RV' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
+  {
+    id: 4,
+    name: "Becky Bartell",
+    points: 75,
+    avatarUrl: "https://via.placeholder.com/60?text=BB",
+  },
+  {
+    id: 5,
+    name: "Tamara Schmidt",
+    points: 74,
+    avatarUrl: "https://via.placeholder.com/60?text=TS",
+  },
+  {
+    id: 6,
+    name: "Marsha Fisher",
+    points: 65,
+    avatarUrl: "https://via.placeholder.com/60?text=MF",
+  },
+  {
+    id: 7,
+    name: "Juanita Cormier",
+    points: 54,
+    avatarUrl: "https://via.placeholder.com/60?text=JC",
+  },
+  {
+    id: 8,
+    name: "You",
+    points: 50,
+    avatarUrl: "https://via.placeholder.com/60?text=U",
+  },
+  {
+    id: 9,
+    name: "Gary Sanford",
+    points: 41,
+    avatarUrl: "https://via.placeholder.com/60?text=GS",
+  },
+  {
+    id: 10,
+    name: "Ricardo Veum",
+    points: 38,
+    avatarUrl: "https://via.placeholder.com/60?text=RV",
+  },
+  {
+    id: 11,
+    name: "Becky Bartell",
+    points: 38,
+    avatarUrl: "https://via.placeholder.com/60?text=BB",
+  },
+  {
+    id: 11,
+    name: "Becky Bartell",
+    points: 38,
+    avatarUrl: "https://via.placeholder.com/60?text=BB",
+  },
+  {
+    id: 11,
+    name: "Becky Bartell",
+    points: 38,
+    avatarUrl: "https://via.placeholder.com/60?text=BB",
+  },
+  {
+    id: 11,
+    name: "Becky Bartell",
+    points: 38,
+    avatarUrl: "https://via.placeholder.com/60?text=BB",
+  },
+  {
+    id: 11,
+    name: "Becky Bartell",
+    points: 38,
+    avatarUrl: "https://via.placeholder.com/60?text=BB",
+  },
+  {
+    id: 11,
+    name: "Becky Bartell",
+    points: 38,
+    avatarUrl: "https://via.placeholder.com/60?text=BB",
+  },
+  {
+    id: 11,
+    name: "Becky Bartell",
+    points: 38,
+    avatarUrl: "https://via.placeholder.com/60?text=BB",
+  },
+  {
+    id: 11,
+    name: "Becky Bartell",
+    points: 38,
+    avatarUrl: "https://via.placeholder.com/60?text=BB",
+  },
+  {
+    id: 11,
+    name: "Becky Bartell",
+    points: 38,
+    avatarUrl: "https://via.placeholder.com/60?text=BB",
+  },
+  {
+    id: 11,
+    name: "Becky Bartell",
+    points: 38,
+    avatarUrl: "https://via.placeholder.com/60?text=BB",
+  },
   // ... you can continue or remove duplicates as needed
 ];
 
@@ -301,15 +433,15 @@ const Leaderboard: React.FC = () => {
             <li
               key={entry.id}
               className={`flex items-center justify-between p-3 rounded-md shadow-sm transform transition hover:scale-[1.01] ${
-                entry.name === 'You'
-                  ? 'bg-cyan-100 hover:bg-cyan-200'
-                  : 'bg-white hover:bg-blue-50'
+                entry.name === "You"
+                  ? "bg-cyan-100 hover:bg-cyan-200"
+                  : "bg-white hover:bg-blue-50"
               }`}
             >
               <div className="flex items-center gap-3">
                 <span
                   className={`text-gray-500 font-semibold w-5 text-right ${
-                    entry.name === 'You' ? 'text-black font-bold' : ''
+                    entry.name === "You" ? "text-black font-bold" : ""
                   }`}
                 >
                   {index + 4}
@@ -318,14 +450,14 @@ const Leaderboard: React.FC = () => {
                   src={DefaultAvatar}
                   alt={entry.name}
                   className={`w-10 h-10 rounded-full object-cover shadow-md ${
-                    entry.name === 'You' ? 'ring-2 ring-blue-400' : ''
+                    entry.name === "You" ? "ring-2 ring-blue-400" : ""
                   }`}
                 />
                 <span
                   className={`font-medium ${
-                    entry.name === 'You'
-                      ? 'text-black font-bold'
-                      : 'text-gray-700'
+                    entry.name === "You"
+                      ? "text-black font-bold"
+                      : "text-gray-700"
                   }`}
                 >
                   {entry.name}
@@ -333,9 +465,9 @@ const Leaderboard: React.FC = () => {
               </div>
               <span
                 className={`font-semibold ${
-                  entry.name === 'You'
-                    ? 'text-black font-bold'
-                    : 'text-gray-600'
+                  entry.name === "You"
+                    ? "text-black font-bold"
+                    : "text-gray-600"
                 }`}
               >
                 {entry.points} pts
@@ -347,5 +479,3 @@ const Leaderboard: React.FC = () => {
     </div>
   );
 };
-
-

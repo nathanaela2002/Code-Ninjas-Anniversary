@@ -12,7 +12,9 @@ export default function RiddlePage() {
 
   // A helper function to show the modal
   const openEditProfileModal = () => {
-    const modal = document.getElementById("edit_profile_modal") as HTMLDialogElement;
+    const modal = document.getElementById(
+      "edit_profile_modal",
+    ) as HTMLDialogElement;
     if (modal) {
       modal.showModal();
       document.body.style.overflow = "hidden"; // Disable scrolling
@@ -25,6 +27,7 @@ export default function RiddlePage() {
   };
 
   // Handle submission
+  // TODO: When implementing the api, the payload should include: userId so we know who submitted, riddleId so we know how many points to award, and userAnswer to check if its correct
   const handleSubmit = () => {
     setUserAnswer(currentInput); // Store the input in userAnswer
     console.log("User's Answer:", currentInput); // Log the user's answer
