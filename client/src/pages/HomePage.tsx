@@ -20,7 +20,9 @@ export default function HomePage() {
 
   // Sample data for some other part of your page (e.g., "Weeks" section)
   const openEditProfileModal = () => {
-    const modal = document.getElementById("edit_profile_modal") as HTMLDialogElement;
+    const modal = document.getElementById(
+      "edit_profile_modal",
+    ) as HTMLDialogElement;
     if (modal) {
       modal.showModal(); // show the modal
       document.body.style.overflow = "hidden"; // Disable scrolling
@@ -146,6 +148,7 @@ export default function HomePage() {
        * FOOTER
        * ------------------------------------------------------------------
        */}
+
       <footer
         ref={footerRef}
         className={`mt-10 pb-6 bg-blue-200 text-white text-sm
