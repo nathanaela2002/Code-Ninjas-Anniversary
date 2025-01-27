@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom"; // <-- Import useParams from React Router
 import NinjaImage from "./ninja.png";
 import DefaultAvatar from "./default.png";
 import LOGOImage from "./codeninjalogo.png";
@@ -6,7 +7,51 @@ import LOGOImage from "./codeninjalogo.png";
 // Import the EditProfileModal component
 import EditProfileModal from "./EditProfileModal";
 
+// Example data structure to hold all weeks/riddles
+// You can expand this as needed (Week 2, Week 3, etc.).
+const riddlesData: Record<string, { week: number; content: string; riddle: string }> = {
+  "1": {
+    week: 1,
+    content:
+      "Codey makes his way back to the center, he creates a map and pinpoints the locations where the decorations will be placed. To really fall in line with the birthday anniversary theme, drastic changes are made to the dojo and lab with previously existing items being replaced by ninja stars and birthday-themed decorations. All is according to plan, what is yet to be discovered is what Codey did next.",
+    riddle:
+      "A ninja shop, its name not right, an alligator eats yet portions are light, Two bugs in the code, one bites, one blue, fix them both to uncover the clue!",
+  },
+  "2": {
+    week: 2,
+    content: "Codey makes his way back to the center, he creates a map and pinpoints the locations where the decorations will be placed. To really fall in line with the birthday anniversary theme, drastic changes are made to the dojo and lab with previously existing items being replaced by ninja stars and birthday themed decorations. All is according to plan, what is yet to be discovered is what Codey did next.",
+    riddle: "Codey’s dojo lies undone, A puzzle waits for everyone. Walls must rise and tiles align, A test of skill, a mastermind. Beware the blocks that trap or halt, One wrong move, it’s your fault. Dodge the roomba, the table too, Navigate smart, and see it through. Reach the lab where truths attack, Solve this now what word comes back?",
+  },
+  "3": {
+    week: 3,
+    content: "As Codey finished setting up decorations around the dojo, a cloud of smoke washed over the room, instinctively, per his ninja training, Codey prepared for the worst. Three mysterious figures could faintly be seen behind smoke, and in the blink of an eye, they vanished. The smoke disappeared and so too did Codey. A clue was left behind, but that's for you to uncover.",
+    riddle: "A cloud of smoke, a flash, a fright, Three shadows vanish into the night. Codey’s gone, the dojo’s still, A clue remains to test your skill. Sprites appear in disarray, Their order lost, led astray. Chance and math, the code’s unclear, Fix the logic, bring truth near. Solve the puzzle, restore the quests, Let's hope you’re feeling blessed.",
+  },
+  "4": {
+    week: 4,
+    content: "With knowledge of the previous clue, an investigation on belts around the dojo was conducted, it was noticed that the white, yellow, and green belts had mysteriously disappeared. A riddle was written beneath each belt’s original resting place, potentially revealing their hidden locations, the first under white belt reads:",
+    riddle: "If this happens, then that will too. Ninjas train here to move and fight for you. Find the place where actions begin, and ninjas start to spin!",
+  },
+  "5": {
+    week: 5,
+    content: "With the white belt now being found, it was time to find the yellow belt, the passage under said belt reads:",
+    riddle: "In rows and rows, ninjas grow. Each has its place, all in a row. Look for the farm where ninjas train, neatly lined up like grain.",
+  },
+  "6": {
+    week: 6,
+    content: "Two belts down, and one more remains, the yellow belt riddle reads:",
+    riddle: "Round and round, ninjas run fast, looping forever, never the last. Find the dimension where racers speed.",
+  },
+  // ...
+  "7": {
+    week: 7,
+    content: "It’s the last week before anniversary and all the belts have been found, but, where’s Codey? Back to the dojo we go, and here lays the final quest.",
+    riddle: "Back to where it all began, mystery, fun, and riddles at hand. An adventure for sure for the ones who remain, but beware of the boss at the end of the game. To relive this quest, use your code to create, and make this adventure forever great!",
+  },
+};
+
 export default function RiddlePage() {
+  const { id } = useParams(); // <-- Grab the 'id' param from the URL
   const [userAnswer, setUserAnswer] = useState(""); // State to store the user's answer
   const [currentInput, setCurrentInput] = useState(""); // State to track the current input field value
 
@@ -33,6 +78,9 @@ export default function RiddlePage() {
     console.log("User's Answer:", currentInput); // Log the user's answer
     setCurrentInput(""); // Clear the input field
   };
+
+  // Default to the "1" entry if no matching ID is found, or handle "not found" scenario
+  const currentRiddle = riddlesData[id ?? "1"] || riddlesData["1"];
 
   return (
     <div className="w-full min-h-screen font-sans bg-white text-gray-800">
@@ -97,23 +145,13 @@ export default function RiddlePage() {
         </section>
 
         {/* RIDDLE CONTENT */}
-        <section className="bg-gray-50 p-6 rounded-lg shadow-md mb-12">
-          <h2 className="text-2xl font-bold mb-4">Story</h2>
-          <p className="mb-6 text-gray-700 leading-relaxed">
-            Codey makes his way back to the center, he creates a map and
-            pinpoints the locations where the decorations will be placed. To
-            really fall in line with the birthday anniversary theme, drastic
-            changes are made to the dojo and lab with previously existing items
-            being replaced by ninja stars and birthday-themed decorations. All
-            is according to plan, what is yet to be discovered is what Codey did
-            next.
-          </p>
+        <section className="bg-gray-50 p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold mb-4">Week {currentRiddle.week}</h2>
+          <p className="mb-6 text-gray-700 leading-relaxed">{currentRiddle.content}</p>
+
           <h2 className="text-2xl font-bold mb-4">Riddle</h2>
-          <p className="mb-6 text-gray-700 leading-relaxed">
-            A ninja shop, its name not right, an alligator eats yet portions are
-            light, Two bugs in the code, one bites, one blue, fix them both to
-            uncover the clue!
-          </p>
+          <p className="mb-6 text-gray-700 leading-relaxed">{currentRiddle.riddle}</p>
+
           <div className="mt-6">
             <label htmlFor="riddleAnswer" className="block font-semibold mb-2">
               Your Answer:
@@ -122,12 +160,12 @@ export default function RiddlePage() {
               id="riddleAnswer"
               type="text"
               placeholder="Enter your answer here..."
-              value={currentInput} // Bind the input value to the currentInput state
-              onChange={handleInputChange} // Update currentInput on change
+              value={currentInput}
+              onChange={handleInputChange}
               className="w-full p-3 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none"
             />
             <button
-              onClick={handleSubmit} // Submit button handler
+              onClick={handleSubmit}
               className="mt-4 bg-yellow-400 text-white text-lg font-semibold px-6 py-2 rounded-md shadow hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition"
             >
               Submit

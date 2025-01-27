@@ -14,7 +14,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} /> 
-          <Route path="/riddle:id" element={<RiddlePage />} />
+          <Route path="/riddle/:id" element={<RiddlePage />} />
           <Route path="/pfp" element={<SetProfileImagePage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Routes>
