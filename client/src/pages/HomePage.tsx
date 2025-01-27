@@ -1,32 +1,44 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
 import NinjaImage from "./ninja.png";
 import DefaultAvatar from "./default.png";
 import LOGOImage from "./codeninjalogo.png";
-import { Link } from "react-router-dom";
-
-//
-// --- HOME PAGE COMPONENT ---
-//
 
 // Import the EditProfileModal component
 import EditProfileModal from "./EditProfileModal";
 
+// 1) Import your custom hook
+import { useInView } from "./useInView";
+
+// --- HOME PAGE COMPONENT ---
 export default function HomePage() {
-  // Sample data for some other part of your page (e.g., "Weeks" section):
+  // Refs & states for each section
+  const [headerRef, headerInView] = useInView();
+  const [heroRef, heroInView] = useInView();
+  const [weeksRef, weeksInView] = useInView();
+  const [footerRef, footerInView] = useInView();
+
+  // Sample data for some other part of your page (e.g., "Weeks" section)
   const openEditProfileModal = () => {
     const modal = document.getElementById("edit_profile_modal") as HTMLDialogElement;
     if (modal) {
-      modal.showModal(); //show the modal
+      modal.showModal(); // show the modal
       document.body.style.overflow = "hidden"; // Disable scrolling
     }
   };
+
   return (
     <div className="w-full min-h-screen font-sans bg-white text-gray-800">
       {/**
        * HEADER (NAV)
        * ------------------------------------------------------------------
        */}
-      <header className="h-16 w-full flex items-center justify-between px-6 bg-white shadow-sm border-b-2 border-gray-300">
+      <header
+        ref={headerRef}
+        className={`h-16 w-full flex items-center justify-between px-6 bg-white shadow-sm border-b-2 border-gray-300
+          ${headerInView ? "reveal-show" : "reveal-hidden"}
+        `}
+      >
         {/* Left - Logo */}
         <div className="flex items-center space-x-2">
           <a href="/" className="flex items-center space-x-2">
@@ -38,12 +50,12 @@ export default function HomePage() {
             <span className="font-bold text-lg">Code Ninjas</span>
           </a>
         </div>
+
         {/* Right - User Info */}
         <div className="flex items-center space-x-2">
           <span className="font-bold">8th</span>
-          {/* Clickable avatar that opens the Edit Profile modal */}
           <img
-            src={DefaultAvatar} // User profile pic
+            src={DefaultAvatar}
             className="h-8 w-auto object-contain cursor-pointer"
             alt="User Avatar"
             onClick={openEditProfileModal}
@@ -59,7 +71,12 @@ export default function HomePage() {
        */}
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* HERO SECTION */}
-        <section className="flex flex-col md:flex-row items-center md:space-x-8 mb-12">
+        <section
+          ref={heroRef}
+          className={`flex flex-col md:flex-row items-center md:space-x-8 mb-12
+            ${heroInView ? "reveal-show" : "reveal-hidden"}
+          `}
+        >
           {/* Left / Image (Cody Missing) */}
           <div className="flex-shrink-0 mb-6 md:mb-0 md:w-1/2 lg:w-1/3">
             <img
@@ -77,8 +94,8 @@ export default function HomePage() {
             </h1>
             <p className="mb-6 text-gray-700 leading-relaxed">
               Help Cody return home by solving a series of clever riddles and
-              challenges in the coming weeks. Complete all 7 tasks to bring
-              Cody back safely and prove your ninja expertise!
+              challenges in the coming weeks. Complete all 7 tasks to bring Cody
+              back safely and prove your ninja expertise!
             </p>
 
             <a href="/riddle:id">
@@ -90,7 +107,12 @@ export default function HomePage() {
         </section>
 
         {/* WEEKS (Clothesline) SECTION */}
-        <section className="relative mb-16">
+        <section
+          ref={weeksRef}
+          className={`relative mb-16
+            ${weeksInView ? "reveal-show" : "reveal-hidden"}
+          `}
+        >
           <div className="flex flex-wrap items-start justify-center space-x-4 md:space-x-6">
             {[
               { label: "Week 1", sub: "Operators", id: 1 },
@@ -103,7 +125,7 @@ export default function HomePage() {
             ].map((item, idx) => (
               <Link
                 key={idx}
-                to={`/riddle/${item.id}`} // Navigate to the specific riddle page
+                to={`/riddle/${item.id}`}
                 className="flex flex-col items-center mb-6 transform hover:scale-105 transition"
               >
                 {/* “Polaroid” style container */}
@@ -117,34 +139,51 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* 
-        INSERT THE LEADERBOARD HERE 
-        so that it appears right before the footer.
-      */}
+      {/* LEADERBOARD */}
       <Leaderboard />
 
       {/**
-        * FOOTER
-        * ------------------------------------------------------------------
-        */}
-        <footer className="mt-10 pb-6 bg-blue-200 text-white text-sm">
+       * FOOTER
+       * ------------------------------------------------------------------
+       */}
+      <footer
+        ref={footerRef}
+        className={`mt-10 pb-6 bg-blue-200 text-white text-sm
+          ${footerInView ? "reveal-show" : "reveal-hidden"}
+        `}
+      >
         <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-5 gap-4 text-gray-700">
           {/* Column 1 - Center */}
           <div>
             <h2 className="font-semibold mb-2">Center</h2>
             <ul className="space-y-1">
-              <li><a href="#" className="hover:underline">Code Ninjas Aurora</a></li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Code Ninjas Aurora
+                </a>
+              </li>
             </ul>
           </div>
-
 
           {/* Column 2 - Company */}
           <div>
             <h2 className="font-semibold mb-2">Company</h2>
             <ul className="space-y-1">
-              <li><a href="#" className="hover:underline">About</a></li>
-              <li><a href="#" className="hover:underline">Contacts</a></li>
-              <li><a href="#" className="hover:underline">FAQ</a></li>
+              <li>
+                <a href="#" className="hover:underline">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Contacts
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  FAQ
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -152,8 +191,16 @@ export default function HomePage() {
           <div>
             <h2 className="font-semibold mb-2">Legal</h2>
             <ul className="space-y-1">
-              <li><a href="#" className="hover:underline">Terms & Conditions</a></li>
-              <li><a href="#" className="hover:underline">Privacy Policy</a></li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Terms & Conditions
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Privacy Policy
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -161,21 +208,28 @@ export default function HomePage() {
           <div>
             <h2 className="font-semibold mb-2">Follow Us</h2>
             <div className="flex space-x-4">
-              <a href="#" className="hover:opacity-75">Facebook</a>
-              <a href="#" className="hover:opacity-75">Instagram</a>
-              <a href="#" className="hover:opacity-75">X</a>
-              <a href="#" className="hover:opacity-75">LinkedIn</a>
+              <a href="#" className="hover:opacity-75">
+                Facebook
+              </a>
+              <a href="#" className="hover:opacity-75">
+                Instagram
+              </a>
+              <a href="#" className="hover:opacity-75">
+                X
+              </a>
+              <a href="#" className="hover:opacity-75">
+                LinkedIn
+              </a>
             </div>
           </div>
         </div>
       </footer>
+
       {/* Include the EditProfileModal at the bottom so it can be shown/hidden */}
       <EditProfileModal />
     </div>
-    
   );
 }
-
 
 // --- LEADERBOARD COMPONENT ---
 type leaderBoardEntry = {
@@ -188,32 +242,28 @@ type leaderBoardEntry = {
 // Example data for the leaderboard
 const leaderboardData: leaderBoardEntry[] = [
   // Top 3
-  { id: 1, name: 'Nathanael Ann', points: 102, avatarUrl: 'https://via.placeholder.com/60?text=NA' },
-  { id: 2, name: 'Bryan Yang', points: 83, avatarUrl: 'https://via.placeholder.com/60?text=BY' },
-  { id: 3, name: 'Daniel Yang', points: 80, avatarUrl: 'https://via.placeholder.com/60?text=DY' },
-  // The rest of the leaderboard
-  { id: 4, name: 'Becky Bartell', points: 75, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 5, name: 'Tamara Schmidt', points: 74, avatarUrl: 'https://via.placeholder.com/60?text=TS' },
-  { id: 6, name: 'Marsha Fisher', points: 65, avatarUrl: 'https://via.placeholder.com/60?text=MF' },
-  { id: 7, name: 'Juanita Cormier', points: 54, avatarUrl: 'https://via.placeholder.com/60?text=JC' },
-  { id: 8, name: 'You', points: 50, avatarUrl: 'https://via.placeholder.com/60?text=U' },
-  { id: 9, name: 'Gary Sanford', points: 41, avatarUrl: 'https://via.placeholder.com/60?text=GS' },
-  { id: 10, name: 'Ricardo Veum', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=RV' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  { id: 11, name: 'Becky Bartell', points: 38, avatarUrl: 'https://via.placeholder.com/60?text=BB' },
-  // ... you can continue or remove duplicates as needed
+  { id: 1, name: "Nathanael Ann", points: 102, avatarUrl: "https://via.placeholder.com/60?text=NA" },
+  { id: 2, name: "Bryan Yang", points: 83, avatarUrl: "https://via.placeholder.com/60?text=BY" },
+  { id: 3, name: "Daniel Yang", points: 80, avatarUrl: "https://via.placeholder.com/60?text=DY" },
+  // The rest
+  { id: 4, name: "Becky Bartell", points: 75, avatarUrl: "https://via.placeholder.com/60?text=BB" },
+  { id: 5, name: "Tamara Schmidt", points: 74, avatarUrl: "https://via.placeholder.com/60?text=TS" },
+  { id: 6, name: "Marsha Fisher", points: 65, avatarUrl: "https://via.placeholder.com/60?text=MF" },
+  { id: 7, name: "Juanita Cormier", points: 54, avatarUrl: "https://via.placeholder.com/60?text=JC" },
+  { id: 8, name: "You", points: 50, avatarUrl: "https://via.placeholder.com/60?text=U" },
+  { id: 9, name: "Gary Sanford", points: 41, avatarUrl: "https://via.placeholder.com/60?text=GS" },
+  { id: 10, name: "Ricardo Veum", points: 38, avatarUrl: "https://via.placeholder.com/60?text=RV" },
+  // Some duplicates for demonstration
+  { id: 11, name: "Some Extra", points: 38, avatarUrl: "https://via.placeholder.com/60?text=SE" },
+  { id: 12, name: "Another Extra", points: 38, avatarUrl: "https://via.placeholder.com/60?text=AE" },
 ];
 
 // Leaderboard component
 const Leaderboard: React.FC = () => {
+  // Use in-view hooks for the podium and for the "others" list
+  const [podiumRef, podiumInView] = useInView();
+  const [othersRef, othersInView] = useInView();
+
   // Separate the top 3 from the rest
   const topThree = leaderboardData.slice(0, 3);
   const others = leaderboardData.slice(3);
@@ -226,9 +276,20 @@ const Leaderboard: React.FC = () => {
       <div className="w-40 h-1 bg-blue-400 rounded-full mb-8"></div>
 
       {/* Top 3 Container */}
-      <div className="flex justify-center items-end gap-4 mb-10">
+      <div
+        ref={podiumRef}
+        className={`flex justify-center items-end gap-4 mb-10
+          ${podiumInView ? "reveal-show" : "reveal-hidden"}
+        `}
+      >
         {/* 2nd place */}
-        <div className="flex flex-col items-center transform hover:scale-105 transition">
+        <div
+          // 0.1s delay so second place appears slightly after container is in view
+          style={{ transitionDelay: "0.1s" }}
+          className={`flex flex-col items-center transform hover:scale-105 transition
+            ${podiumInView ? "reveal-show" : "reveal-hidden"}
+          `}
+        >
           <div className="relative w-20 h-20 mb-2">
             <img
               src={DefaultAvatar}
@@ -241,14 +302,18 @@ const Leaderboard: React.FC = () => {
               </span>
             </div>
           </div>
-          <p className="text-center text-blue-700 font-semibold">
-            {topThree[1].name}
-          </p>
+          <p className="text-center text-blue-700 font-semibold">{topThree[1].name}</p>
           <p className="text-gray-600">{topThree[1].points} pts</p>
         </div>
 
         {/* 1st place with crown */}
-        <div className="flex flex-col items-center transform hover:scale-105 transition">
+        <div
+          // 0.2s delay
+          style={{ transitionDelay: "0.2s" }}
+          className={`flex flex-col items-center transform hover:scale-105 transition
+            ${podiumInView ? "reveal-show" : "reveal-hidden"}
+          `}
+        >
           <div className="relative w-24 h-24 mb-2">
             <img
               src={DefaultAvatar}
@@ -267,14 +332,18 @@ const Leaderboard: React.FC = () => {
               </span>
             </div>
           </div>
-          <p className="text-center text-blue-800 font-bold text-lg">
-            {topThree[0].name}
-          </p>
+          <p className="text-center text-blue-800 font-bold text-lg">{topThree[0].name}</p>
           <p className="text-gray-700 font-medium">{topThree[0].points} pts</p>
         </div>
 
         {/* 3rd place */}
-        <div className="flex flex-col items-center transform hover:scale-105 transition">
+        <div
+          // 0.3s delay
+          style={{ transitionDelay: "0.3s" }}
+          className={`flex flex-col items-center transform hover:scale-105 transition
+            ${podiumInView ? "reveal-show" : "reveal-hidden"}
+          `}
+        >
           <div className="relative w-20 h-20 mb-2 ">
             <img
               src={DefaultAvatar}
@@ -287,60 +356,16 @@ const Leaderboard: React.FC = () => {
               </span>
             </div>
           </div>
-          <p className="text-center text-blue-700 font-semibold">
-            {topThree[2].name}
-          </p>
+          <p className="text-center text-blue-700 font-semibold">{topThree[2].name}</p>
           <p className="text-gray-600">{topThree[2].points} pts</p>
         </div>
       </div>
-
       {/* The rest of the leaderboard */}
       <div className="w-full max-w-md bg-blue-200 rounded-xl shadow-lg p-10">
         <ol className="space-y-4">
           {others.map((entry, index) => (
-            <li
-              key={entry.id}
-              className={`flex items-center justify-between p-3 rounded-md shadow-sm transform transition hover:scale-[1.01] ${
-                entry.name === 'You'
-                  ? 'bg-cyan-100 hover:bg-cyan-200'
-                  : 'bg-white hover:bg-blue-50'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <span
-                  className={`text-gray-500 font-semibold w-5 text-right ${
-                    entry.name === 'You' ? 'text-black font-bold' : ''
-                  }`}
-                >
-                  {index + 4}
-                </span>
-                <img
-                  src={DefaultAvatar}
-                  alt={entry.name}
-                  className={`w-10 h-10 rounded-full object-cover shadow-md ${
-                    entry.name === 'You' ? 'ring-2 ring-blue-400' : ''
-                  }`}
-                />
-                <span
-                  className={`font-medium ${
-                    entry.name === 'You'
-                      ? 'text-black font-bold'
-                      : 'text-gray-700'
-                  }`}
-                >
-                  {entry.name}
-                </span>
-              </div>
-              <span
-                className={`font-semibold ${
-                  entry.name === 'You'
-                    ? 'text-black font-bold'
-                    : 'text-gray-600'
-                }`}
-              >
-                {entry.points} pts
-              </span>
-            </li>
+            // Render each user with its own "in-view" logic
+            <LeaderboardListItem key={entry.id} entry={entry} index={index} />
           ))}
         </ol>
       </div>
@@ -348,4 +373,66 @@ const Leaderboard: React.FC = () => {
   );
 };
 
+interface LeaderboardListItemProps {
+  entry: {
+    id: number;
+    name: string;
+    points: number;
+    avatarUrl: string;
+  };
+  index: number;
+}
 
+/**
+ * Each user row has its own IntersectionObserver
+ * so it only appears when that row is scrolled into view.
+ */
+const LeaderboardListItem: React.FC<LeaderboardListItemProps> = ({ entry, index }) => {
+  const [rowRef, rowInView] = useInView<HTMLLIElement>();
+
+  return (
+    <li
+      ref={rowRef}
+      style={{ transitionDelay: `${0.1}s` }} // e.g. 0.1s, 0.2s, etc.
+      className={`flex items-center justify-between p-3 rounded-md shadow-sm transform transition hover:scale-[1.01]
+        ${
+          entry.name === "You"
+            ? "bg-cyan-100 hover:bg-cyan-200"
+            : "bg-white hover:bg-blue-50"
+        }
+        ${rowInView ? "reveal-show" : "reveal-hidden"}
+      `}
+    >
+      <div className="flex items-center gap-3">
+        <span
+          className={`text-gray-500 font-semibold w-5 text-right ${
+            entry.name === "You" ? "text-black font-bold" : ""
+          }`}
+        >
+          {index + 4}
+        </span>
+        <img
+          src={DefaultAvatar}
+          alt={entry.name}
+          className={`w-10 h-10 rounded-full object-cover shadow-md ${
+            entry.name === "You" ? "ring-2 ring-blue-400" : ""
+          }`}
+        />
+        <span
+          className={`font-medium ${
+            entry.name === "You" ? "text-black font-bold" : "text-gray-700"
+          }`}
+        >
+          {entry.name}
+        </span>
+      </div>
+      <span
+        className={`font-semibold ${
+          entry.name === "You" ? "text-black font-bold" : "text-gray-600"
+        }`}
+      >
+        {entry.points} pts
+      </span>
+    </li>
+  );
+};

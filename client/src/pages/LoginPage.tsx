@@ -1,10 +1,22 @@
+import React, { useState } from "react";
 import NinjaImage from "./ninja.png";
+import ForgotPasswordModal from "./ForgotPasswordModal"; // Import your modal component
 
 const LoginPage = () => {
+  // State to control modal visibility
+  const [showForgotModal, setShowForgotModal] = useState(false);
+
+  // Handlers for toggling the modal
+  const handleOpenForgotModal = () => {
+    setShowForgotModal(true);
+  };
+  const handleCloseForgotModal = () => {
+    setShowForgotModal(false);
+  };
+
   return (
     <div
       className="flex w-screen h-screen overflow-hidden items-stretch relative"
-      // 1) Entire page gets the gradient background and is constrained to the viewport height
       style={{
         background: "linear-gradient(to bottom, #68c4ee, #005dab)",
       }}
@@ -90,13 +102,20 @@ const LoginPage = () => {
             </a>
           </p>
           <p className="text-center text-gray-600 mt-2">
-            Forgot passsord?{" "}
-            <a href="/reset-password" className="text-blue-500 underline">
+            Forgot password?{" "}
+            <button
+              type="button"
+              onClick={handleOpenForgotModal}
+              className="text-blue-500 underline"
+            >
               Click Here
-            </a>
+            </button>
           </p>
         </div>
       </div>
+
+      {/* Mount the ForgotPasswordModal here */}
+      <ForgotPasswordModal isOpen={showForgotModal} onClose={handleCloseForgotModal} />
     </div>
   );
 };
