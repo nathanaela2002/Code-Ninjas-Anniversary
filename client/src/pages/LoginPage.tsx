@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import FrontPageDesign from "./frontpagedesign.png";
 import ForgotPasswordModal from "./ForgotPasswordModal"; // Import your modal component
 
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -21,7 +21,7 @@ const LoginPage = () => {
     setShowForgotModal(false);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMsg("");
 
@@ -41,7 +41,7 @@ const LoginPage = () => {
         return;
       }
 
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.error("Login error: ", error);
       setErrorMsg("Server error");
