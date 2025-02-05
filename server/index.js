@@ -15,6 +15,7 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const cors = require("cors");
 const User = require("./models/User");
 require("dotenv").config({ path: "../client/.env" });
 
@@ -29,7 +30,13 @@ const uploadMiddleware = multer({
     }
   },
 });
-
+//TODO: change origin to production url
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
