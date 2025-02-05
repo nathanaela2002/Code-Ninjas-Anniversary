@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom"; // <-- Import useParams from React Router
 import NinjaImage from "./ninja.png";
 import NinjaComic1 from "./ninjacomic1.png";
-import Header from "./header";
+import Header from "./Header";
 
 // Import the EditProfileModal component
 import EditProfileModal from "./EditProfileModal";
@@ -114,7 +114,7 @@ export default function RiddlePage() {
             <img
               src={NinjaImage}
               alt="Riddles Ninja"
-              className="h-[400px] w-[400px] max-w-sm mx-auto"
+              className="h-[400px] w-[300px] max-w-sm mx-auto"
             />
           </div>
 

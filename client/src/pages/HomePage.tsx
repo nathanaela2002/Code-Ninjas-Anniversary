@@ -45,7 +45,7 @@ export default function HomePage() {
             <img
               src={NinjaImage}
               alt="Cody Missing"
-              className="h-[400px] w-[400px] max-w-sm mx-auto"
+              className="h-[400px] w-[300px] max-w-sm mx-auto"
             />
           </div>
 
@@ -61,7 +61,7 @@ export default function HomePage() {
               back safely and prove your ninja expertise!
             </p>
 
-            <a href="/riddle:id">
+            <a href="/about">
               <button className="bg-yellow-400 text-white text-lg font-semibold px-6 py-2 rounded-md shadow hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition">
                 Learn More...
               </button>

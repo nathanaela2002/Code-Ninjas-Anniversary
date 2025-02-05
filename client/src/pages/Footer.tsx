@@ -6,82 +6,90 @@ export default function Footer() {
 
   return (
     <footer
-    ref={footerRef}
-    className={`mt-10 pb-6 bg-blue-200 text-white text-sm
-        ${footerInView ? "reveal-show" : "reveal-hidden"}
-    `}
+      ref={footerRef}
+      className={`mt-10 pb-6 bg-blue-200 text-white text-sm ${
+        footerInView ? "reveal-show" : "reveal-hidden"
+      }`}
     >
-        <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-5 gap-4 text-gray-700">
-            {/* Column 1 - Center */}
-            <div>
+      <div className="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-4 gap-4 text-gray-700 items-start">
+        {/* Column 1 - Center */}
+        <div className="flex justify-center">
+          <div className="inline-flex flex-col items-start">
             <h2 className="font-semibold mb-2">Center</h2>
             <ul className="space-y-1">
-                <li>
-                <a href="https://www.codeninjas.com/aurora-on-ca" className="hover:underline">
-                    Code Ninjas Aurora
+              <li>
+                <a href="#" className="hover:underline">
+                  Code Ninjas Aurora
                 </a>
-                </li>
+              </li>
             </ul>
-            </div>
-
-            {/* Column 2 - Company */}
-            <div>
-            <h2 className="font-semibold mb-2">Company</h2>
-                <ul className="space-y-1">
-                    <li>
-                    <a href="#" className="hover:underline">
-                        About
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#" className="hover:underline">
-                        Contacts
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#" className="hover:underline">
-                        FAQ
-                    </a>
-                    </li>
-                </ul>
-            </div>
-
-            {/* Column 3 - Legal */}
-            <div>
-            <h2 className="font-semibold mb-2">Legal</h2>
-                <ul className="space-y-1">
-                    <li>
-                    <a href="#" className="hover:underline">
-                        Terms & Conditions
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#" className="hover:underline">
-                        Privacy Policy
-                    </a>
-                    </li>
-                </ul>
-            </div>
-
-            {/* Column 4 - Social Links */}
-            <div>
-            <h2 className="font-semibold mb-2">Follow Us</h2>
-                <div className="flex space-x-4">
-                    <a href="#" className="hover:opacity-75">
-                    Facebook
-                    </a>
-                    <a href="#" className="hover:opacity-75">
-                    Instagram
-                    </a>
-                    <a href="#" className="hover:opacity-75">
-                    X
-                    </a>
-                    <a href="#" className="hover:opacity-75">
-                    LinkedIn
-                    </a>
-                </div>
-            </div>
+          </div>
         </div>
+
+        {/* Column 2 - Company */}
+        <div className="flex justify-center">
+          <div className="inline-flex flex-col items-start">
+            <h2 className="font-semibold mb-2">Company</h2>
+            <ul className="space-y-1">
+              <li>
+                <a href="#" className="hover:underline">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Contacts
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  FAQ
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Column 3 - Legal */}
+        <div className="flex justify-center">
+          <div className="inline-flex flex-col items-start">
+            <h2 className="font-semibold mb-2">Legal</h2>
+            <ul className="space-y-1">
+              <li>
+                <a href="#" className="hover:underline">
+                  Terms &amp; Conditions
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:underline">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Column 4 - Social Links */}
+        <div className="flex justify-center">
+          <div className="inline-flex flex-col items-start">
+            <h2 className="font-semibold mb-2">Follow Us</h2>
+            <div className="flex space-x-4">
+              <a href="#" className="hover:opacity-75">
+                Facebook
+              </a>
+              <a href="#" className="hover:opacity-75">
+                Instagram
+              </a>
+              <a href="#" className="hover:opacity-75">
+                X
+              </a>
+              <a href="#" className="hover:opacity-75">
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </footer>
   );
 }
