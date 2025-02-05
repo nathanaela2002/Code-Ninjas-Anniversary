@@ -5,6 +5,7 @@ import RiddlePage from "./pages/RiddlePage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
 import SetProfileImagePage from "./pages/SetProfileImagePage.tsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.tsx";
+import AboutPage from "./pages/AboutPage.tsx";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/riddle/:id" element={<RiddlePage />} />
           <Route path="/pfp" element={<SetProfileImagePage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
       </Router>
     </div>
