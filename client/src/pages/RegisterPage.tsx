@@ -1,6 +1,53 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NinjaImage from "./ninja.png";
 
 const RegisterPage = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMsg("");
+
+    const registrationData = {
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    };
+    //TODO: change the backend url to production url or use a env variable
+    try {
+      const response = await fetch("http://localhost:8000/register", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(registrationData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrorMsg(data.message || "Registration failed");
+        return;
+      }
+
+      navigate("/login");
+    } catch (error) {
+      console.error("Registration error: ", error);
+      setErrorMsg("Server error");
+    }
+  };
+
   return (
     <div
       className="flex w-screen h-screen overflow-hidden items-stretch relative"
@@ -61,18 +108,23 @@ const RegisterPage = () => {
           >
             Join the Challenge!
           </h3>
+          {errorMsg && <div className="mb-4 text-red-500">{errorMsg}</div>}
 
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex gap-4">
               <input
                 type="text"
                 placeholder="First Name"
                 className="w-1/2 p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
               <input
                 type="text"
                 placeholder="Last Name"
                 className="w-1/2 p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
               />
             </div>
 
@@ -80,18 +132,24 @@ const RegisterPage = () => {
               type="text"
               placeholder="Username"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
 
             <input
               type="email"
               placeholder="Email"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
 
             <input
               type="password"
               placeholder="Password"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
             <button

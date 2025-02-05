@@ -18,8 +18,6 @@ export default function HomePage() {
   const [heroRef, heroInView] = useInView();
   const [weeksRef, weeksInView] = useInView();
 
-  // Sample data for some other part of your page (e.g., "Weeks" section)
-
   return (
     <div className="w-full min-h-screen font-sans bg-white text-gray-800">
       {/**
@@ -110,6 +108,7 @@ export default function HomePage() {
        * ------------------------------------------------------------------
        */}
       <Footer />
+
 
       {/* Include the EditProfileModal at the bottom so it can be shown/hidden */}
       <EditProfileModal />

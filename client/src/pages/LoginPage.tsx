@@ -1,15 +1,49 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FrontPageDesign from "./frontpagedesign.png";
 import ForgotPasswordModal from "./ForgotPasswordModal"; // Import your modal component
 import FloatingDecorations from "./FloatingDecorations"; // Import the floating decorations component
 
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const navigate = useNavigate();
+
   // State to control modal visibility
   const [showForgotModal, setShowForgotModal] = useState(false);
 
   // Handlers for toggling the modal
   const handleOpenForgotModal = () => setShowForgotModal(true);
   const handleCloseForgotModal = () => setShowForgotModal(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrorMsg("");
+
+    try {
+      const response = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        setErrorMsg(data.message || "Login failed");
+        return;
+      }
+
+      navigate("/");
+    } catch (error) {
+      console.error("Login error: ", error);
+      setErrorMsg("Server error");
+    }
+  };
 
   return (
     <div className="relative">
@@ -40,6 +74,7 @@ const LoginPage = () => {
             </h2>
           </div>
 
+
           {/* Form Section */}
           <div className="w-full max-w-md px-8">
             <h3
@@ -48,19 +83,24 @@ const LoginPage = () => {
             >
               Welcome!
             </h3>
+          {errorMsg && <div className="mb-4 text-red-500">{errorMsg}</div>}
 
-            <form className="space-y-4">
-              <input
-                type="text"
-                placeholder="Username"
-                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              placeholder="Username"
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
 
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
               <button
                 type="submit"
@@ -88,13 +128,12 @@ const LoginPage = () => {
             </p>
           </div>
         </div>
+      {/* Mount the ForgotPasswordModal here */}
+      <ForgotPasswordModal
+        isOpen={showForgotModal}
+        onClose={handleCloseForgotModal}
+      />
 
-        {/* Mount the ForgotPasswordModal */}
-        <ForgotPasswordModal
-          isOpen={showForgotModal}
-          onClose={handleCloseForgotModal}
-        />
-      </div>
     </div>
   );
 };
