@@ -49,7 +49,7 @@ const LoginPage: React.FC = () => {
     <div className="relative">
       {/* Render the floating decorations in the background */}
       <FloatingDecorations />
-      
+
       {/* Main login content with higher stacking order */}
       <div className="flex w-screen h-screen overflow-hidden relative z-10">
         {/* Left Section: Always visible image filling full height */}
@@ -74,7 +74,6 @@ const LoginPage: React.FC = () => {
             </h2>
           </div>
 
-
           {/* Form Section */}
           <div className="w-full max-w-md px-8">
             <h3
@@ -83,24 +82,24 @@ const LoginPage: React.FC = () => {
             >
               Welcome!
             </h3>
-          {errorMsg && <div className="mb-4 text-red-500">{errorMsg}</div>}
+            {errorMsg && <div className="mb-4 text-red-500">{errorMsg}</div>}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              type="text"
-              placeholder="Username"
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                placeholder="Username"
+                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
 
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+              <input
+                type="password"
+                placeholder="Password"
+                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
               <button
                 type="submit"
@@ -128,12 +127,12 @@ const LoginPage: React.FC = () => {
             </p>
           </div>
         </div>
+      </div>
       {/* Mount the ForgotPasswordModal here */}
       <ForgotPasswordModal
         isOpen={showForgotModal}
         onClose={handleCloseForgotModal}
       />
-
     </div>
   );
 };
