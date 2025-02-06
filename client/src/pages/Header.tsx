@@ -51,7 +51,6 @@ export default function Header() {
             alt="Code Ninjas Logo"
             className="h-8 w-auto object-contain"
           />
-          <span className="font-bold text-lg">Code Ninjas</span>
         </a>
       </div>
 
