@@ -1,35 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NinjaImage from "./ninja.png";
 import DefaultAvatar from "./default.png";
 import Header from "./Header";
 import Footer from "./Footer";
-
-
-// Import the EditProfileModal component
 import EditProfileModal from "./EditProfileModal";
-
-// 1) Import your custom hook
 import { useInView } from "./useInView";
 
 // --- HOME PAGE COMPONENT ---
 export default function HomePage() {
-  // Refs & states for each section of the page
   const [heroRef, heroInView] = useInView();
   const [weeksRef, weeksInView] = useInView();
 
   return (
     <div className="w-full min-h-screen font-sans bg-white text-gray-800">
-      {/**
-       * HEADER (NAV)
-       * ------------------------------------------------------------------
-       */}
-      <Header/>
-
-      {/**
-       * MAIN CONTENT
-       * ------------------------------------------------------------------
-       */}
+      <Header />
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* HERO SECTION */}
         <section
@@ -38,7 +23,6 @@ export default function HomePage() {
             ${heroInView ? "reveal-show" : "reveal-hidden"}
           `}
         >
-          {/* Left / Image (Cody Missing) */}
           <div className="flex-shrink-0 mb-6 md:mb-0 md:w-1/2 lg:w-1/3">
             <img
               src={NinjaImage}
@@ -46,8 +30,6 @@ export default function HomePage() {
               className="h-[400px] w-[300px] max-w-sm mx-auto"
             />
           </div>
-
-          {/* Right / Text */}
           <div className="md:w-1/2 lg:w-2/3">
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
               OH NO! Cody’s gone missing! <br className="hidden md:block" />
@@ -58,42 +40,30 @@ export default function HomePage() {
               challenges in the coming weeks. Complete all 7 tasks to bring Cody
               back safely and prove your ninja expertise!
             </p>
-
             <a href="/about">
-              <button className="bg-yellow-400 text-white text-lg font-semibold px-6 py-2 rounded-md shadow hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition">
+              <button className="bg-yellow-400 text-white text-lg font-semibold px-6 py-2 rounded-md shadow hover:bg-yellow-500">
                 Learn More...
               </button>
             </a>
           </div>
         </section>
 
-        {/* WEEKS (Clothesline) SECTION */}
+        {/* WEEKS SECTION */}
         <section
           ref={weeksRef}
-          className={`relative mb-16
-            ${weeksInView ? "reveal-show" : "reveal-hidden"}
-          `}
+          className={`relative mb-16 ${weeksInView ? "reveal-show" : "reveal-hidden"}`}
         >
           <div className="flex flex-wrap items-start justify-center space-x-4 md:space-x-6">
-            {[
-              { label: "Week 1", sub: "Operators", id: 1 },
-              { label: "Week 2", sub: "Sequencing", id: 2 },
-              { label: "Week 3", sub: "TBD...", id: 3 },
-              { label: "Week 4", sub: "TBD...", id: 4 },
-              { label: "Week 5", sub: "TBD...", id: 5 },
-              { label: "Week 6", sub: "TBD...", id: 6 },
-              { label: "Week 7", sub: "TBD...", id: 7 },
-            ].map((item, idx) => (
+            {Array.from({ length: 7 }).map((_, idx) => (
               <Link
                 key={idx}
-                to={`/riddle/${item.id}`}
-                className="flex flex-col items-center mb-6 transform hover:scale-105 transition"
+                to={`/riddle/${idx + 1}`}
+                className="flex flex-col items-center mb-6 transform hover:scale-105"
               >
-                {/* “Polaroid” style container */}
                 <div className="bg-white w-24 h-28 shadow-md mb-2 flex flex-col justify-center items-center relative">
-                  <span className="font-bold text-sm">{item.label}</span>
+                  <span className="font-bold text-sm">Week {idx + 1}</span>
                 </div>
-                <span className="text-xs text-gray-600">{item.sub}</span>
+                <span className="text-xs text-gray-600">TBD...</span>
               </Link>
             ))}
           </div>
@@ -102,49 +72,26 @@ export default function HomePage() {
 
       {/* LEADERBOARD */}
       <Leaderboard />
-
-      {/**
-       * FOOTER
-       * ------------------------------------------------------------------
-       */}
       <Footer />
-
-
-      {/* Include the EditProfileModal at the bottom so it can be shown/hidden */}
       <EditProfileModal />
     </div>
   );
 }
 
 // --- LEADERBOARD COMPONENT ---
-type leaderBoardEntry = {
+type LeaderboardEntry = {
   id: number;
   name: string;
   points: number;
   avatarUrl: string;
 };
 
-// Example data for the leaderboard
-const leaderboardData: leaderBoardEntry[] = [
-  // Top 3
-  { id: 1, name: "Nathanael Ann", points: 102, avatarUrl: "https://via.placeholder.com/60?text=NA" },
-  { id: 2, name: "Bryan Yang", points: 83, avatarUrl: "https://via.placeholder.com/60?text=BY" },
-  { id: 3, name: "Daniel Yang", points: 80, avatarUrl: "https://via.placeholder.com/60?text=DY" },
-  // The rest
-  { id: 4, name: "Becky Bartell", points: 75, avatarUrl: "https://via.placeholder.com/60?text=BB" },
-  { id: 5, name: "Tamara Schmidt", points: 74, avatarUrl: "https://via.placeholder.com/60?text=TS" },
-  { id: 6, name: "Marsha Fisher", points: 65, avatarUrl: "https://via.placeholder.com/60?text=MF" },
-  { id: 7, name: "Juanita Cormier", points: 54, avatarUrl: "https://via.placeholder.com/60?text=JC" },
-  { id: 8, name: "You", points: 50, avatarUrl: "https://via.placeholder.com/60?text=U" },
-  { id: 9, name: "Gary Sanford", points: 41, avatarUrl: "https://via.placeholder.com/60?text=GS" },
-  { id: 10, name: "Ricardo Veum", points: 38, avatarUrl: "https://via.placeholder.com/60?text=RV" },
-  // Some duplicates for demonstration
-  { id: 11, name: "Some Extra", points: 38, avatarUrl: "https://via.placeholder.com/60?text=SE" },
-  { id: 12, name: "Another Extra", points: 38, avatarUrl: "https://via.placeholder.com/60?text=AE" },
-];
-
-// Leaderboard component
 const Leaderboard: React.FC = () => {
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
+    [],
+  );
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   // Use in-view hooks for the podium and for the "others" list
   const [podiumRef, podiumInView] = useInView();
 
@@ -152,11 +99,45 @@ const Leaderboard: React.FC = () => {
   const topThree = leaderboardData.slice(0, 3);
   const others = leaderboardData.slice(3);
 
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/leaderboard", {
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          const text = await response.text(); // Log the actual response
+          console.error("Invalid response format:", text);
+          throw new Error("Server did not return JSON.");
+        }
+
+        const data = await response.json();
+        console.log("Leaderboard data received:", data); // Debugging log
+
+        setLeaderboardData(data);
+      } catch (err) {
+        console.error("Leaderboard fetch error:", err);
+        setError(err.message || "Error loading leaderboard");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLeaderboard();
+  }, []);
+
+  if (loading) return <p className="text-center text-gray-600">Loading...</p>;
+  if (error) return <p className="text-center text-red-500">{error}</p>;
+
   return (
     <div className="flex flex-col items-center w-full bg-white p-8">
-      <h1 className="text-3xl md:text-4xl font-bold mb-2 text-blue-800 drop-shadow-md">
-        Leader board
-      </h1>
+      <h1 className="text-3xl font-bold mb-2 text-blue-800">Leaderboard</h1>
       <div className="w-40 h-1 bg-blue-400 rounded-full mb-8"></div>
 
       {/* Top 3 Container */}
@@ -186,7 +167,9 @@ const Leaderboard: React.FC = () => {
               </span>
             </div>
           </div>
-          <p className="text-center text-blue-700 font-semibold">{topThree[1].name}</p>
+          <p className="text-center text-blue-700 font-semibold">
+            {topThree[1].name}
+          </p>
           <p className="text-gray-600">{topThree[1].points} pts</p>
         </div>
 
@@ -216,7 +199,9 @@ const Leaderboard: React.FC = () => {
               </span>
             </div>
           </div>
-          <p className="text-center text-blue-800 font-bold text-lg">{topThree[0].name}</p>
+          <p className="text-center text-blue-800 font-bold text-lg">
+            {topThree[0].name}
+          </p>
           <p className="text-gray-700 font-medium">{topThree[0].points} pts</p>
         </div>
 
@@ -240,83 +225,38 @@ const Leaderboard: React.FC = () => {
               </span>
             </div>
           </div>
-          <p className="text-center text-blue-700 font-semibold">{topThree[2].name}</p>
+          <p className="text-center text-blue-700 font-semibold">
+            {topThree[2].name}
+          </p>
           <p className="text-gray-600">{topThree[2].points} pts</p>
         </div>
       </div>
-      {/* The rest of the leaderboard */}
+
       <div className="w-full max-w-md bg-blue-200 rounded-xl shadow-lg p-10">
         <ol className="space-y-4">
           {others.map((entry, index) => (
-            // Render each user with its own "in-view" logic
-            <LeaderboardListItem key={entry.id} entry={entry} index={index} />
+            <li
+              key={entry.id}
+              className="flex items-center justify-between p-3 rounded-md shadow-sm bg-white hover:bg-blue-50"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-gray-500 font-semibold w-5 text-right">
+                  {index + 1}
+                </span>
+                <img
+                  src={entry.avatarUrl || DefaultAvatar}
+                  alt={entry.name}
+                  className="w-10 h-10 rounded-full shadow-md"
+                />
+                <span className="font-medium text-gray-700">{entry.name}</span>
+              </div>
+              <span className="font-semibold text-gray-600">
+                {entry.points} pts
+              </span>
+            </li>
           ))}
         </ol>
       </div>
     </div>
-  );
-};
-
-interface LeaderboardListItemProps {
-  entry: {
-    id: number;
-    name: string;
-    points: number;
-    avatarUrl: string;
-  };
-  index: number;
-}
-
-/**
- * Each user row has its own IntersectionObserver
- * so it only appears when that row is scrolled into view.
- */
-const LeaderboardListItem: React.FC<LeaderboardListItemProps> = ({ entry, index }) => {
-  const [rowRef, rowInView] = useInView<HTMLLIElement>();
-
-  return (
-    <li
-      ref={rowRef}
-      style={{ transitionDelay: `${0.1}s` }} // e.g. 0.1s, 0.2s, etc.
-      className={`flex items-center justify-between p-3 rounded-md shadow-sm transform transition hover:scale-[1.01]
-        ${
-          entry.name === "You"
-            ? "bg-cyan-100 hover:bg-cyan-200"
-            : "bg-white hover:bg-blue-50"
-        }
-        ${rowInView ? "reveal-show" : "reveal-hidden"}
-      `}
-    >
-      <div className="flex items-center gap-3">
-        <span
-          className={`text-gray-500 font-semibold w-5 text-right ${
-            entry.name === "You" ? "text-black font-bold" : ""
-          }`}
-        >
-          {index + 4}
-        </span>
-        <img
-          src={DefaultAvatar}
-          alt={entry.name}
-          className={`w-10 h-10 rounded-full object-cover shadow-md ${
-            entry.name === "You" ? "ring-2 ring-blue-400" : ""
-          }`}
-        />
-        <span
-          className={`font-medium ${
-            entry.name === "You" ? "text-black font-bold" : "text-gray-700"
-          }`}
-        >
-          {entry.name}
-        </span>
-      </div>
-      <span
-        className={`font-semibold ${
-          entry.name === "You" ? "text-black font-bold" : "text-gray-600"
-        }`}
-      >
-        {entry.points} pts
-      </span>
-    </li>
   );
 };
