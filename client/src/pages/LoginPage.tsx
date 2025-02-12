@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FrontPageDesign from "./frontpagedesign.png";
-import ForgotPasswordModal from "./ForgotPasswordModal"; // Import your modal component
-import FloatingDecorations from "./FloatingDecorations"; // Import the floating decorations component
+import NinjaImage from "./ninja.png";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -13,8 +12,6 @@ const LoginPage: React.FC = () => {
 
   // State to control modal visibility
   const [showForgotModal, setShowForgotModal] = useState(false);
-
-  // Handlers for toggling the modal
   const handleOpenForgotModal = () => setShowForgotModal(true);
   const handleCloseForgotModal = () => setShowForgotModal(false);
 
@@ -46,89 +43,101 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="relative">
-      {/* Render the floating decorations in the background */}
-      <FloatingDecorations />
+    <div
+      className="flex w-screen h-screen overflow-hidden items-stretch relative"
+      style={{ background: "linear-gradient(to bottom, #68c4ee, #005dab)" }}
+    >
+      {/* Left Section (Text) - Hidden on screens smaller than xl */}
+      <div className="hidden xl:flex w-1/3 relative flex-col justify-center mt-[-28rem] pl-14">
+        <h1
+          className="text-4xl font-semibold font-syne text-white"
+          style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)" }}
+        >
+          Kids have Fun
+        </h1>
+        <h1
+          className="text-4xl font-semibold font-syne text-white"
+          style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)" }}
+        >
+          Parents See Results!
+        </h1>
+      </div>
 
-      {/* Main login content with higher stacking order */}
-      <div className="flex w-screen h-screen overflow-hidden relative z-10">
-        {/* Left Section: Always visible image filling full height */}
-        <div className="w-1/3 h-full relative">
-          <img
-            src={FrontPageDesign}
-            alt="FrontPageDesign"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+      {/* Ninja Image (hidden on screens smaller than xl) */}
+      <div className="pointer-events-none hidden xl:flex absolute left-1/3 inset-y-0 items-center justify-center">
+        <img
+          src={NinjaImage}
+          alt="Ninja"
+          className="h-[600px] w-[600px] object-contain -translate-x-1/2 mt-[5rem]"
+        />
+      </div>
+
+      {/* Right Section: Login Form */}
+      <div className="w-full xl:w-2/3 bg-white rounded-none xl:rounded-l-[2rem] flex flex-col items-center justify-center py-8 md:py-16">
+        <div className="w-3/4 px-4 md:px-8">
+          <h2
+            className="text-2xl md:text-5xl font-semibold font-syne text-create-blue text-center mb-8 md:mb-10"
+            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)" }}
+          >
+            Welcome Back to the 2nd Year Anniversary Challenge!
+          </h2>
         </div>
 
-        {/* Right Section: Login area */}
-        {/* Reduced background opacity (from 90% to 60%) to allow more of the decorations to show */}
-        {/* Added rounded-l-3xl to round the left edge */}
-        <div className="w-2/3 h-full bg-white bg-opacity-60 rounded-l-3xl flex flex-col items-center justify-center">
-          <div className="w-3/4 px-8">
-            <h2
-              className="text-5xl font-semibold font-syne text-create-blue text-center mb-20"
-              style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)" }}
+        {/* Form Section */}
+        <div className="w-full max-w-md px-4">
+          <h3
+            className="text-2xl md:text-4xl font-semibold font-syne text-left mb-4 md:mb-6"
+            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)" }}
+          >
+            Welcome!
+          </h3>
+          {errorMsg && <div className="mb-4 text-red-500">{errorMsg}</div>}
+
+          <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+            <input
+              type="text"
+              placeholder="Username"
+              className="w-full p-2 md:p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full p-2 md:p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 md:py-3 rounded-sm md:rounded-lg hover:bg-blue-700 transition text-sm md:text-base"
             >
-              Welcome to the 2nd Year Anniversary Challenge!
-            </h2>
-          </div>
+              Login
+            </button>
+          </form>
 
-          {/* Form Section */}
-          <div className="w-full max-w-md px-8">
-            <h3
-              className="text-4xl font-semibold font-syne text-left mb-6"
-              style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)" }}
+          <p className="text-center text-gray-600 mt-3 md:mt-4 text-xs md:text-sm">
+            Don&apos;t have an account?{" "}
+            <a href="/register" className="text-blue-500 underline">
+              Sign Up
+            </a>
+          </p>
+          <p className="text-center text-gray-600 mt-2 text-xs md:text-sm">
+            Forgot password?{" "}
+            <button
+              type="button"
+              onClick={handleOpenForgotModal}
+              className="text-blue-500 underline"
             >
-              Welcome!
-            </h3>
-            {errorMsg && <div className="mb-4 text-red-500">{errorMsg}</div>}
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="text"
-                placeholder="Username"
-                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
-              >
-                Login
-              </button>
-            </form>
-
-            <p className="text-center text-gray-600 mt-4">
-              Don&apos;t have an account?{" "}
-              <a href="/register" className="text-blue-500 underline">
-                Sign Up
-              </a>
-            </p>
-            <p className="text-center text-gray-600 mt-2">
-              Forgot password?{" "}
-              <button
-                type="button"
-                onClick={handleOpenForgotModal}
-                className="text-blue-500 underline"
-              >
-                Click Here
-              </button>
-            </p>
-          </div>
+              Click Here
+            </button>
+          </p>
         </div>
       </div>
-      {/* Mount the ForgotPasswordModal here */}
+
+      {/* Forgot Password Modal */}
       <ForgotPasswordModal
         isOpen={showForgotModal}
         onClose={handleCloseForgotModal}

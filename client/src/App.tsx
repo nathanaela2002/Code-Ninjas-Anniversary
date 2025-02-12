@@ -6,6 +6,7 @@ import RegisterPage from "./pages/RegisterPage.tsx";
 import SetProfileImagePage from "./pages/SetProfileImagePage.tsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
+import PrizePage from "./pages/PrizePage.tsx";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/pfp" element={<SetProfileImagePage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/prizes" element={<PrizePage />} />
         </Routes>
       </Router>
     </div>

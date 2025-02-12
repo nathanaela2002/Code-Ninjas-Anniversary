@@ -11,7 +11,7 @@ export default function Footer() {
         footerInView ? "reveal-show" : "reveal-hidden"
       }`}
     >
-      <div className="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-4 gap-4 text-gray-700 items-start">
+      <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-gray-700 items-start">
         {/* Column 1 - Center */}
         <div className="flex justify-center">
           <div className="inline-flex flex-col items-start">
@@ -27,7 +27,7 @@ export default function Footer() {
         </div>
 
         {/* Column 2 - Company */}
-        <div className="flex justify-center">
+        <div className="flex justify-start md:justify-center">
           <div className="inline-flex flex-col items-start">
             <h2 className="font-semibold mb-2">Company</h2>
             <ul className="space-y-1">
@@ -69,22 +69,22 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Column 4 - Social Links */}
-        <div className="flex justify-center">
+        {/* Column 4 - Follow Us */}
+        <div className="flex justify-start md:justify-center">
           <div className="inline-flex flex-col items-start">
             <h2 className="font-semibold mb-2">Follow Us</h2>
             <div className="flex space-x-4">
               <a href="#" className="hover:opacity-75">
-                Facebook
+                FB
               </a>
               <a href="#" className="hover:opacity-75">
-                Instagram
+                IG
               </a>
               <a href="#" className="hover:opacity-75">
                 X
               </a>
               <a href="#" className="hover:opacity-75">
-                LinkedIn
+                LI
               </a>
             </div>
           </div>
