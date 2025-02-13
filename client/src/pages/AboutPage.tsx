@@ -103,17 +103,18 @@ const About: React.FC = () => {
               </h3>
               <div className="grid grid-cols-3 gap-4 text-center">
                 {[1, 2, 3, 4, 5, 6].map((week) => (
-                  <motion.div
+                    <motion.a
+                    href={`/riddle/${week}`}
                     key={week}
                     whileHover={{ scale: 1.05 }}
                     className="p-1 bg-blue-300 rounded-lg"
-                  >
+                    >
                     <div className="bg-gray-100 rounded-lg p-4 h-full">
                       Week {week}
                       <br />
                       {week === 1 ? "Operators" : week === 2 ? "Sequencing" : "???"}
                     </div>
-                  </motion.div>
+                    </motion.a>
                 ))}
               </div>
             </div>

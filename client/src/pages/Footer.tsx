@@ -1,7 +1,6 @@
 import { useInView } from "./useInView";
 
 export default function Footer() {
-  // Use your custom InView hook for reveal-on-scroll effects
   const [footerRef, footerInView] = useInView();
 
   return (
@@ -27,7 +26,7 @@ export default function Footer() {
         </div>
 
         {/* Column 2 - Company */}
-        <div className="flex justify-start md:justify-center">
+        <div className="flex justify-center">
           <div className="inline-flex flex-col items-start">
             <h2 className="font-semibold mb-2">Company</h2>
             <ul className="space-y-1">
@@ -70,17 +69,17 @@ export default function Footer() {
         </div>
 
         {/* Column 4 - Follow Us */}
-        <div className="flex justify-start md:justify-center">
+        <div className="flex justify-center">
           <div className="inline-flex flex-col items-start">
             <h2 className="font-semibold mb-2">Follow Us</h2>
-            <div className="flex space-x-4">
-              <a href="#" className="hover:opacity-75">
+            <div className="space-y-1">
+              <a href="#" className="hover:opacity-75 mr-1">
                 FB
               </a>
-              <a href="#" className="hover:opacity-75">
+              <a href="#" className="hover:opacity-75 mr-1">
                 IG
               </a>
-              <a href="#" className="hover:opacity-75">
+              <a href="#" className="hover:opacity-75 mr-1">
                 X
               </a>
               <a href="#" className="hover:opacity-75">
