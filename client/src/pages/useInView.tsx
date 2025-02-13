@@ -1,44 +1,43 @@
-import { useEffect, useRef, useState, RefObject } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 /**
  * A generic version of useInView that works with any HTML element type.
  * It also applies a smooth fade transition when the element enters or leaves the viewport.
  */
 export function useInView<T extends HTMLElement = HTMLDivElement>(
-  options?: IntersectionObserverInit
-): [RefObject<T>, boolean] {
-  const ref = useRef<T | null>(null);
+  options?: IntersectionObserverInit,
+): [(node: T | null) => void, boolean] {
+  const [node, setNode] = useState<T | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
+  const ref = useCallback((node: T | null) => {
+    setNode(node);
+  }, []);
+
   useEffect(() => {
+    if (!node) return;
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
+      ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.1, ...options }
+      { threshold: 0.1, ...options },
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+    observer.observe(node);
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
+      observer.disconnect();
     };
-  }, [options]);
+  }, [node, options]);
 
-  // Apply smooth fade transition on visibility change
   useEffect(() => {
-    if (ref.current) {
-      // Ensure the element has a default opacity if not yet visible
-      ref.current.style.opacity = isVisible ? "1" : "0";
+    if (node) {
+      node.style.opacity = isVisible ? "1" : "0";
       // Apply a smooth transition for opacity changes
-      ref.current.style.transition = "opacity 0.6s ease-in-out";
+      node.style.transition = "opacity 0.6s ease-in-out";
     }
-  }, [isVisible]);
+  }, [node, isVisible]);
 
-  return [ref as RefObject<T>, isVisible];
+  return [ref, isVisible];
 }

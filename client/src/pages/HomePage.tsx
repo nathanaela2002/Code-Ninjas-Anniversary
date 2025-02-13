@@ -106,8 +106,9 @@ const Leaderboard: React.FC = () => {
           credentials: "include",
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+        if (response.status === 401) {
+          window.location.href = "/login";
+          return;
         }
 
         const contentType = response.headers.get("content-type");
@@ -118,7 +119,6 @@ const Leaderboard: React.FC = () => {
         }
 
         const data = await response.json();
-        console.log("Leaderboard data received:", data); // Debugging log
 
         setLeaderboardData(data);
       } catch (err) {
