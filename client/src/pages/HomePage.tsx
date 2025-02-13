@@ -241,7 +241,7 @@ const Leaderboard: React.FC = () => {
             >
               <div className="flex items-center gap-3">
                 <span className="text-gray-500 font-semibold w-5 text-right">
-                  {index + 1}
+                  {index + 4}
                 </span>
                 <img
                   src={entry.avatarUrl || DefaultAvatar}

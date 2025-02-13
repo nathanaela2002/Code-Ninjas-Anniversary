@@ -11,9 +11,55 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-  
+  const [user, setUser] = useState({});
+  const [rank, setRank] = useState(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/profile", {
+          credentials: "include",
+        });
+
+        if (response.status === 404) {
+          window.location.href = "/login";
+          return;
+        }
+
+        const data = await response.json();
+        if (data.user) {
+          setUser(data.user);
+        } else {
+          console.error("missing user data", data);
+        }
+      } catch (err) {
+        console.error("Profile fetch error: ", err);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  useEffect(() => {
+    const fetchRank = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/rank", {
+          credentials: "include",
+        });
+        const data = await response.json();
+        console.log("rank value:", data.rank);
+        setRank(data.rank);
+      } catch (err) {
+        console.error("Error fetching rank: ", err);
+      }
+    };
+    fetchRank();
+  }, []);
+
   // Track if the viewport is mobile based on a breakpoint.
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= MOBILE_BREAKPOINT);
+  const [isMobile, setIsMobile] = useState(
+    window.innerWidth <= MOBILE_BREAKPOINT,
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,11 +74,14 @@ export default function Header() {
     if (isMobile) return; // disable on mobile
 
     function handleClickOutside(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setIsRiddleOpen(false);
       }
     }
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMobile]);
@@ -46,12 +95,29 @@ export default function Header() {
   };
 
   const openEditProfileModal = () => {
-    const modal = document.getElementById("edit_profile_modal") as HTMLDialogElement;
+    const modal = document.getElementById(
+      "edit_profile_modal",
+    ) as HTMLDialogElement;
     if (modal) {
       modal.showModal();
       document.body.style.overflow = "hidden";
     }
   };
+
+  function formatRank(rank) {
+    const j = rank % 10,
+      k = rank % 100;
+    if (j === 1 && k !== 11) {
+      return `${rank}st`;
+    }
+    if (j === 2 && k !== 12) {
+      return `${rank}nd`;
+    }
+    if (j === 3 && k !== 13) {
+      return `${rank}rd`;
+    }
+    return `${rank}th`;
+  }
 
   return (
     <header
@@ -64,16 +130,26 @@ export default function Header() {
         {/* Left: Logo & Brand Name */}
         <div className="flex items-center space-x-2">
           <a href="/" className="flex items-center space-x-2">
-            <img src={LOGOImage} alt="Code Ninjas Logo" className="h-8 w-auto object-contain" />
+            <img
+              src={LOGOImage}
+              alt="Code Ninjas Logo"
+              className="h-8 w-auto object-contain"
+            />
           </a>
         </div>
 
         {/* Center: Navigation Menu */}
         <nav className="flex items-center space-x-6">
-          <a href="/" className="text-md font-bold hover:text-blue-700 transition-colors">
+          <a
+            href="/"
+            className="text-md font-bold hover:text-blue-700 transition-colors"
+          >
             Home
           </a>
-          <a href="/about" className="text-md font-bold hover:text-blue-700 transition-colors">
+          <a
+            href="/about"
+            className="text-md font-bold hover:text-blue-700 transition-colors"
+          >
             About
           </a>
           {/* Riddle Dropdown */}
@@ -83,7 +159,9 @@ export default function Header() {
               className="text-md font-bold hover:text-blue-700 transition-colors flex items-center gap-1"
             >
               Riddle
-              <span className={`transform transition-transform ${isRiddleOpen ? "rotate-90" : "rotate-0"}`}>
+              <span
+                className={`transform transition-transform ${isRiddleOpen ? "rotate-90" : "rotate-0"}`}
+              >
                 ►
               </span>
             </button>
@@ -102,42 +180,48 @@ export default function Header() {
               </ul>
             )}
           </div>
-          <a href="/prizes" className="text-md font-bold hover:text-blue-700 transition-colors">
+          <a
+            href="/prizes"
+            className="text-md font-bold hover:text-blue-700 transition-colors"
+          >
             Prizes
           </a>
         </nav>
 
         {/* Right: User Info */}
         <div className="flex items-center space-x-2">
-          <span className="font-bold">8th</span>
+          <span className="font-bold">{formatRank(rank)}</span>
           <img
             src={DefaultAvatar}
             className="h-8 w-auto object-contain cursor-pointer"
             alt="User Avatar"
             onClick={openEditProfileModal}
           />
-          <span className="font-bold">Ted Schultz</span>
-          <span>102 pts</span>
+          <span className="font-bold">{user.username}</span>
+          <span>{user.points} pts</span>
         </div>
       </div>
 
       {/* Mobile Header */}
       <div className="flex md:hidden items-center justify-between h-16 px-4">
         {/* Hamburger Menu Button */}
-        <button onClick={toggleMobileMenu} className="text-2xl focus:outline-none">
+        <button
+          onClick={toggleMobileMenu}
+          className="text-2xl focus:outline-none"
+        >
           ☰
         </button>
         {/* Always Visible User Info on Mobile */}
         <div className="flex items-center space-x-2">
-          <span className="font-bold">8th</span>
+          <span className="font-bold">{formatRank(rank)}</span>
           <img
             src={DefaultAvatar}
             className="h-8 w-auto object-contain cursor-pointer"
             alt="User Avatar"
             onClick={openEditProfileModal}
           />
-          <span className="font-bold">Ted Schultz</span>
-          <span>102 pts</span>
+          <span className="font-bold">{user.username}</span>
+          <span>{user.points} pts</span>
         </div>
       </div>
 
@@ -150,14 +234,24 @@ export default function Header() {
           <div className="flex flex-col space-y-4 p-4">
             {/* Logo */}
             <a href="/" className="flex items-center space-x-2">
-              <img src={LOGOImage} alt="Code Ninjas Logo" className="h-8 w-auto object-contain" />
+              <img
+                src={LOGOImage}
+                alt="Code Ninjas Logo"
+                className="h-8 w-auto object-contain"
+              />
             </a>
             {/* Navigation */}
             <nav className="flex flex-col space-y-2">
-              <a href="/" className="text-md font-bold hover:text-blue-700 transition-colors">
+              <a
+                href="/"
+                className="text-md font-bold hover:text-blue-700 transition-colors"
+              >
                 Home
               </a>
-              <a href="/about" className="text-md font-bold hover:text-blue-700 transition-colors">
+              <a
+                href="/about"
+                className="text-md font-bold hover:text-blue-700 transition-colors"
+              >
                 About
               </a>
               <div className="relative">
@@ -166,7 +260,9 @@ export default function Header() {
                   className="text-md font-bold hover:text-blue-700 transition-colors flex items-center gap-1"
                 >
                   Riddle
-                  <span className={`transform transition-transform ${isRiddleOpen ? "rotate-90" : "rotate-0"}`}>
+                  <span
+                    className={`transform transition-transform ${isRiddleOpen ? "rotate-90" : "rotate-0"}`}
+                  >
                     ►
                   </span>
                 </button>
@@ -185,7 +281,10 @@ export default function Header() {
                   </ul>
                 )}
               </div>
-              <a href="/prizes" className="text-md font-bold hover:text-blue-700 transition-colors">
+              <a
+                href="/prizes"
+                className="text-md font-bold hover:text-blue-700 transition-colors"
+              >
                 Prizes
               </a>
             </nav>

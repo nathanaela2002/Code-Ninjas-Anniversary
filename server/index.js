@@ -17,10 +17,28 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
 const User = require("./models/User");
+const AWS = require("aws-sdk");
+const multerS3 = require("multer-s3");
 require("dotenv").config({ path: "../client/.env" });
+console.log("AWS S3 Bucket:", process.env.VITE_AWS_S3_BUCKET);
+
+AWS.config.update({
+  accessKeyId: process.env.VITE_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.VITE_AWS_SECRET_ACCESS_KEY,
+  region: process.env.VITE_AWS_REGION,
+});
+
+const s3 = new AWS.S3();
 
 const uploadMiddleware = multer({
-  dest: "./uploads/ ",
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.VITE_AWS_S3_BUCKET,
+    acl: "public-read",
+    key: function (req, file, cb) {
+      cb(null, `pfps/${Date.now().toString()}-${file.originalname}`);
+    },
+  }),
   fileFilter: (req, file, cb) => {
     const allowedTypes = ["image/jpeg", "image/png"];
     if (allowedTypes.includes(file.mimetype)) {
@@ -61,7 +79,9 @@ app.post("/register", async (req, res) => {
       $or: [{ username }, { email }],
     });
     if (alreadyExists) {
-      res.status(400).json({ message: "Username or email already in use " });
+      return res
+        .status(400)
+        .json({ message: "Username or email already in use " });
     }
 
     const user = new User({
@@ -97,11 +117,9 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.VITE_JWT_SECRET,
-      { expiresIn: "1h" }, // maybe change to something a bit longer later
-    );
+    const token = jwt.sign({ id: user._id }, process.env.VITE_JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -132,12 +150,12 @@ app.post("/upload-pfp", uploadMiddleware.single("pfp"), async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    user.profilePicture = req.file.path;
+    user.profilePicture = req.file.location;
     await user.save();
 
     res.json({
       message: "Profile picture uploaded successfully",
-      filePath: req.file.path,
+      filePath: req.file.location,
     });
   } catch (error) {
     res.status(500).json({ message: "Upload failed", error: error.message });
@@ -229,7 +247,7 @@ app.post("/submit", authenticate, async (req, res) => {
         .json({ message: "You have already completed this riddle" });
     }
 
-    submissionOrder.push(user._id);
+    submissionOrder[riddleId].push(user._id);
 
     // TODO: find a reasonable way to award points using the players position in the submission ranking
     const position = submissionOrder[riddleId].length;
@@ -344,6 +362,19 @@ app.get("/leaderboard", authenticate, async (req, res) => {
     );
   } catch (error) {
     console.error("Leaderboard error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/rank", authenticate, async (req, res) => {
+  try {
+    const users = await User.find().sort({ points: -1, createdAt: 1 });
+
+    const rank = users.findIndex((u) => u._id.toString() === req.userId) + 1;
+
+    res.json({ rank });
+  } catch (error) {
+    console.error("Rank error:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
