@@ -5,6 +5,7 @@ import secondImage from "./smartwatch.png";
 import thirdImage from "./headset.png";
 import Header from "./Header";
 import Footer from "./Footer";
+import EditProfileModal from "./EditProfileModal";
 
 const HyperspaceTunnel = ({ progress }: { progress: any }) => {
   const scale = useTransform(progress, [0, 1], [1, 100]);
@@ -227,9 +228,9 @@ const PrizePage = () => {
 
       <HyperspaceTunnel progress={scrollYProgress} />
       
-      <div className="fixed inset-0 bg-gradient-to-t from-black via-transparent to-black z-60 pointer-events-none" />
+      <div className="fixed inset-0 bg-gradient-to-t from-black via-transparent to-black pointer-events-none" />
 
-      <main className="relative z-50">
+      <main className="relative">
         <motion.section 
           className="h-screen flex items-center justify-center"
           initial={{ opacity: 0, scale: 0.5 }}
@@ -238,12 +239,12 @@ const PrizePage = () => {
         >
           <div className="text-center">
             <motion.h1
-              className="text-8xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-pink-500 bg-clip-text text-transparent"
+              className="text-7xl md:text-9xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-pink-500 bg-clip-text text-transparent"
               initial={{ letterSpacing: "2em", opacity: 0 }}
               animate={{ letterSpacing: "0.1em", opacity: 1 }}
               transition={{ duration: 2, ease: "circOut" }}
             >
-              CODY'S PRIZES
+              CODY'S Prizes
             </motion.h1>
             <motion.div
               className="text-xl text-gray-300 max-w-2xl mx-auto"
@@ -270,6 +271,7 @@ const PrizePage = () => {
       </main>
 
       <Footer />
+      <EditProfileModal />
     </div>
   );
 };
