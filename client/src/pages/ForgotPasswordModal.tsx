@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 
 interface ForgotPasswordModalProps {
   isOpen: boolean;
@@ -9,12 +10,46 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   // If modal should be hidden, return null
   if (!isOpen) return null;
 
   // Stop propagation so clicks inside the modal do not close it
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setMessage("");
+    setError("");
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/forgot-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        },
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage(
+          data.message || "Password reset link sent. Please check your email.",
+        );
+      } else {
+        setError(data.message || "Failed to send reset link.");
+      }
+    } catch (err) {
+      console.error("Error sending password reset link", err);
+      setError("An error occurred. Please try again later.");
+    }
   };
 
   return (
@@ -58,7 +93,11 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
             stroke="currentColor"
             className="w-6 h-6"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
 
@@ -69,22 +108,21 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
 
         {/* Subtext */}
         <p className="mt-4 text-left text-gray-500 text-lg leading-snug">
-          Enter the email, or username associated with your
-          account to change your password.
+          Enter the email, or username associated with your account to change
+          your password.
         </p>
 
         {/* Form */}
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            // Handle form submission logic here
-          }}
+          onSubmit={handleSubmit}
           className="mt-10 flex flex-col space-y-16"
         >
           {/* Input Field */}
           <input
-            type="text"
-            placeholder="Email, or username"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="
               w-full
               bg-transparent
@@ -101,6 +139,9 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
               text-lg
             "
           />
+
+          {message && <p className="text-green-500 text-center">{message}</p>}
+          {error && <p className="text-red-500 text-center">{error}</p>}
 
           {/* Next Button */}
           <button

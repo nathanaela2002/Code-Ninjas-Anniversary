@@ -20,7 +20,6 @@ const User = require("./models/User");
 const AWS = require("aws-sdk");
 const multerS3 = require("multer-s3");
 require("dotenv").config({ path: "../client/.env" });
-console.log("AWS S3 Bucket:", process.env.VITE_AWS_S3_BUCKET);
 
 AWS.config.update({
   accessKeyId: process.env.VITE_AWS_ACCESS_KEY_ID,
@@ -273,7 +272,7 @@ app.post("/forgot-password", async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "No account found" });
+      return res.status(404).json({ message: "Invalid email" });
     }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
@@ -294,7 +293,7 @@ app.post("/forgot-password", async (req, res) => {
     });
     // TODO: change the from field to actual email once confirmed
     await transporter.sendMail({
-      from: "exampleemail@example.com",
+      from: "compliancecna@gmail.com",
       to: user.email,
       subject: "Password Reset Request",
       text: `Click this link to reset your password: ${resetLink}`,
