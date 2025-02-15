@@ -17,24 +17,42 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
 const User = require("./models/User");
-const AWS = require("aws-sdk");
 const multerS3 = require("multer-s3");
+const {
+  S3Client,
+  DeleteObjectCommand,
+  ListObjectVersionsCommand,
+} = require("@aws-sdk/client-s3");
 require("dotenv").config({ path: "../client/.env" });
 
-AWS.config.update({
-  accessKeyId: process.env.VITE_AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.VITE_AWS_SECRET_ACCESS_KEY,
+const s3 = new S3Client({
   region: process.env.VITE_AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.VITE_AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.VITE_AWS_SECRET_ACCESS_KEY,
+  },
 });
 
-const s3 = new AWS.S3();
+const authenticate = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized 1" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.VITE_JWT_SECRET);
+    req.userId = decoded.id;
+    next();
+  } catch (error) {
+    res.status(401).json({ message: "Unauthorized 2" });
+  }
+};
 
 const uploadMiddleware = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.VITE_AWS_S3_BUCKET,
-    acl: "public-read",
-    key: function (req, file, cb) {
+    key: (req, file, cb) => {
       cb(null, `pfps/${Date.now().toString()}-${file.originalname}`);
     },
   }),
@@ -138,43 +156,72 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/upload-pfp", uploadMiddleware.single("pfp"), async (req, res) => {
+async function deleteAllVersions(bucket, key) {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
+    const listResponse = await s3.send(
+      new ListObjectVersionsCommand({
+        Bucket: bucket,
+        Prefix: key,
+      }),
+    );
+
+    const versions = (listResponse.Versions || []).filter((v) => v.Key === key);
+    const deleteMarkers = (listResponse.DeleteMarkers || []).filter(
+      (dm) => dm.Key === key,
+    );
+
+    const items = [...versions, ...deleteMarkers];
+
+    for (const item of items) {
+      await s3.send(
+        new DeleteObjectCommand({
+          Bucket: bucket,
+          Key: key,
+          VersionId: item.VersionId,
+        }),
+      );
+      console.log(`Deleted version ${item.VersionId} for key ${key}`);
     }
+  } catch (error) {
+    console.error("Error deleting all versions:", error);
+  }
+}
 
-    const user = await User.findById(req.body.userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+app.post(
+  "/upload-pfp",
+  authenticate,
+  uploadMiddleware.single("pfp"),
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+
+      const user = await User.findById(req.userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      if (user.profilePicture) {
+        const oldUrl = user.profilePicture;
+        const baseUrl = `https://${process.env.VITE_AWS_S3_BUCKET}.s3.${process.env.VITE_AWS_REGION}.amazonaws.com/`;
+        const oldKey = oldUrl.replace(baseUrl, "");
+
+        await deleteAllVersions(process.env.VITE_AWS_S3_BUCKET, oldKey);
+      }
+
+      user.profilePicture = req.file.location;
+      await user.save();
+
+      res.json({
+        message: "Profile picture uploaded successfully",
+        filePath: req.file.location,
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Upload failed", error: error.message });
     }
-
-    user.profilePicture = req.file.location;
-    await user.save();
-
-    res.json({
-      message: "Profile picture uploaded successfully",
-      filePath: req.file.location,
-    });
-  } catch (error) {
-    res.status(500).json({ message: "Upload failed", error: error.message });
-  }
-});
-
-const authenticate = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized 1" });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.VITE_JWT_SECRET);
-    req.userId = decoded.id;
-    next();
-  } catch (error) {
-    res.status(401).json({ message: "Unauthorized 2" });
-  }
-};
+  },
+);
 
 app.get("/profile", authenticate, async (req, res) => {
   try {

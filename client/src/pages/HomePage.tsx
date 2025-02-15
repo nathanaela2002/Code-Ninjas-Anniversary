@@ -157,7 +157,7 @@ const Leaderboard: React.FC = () => {
         >
           <div className="relative w-20 h-20 mb-2">
             <img
-              src={DefaultAvatar}
+              src={topThree[1].avatarUrl || DefaultAvatar}
               alt={topThree[1].name}
               className="w-full h-full object-cover rounded-full shadow-xl border-4 border-cyan-200"
             />
@@ -183,7 +183,7 @@ const Leaderboard: React.FC = () => {
         >
           <div className="relative w-24 h-24 mb-2">
             <img
-              src={DefaultAvatar}
+              src={topThree[0].avatarUrl || DefaultAvatar}
               alt={topThree[0].name}
               className="w-full h-full object-cover rounded-full shadow-xl border-4 border-cyan-200"
             />
@@ -215,7 +215,7 @@ const Leaderboard: React.FC = () => {
         >
           <div className="relative w-20 h-20 mb-2 ">
             <img
-              src={DefaultAvatar}
+              src={topThree[2].avatarUrl || DefaultAvatar}
               alt={topThree[2].name}
               className="w-full h-full object-cover rounded-full shadow-xl border-4 border-cyan-200"
             />

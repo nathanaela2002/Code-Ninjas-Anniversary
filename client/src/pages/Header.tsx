@@ -192,8 +192,8 @@ export default function Header() {
         <div className="flex items-center space-x-2">
           <span className="font-bold">{formatRank(rank)}</span>
           <img
-            src={DefaultAvatar}
-            className="h-8 w-auto object-contain cursor-pointer"
+            src={user.profilePicture || DefaultAvatar}
+            className="h-8 w-auto object-cover rounded-full cursor-pointer"
             alt="User Avatar"
             onClick={openEditProfileModal}
           />

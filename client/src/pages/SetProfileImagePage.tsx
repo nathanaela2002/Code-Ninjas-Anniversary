@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePictureSetup = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null); // Explicitly typing the state
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadStatus, setUploadStatus] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setSelectedFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfileImage(reader.result as string); // Casting result as string
@@ -14,10 +19,35 @@ const ProfilePictureSetup = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Uploaded Profile Picture:", profileImage);
-    // Handle profile picture submission here
+
+    if (!selectedFile) {
+      setUploadStatus("Please select an image before submitting.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("pfp", selectedFile);
+    try {
+      const response = await fetch("http://localhost:8000/upload-pfp", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setUploadStatus("Profile picture uploaded successfully!");
+        console.log("Uploaded Profile Picture:", data.filePath);
+        navigate("/");
+      } else {
+        setUploadStatus("Upload failed: " + data.message);
+      }
+    } catch (error: any) {
+      console.error("Upload error:", error);
+      setUploadStatus("Upload error: " + error.message);
+    }
   };
 
   return (
@@ -26,7 +56,10 @@ const ProfilePictureSetup = () => {
         <h1 className="text-2xl font-bold text-center text-gray-700 mb-6">
           Upload Your Profile Picture
         </h1>
-        <form className="flex flex-col items-center gap-4" onSubmit={handleSubmit}>
+        <form
+          className="flex flex-col items-center gap-4"
+          onSubmit={handleSubmit}
+        >
           {/* Profile Image Preview */}
           <div className="w-32 h-32 rounded-full border border-gray-300 flex items-center justify-center overflow-hidden bg-gray-50">
             {profileImage ? (
@@ -59,6 +92,11 @@ const ProfilePictureSetup = () => {
             Save Picture
           </button>
         </form>
+        {uploadStatus && (
+          <p className="mt-4 text-center text-sm text-gray-600">
+            {uploadStatus}
+          </p>
+        )}
       </div>
     </div>
   );
