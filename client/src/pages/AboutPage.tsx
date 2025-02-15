@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useInView } from "./useInView";
 import Header from "./Header";
 import Footer from "./Footer";
+import EditProfileModal from "./EditProfileModal";
 
 const AnimatedWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [ref, isVisible] = useInView<HTMLDivElement>();
@@ -161,6 +162,7 @@ const About: React.FC = () => {
         </AnimatedWrapper>
       </main>
       <Footer />
+      <EditProfileModal />
     </div>
   );
 };
