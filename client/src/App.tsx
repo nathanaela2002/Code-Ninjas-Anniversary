@@ -7,8 +7,6 @@ import SetProfileImagePage from "./pages/SetProfileImagePage.tsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
 import PrizePage from "./pages/PrizePage.tsx";
-import PrivacyPage from "./pages/PrivacyPage.tsx";
-import TermsPage from "./pages/TermsPage.tsx";
 
 function App() {
   return (
@@ -21,10 +19,8 @@ function App() {
           <Route path="/riddle/:id" element={<RiddlePage />} />
           <Route path="/pfp" element={<SetProfileImagePage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/about" element={<AboutPage />} />'
-          <Route path="/prizes" element={<PrizePage />} />         
-          <Route path="/privacy" element={<PrivacyPage />} />'         
-          <Route path="/terms" element={<TermsPage />} />'
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/prizes" element={<PrizePage />} />
         </Routes>
       </Router>
     </div>
