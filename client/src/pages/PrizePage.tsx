@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
-import { motion, useMotionValue, useTransform, useViewportScroll } from "framer-motion";
+import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
 import firstImage from "./tablet.png";
 import secondImage from "./smartwatch.png";
 import thirdImage from "./headset.png";
 import Header from "./Header";
 import Footer from "./Footer";
+import EditProfileModal from "./EditProfileModal";
 
 const HyperspaceTunnel = ({ progress }: { progress: any }) => {
   const scale = useTransform(progress, [0, 1], [1, 100]);
@@ -24,16 +25,18 @@ const HyperspaceTunnel = ({ progress }: { progress: any }) => {
   );
 };
 
-const StarWarsScroll = ({ children, index }: { children: React.ReactNode; index: number }) => {
-  const { scrollYProgress } = useViewportScroll();
-  const y = useTransform(scrollYProgress, [0, 1], [index * -100, index * 100]);
-  const opacity = useTransform(scrollYProgress, 
+const ScrollEffect = ({ children, index }: { children: React.ReactNode; index: number }) => {
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], [0, 0]);
+  const opacity = useTransform(
+    scrollYProgress,
     [(index - 0.5) / 3, index / 3, (index + 0.5) / 3],
-    [0, 1, 0]
+    [1, 1, 1]
   );
-  const scale = useTransform(scrollYProgress, 
+  const scale = useTransform(
+    scrollYProgress,
     [(index - 0.5) / 3, index / 3, (index + 0.5) / 3],
-    [0.5, 1, 0.5]
+    [1, 1, 1]
   );
 
   return (
@@ -119,84 +122,87 @@ const InteractiveImageCard = ({ src, title, description }: any) => {
 
 const Podium = ({ prizes }: any) => {
   return (
-    <section className="h-screen flex items-end justify-center gap-8 px-4 relative z-50">
+    <section className="h-auto xl:h-screen mt-16 lg:mt-32 flex flex-col xl:flex-row items-center xl:items-end justify-center gap-8 px-4 relative z-50">
       {/* 2nd Place */}
       <motion.div
-        className="relative flex flex-col items-center"
+        className="order-2 xl:order-1 relative flex flex-col items-center w-full xl:w-auto xl:h-[80%] flex-1"
         initial={{ opacity: 0, y: 200, scale: 0.5 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 1, delay: 0.2 }}
-        style={{ height: "70%", flex: 1 }}
       >
-        <div className="w-full bg-gradient-to-b from-purple-500 to-pink-600 p-1 rounded-t-xl shadow-2xl">
+        <div className="w-full max-w-4xl xl:max-w-none bg-gradient-to-b from-purple-500 to-pink-600 p-1 rounded-t-xl shadow-2xl">
           <div className="bg-gray-900/90 w-full h-full rounded-t-xl p-6 flex flex-col items-center backdrop-blur-sm">
             <motion.img 
               src={prizes[1].image} 
-              className="w-32 h-32 mb-4 object-contain"
+              className="w-24 xl:w-32 h-24 xl:h-32 mb-4 object-contain"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ type: "spring" }}
             />
-            <h3 className="text-2xl font-bold text-white">{prizes[1].title}</h3>
-            <p className="text-gray-300 text-center">{prizes[1].description}</p>
+            <h3 className="text-xl xl:text-2xl font-bold text-white">{prizes[1].title}</h3>
+            <p className="text-gray-300 text-center text-sm xl:text-base">
+              {prizes[1].description}
+            </p>
           </div>
         </div>
-        <div className="text-4xl font-bold text-white mt-4">#2</div>
+        <div className="text-3xl xl:text-4xl font-bold text-white mt-4">#2</div>
       </motion.div>
 
       {/* 1st Place */}
       <motion.div
-        className="relative flex flex-col items-center"
+        className="order-1 xl:order-2 relative flex flex-col items-center w-full xl:w-auto xl:h-full xl:flex-[1.5]"
         initial={{ opacity: 0, y: 200, scale: 0.5 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 1, delay: 0.4 }}
-        style={{ height: "100%", flex: 1.5 }}
       >
-        <div className="w-full bg-gradient-to-b from-yellow-400 to-orange-600 p-1 rounded-t-xl shadow-2xl">
-          <div className="bg-gray-900/90 w-full h-full rounded-t-xl p-8 flex flex-col items-center backdrop-blur-sm">
+        <div className="w-full max-w-4xl xl:max-w-none bg-gradient-to-b from-yellow-400 to-orange-600 p-1 rounded-t-xl shadow-2xl">
+          <div className="bg-gray-900/90 w-full h-full rounded-t-xl p-4 xl:p-8 flex flex-col items-center backdrop-blur-sm">
             <motion.img 
               src={prizes[0].image} 
-              className="w-48 h-48 mb-4 object-contain"
+              className="w-32 xl:w-48 h-32 xl:h-48 mb-4 object-contain"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ type: "spring", delay: 0.2 }}
             />
-            <h3 className="text-3xl font-bold text-white">{prizes[0].title}</h3>
-            <p className="text-gray-300 text-center">{prizes[0].description}</p>
+            <h3 className="text-2xl xl:text-3xl font-bold text-white">{prizes[0].title}</h3>
+            <p className="text-gray-300 text-center text-sm xl:text-base">
+              {prizes[0].description}
+            </p>
           </div>
         </div>
-        <div className="text-4xl font-bold text-white mt-4 animate-pulse">#1</div>
+        <div className="text-3xl xl:text-4xl font-bold text-white mt-4 animate-pulse">#1</div>
       </motion.div>
 
       {/* 3rd Place */}
       <motion.div
-        className="relative flex flex-col items-center"
-        initial={{ opacity: 0, y: 200, scale: 0.5 }}
+        className="order-3 relative flex flex-col items-center w-full xl:w-auto xl:h-[60%] flex-1"
+        initial={{ opacity: 0, y: 100, scale: 0.5 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 1 }}
-        style={{ height: "50%", flex: 1 }}
       >
-        <div className="w-full bg-gradient-to-b from-blue-500 to-cyan-600 p-1 rounded-t-xl shadow-2xl">
+        <div className="w-full max-w-4xl xl:max-w-none bg-gradient-to-b from-blue-500 to-cyan-600 p-1 rounded-t-xl shadow-2xl">
           <div className="bg-gray-900/90 w-full h-full rounded-t-xl p-6 flex flex-col items-center backdrop-blur-sm">
             <motion.img 
               src={prizes[2].image} 
-              className="w-32 h-32 mb-4 object-contain"
+              className="w-24 xl:w-32 h-24 xl:h-32 mb-4 object-contain"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ type: "spring", delay: 0.1 }}
             />
-            <h3 className="text-2xl font-bold text-white">{prizes[2].title}</h3>
-            <p className="text-gray-300 text-center">{prizes[2].description}</p>
+            <h3 className="text-xl xl:text-2xl font-bold text-white">{prizes[2].title}</h3>
+            <p className="text-gray-300 text-center text-sm xl:text-base">
+              {prizes[2].description}
+            </p>
           </div>
         </div>
-        <div className="text-4xl font-bold text-white mt-4">#3</div>
+        <div className="text-3xl xl:text-4xl font-bold text-white mt-4">#3</div>
       </motion.div>
     </section>
   );
 };
 
 const PrizePage = () => {
-  const { scrollYProgress } = useViewportScroll();
+  const { scrollYProgress } = useScroll();
   
   const prizes = [
     {
@@ -222,9 +228,9 @@ const PrizePage = () => {
 
       <HyperspaceTunnel progress={scrollYProgress} />
       
-      <div className="fixed inset-0 bg-gradient-to-t from-black via-transparent to-black z-60 pointer-events-none" />
+      <div className="fixed inset-0 bg-gradient-to-t from-black via-transparent to-black pointer-events-none" />
 
-      <main className="relative z-50">
+      <main className="relative">
         <motion.section 
           className="h-screen flex items-center justify-center"
           initial={{ opacity: 0, scale: 0.5 }}
@@ -233,12 +239,12 @@ const PrizePage = () => {
         >
           <div className="text-center">
             <motion.h1
-              className="text-8xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-pink-500 bg-clip-text text-transparent"
+              className="text-7xl md:text-9xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-pink-500 bg-clip-text text-transparent"
               initial={{ letterSpacing: "2em", opacity: 0 }}
               animate={{ letterSpacing: "0.1em", opacity: 1 }}
               transition={{ duration: 2, ease: "circOut" }}
             >
-              CODY'S PRIZES
+              CODY'S Prizes
             </motion.h1>
             <motion.div
               className="text-xl text-gray-300 max-w-2xl mx-auto"
@@ -252,19 +258,20 @@ const PrizePage = () => {
         </motion.section>
 
         {prizes.reverse().map((prize, index) => (
-          <StarWarsScroll key={index} index={index}>
+          <ScrollEffect key={index} index={index}>
             <InteractiveImageCard
               src={prize.image}
               title={prize.title}
               description={prize.description}
             />
-          </StarWarsScroll>
+          </ScrollEffect>
         ))}
 
         <Podium prizes={prizes.reverse()} />
       </main>
 
       <Footer />
+      <EditProfileModal />
     </div>
   );
 };
