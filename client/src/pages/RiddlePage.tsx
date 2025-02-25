@@ -99,15 +99,24 @@ export default function RiddlePage() {
   const [introRef, introInView] = useInView();
   const [comicRef, comicInView] = useInView();
   const [riddleRef, riddleInView] = useInView();
+  const [activeInput, setActiveInput] = useState<string | null>(null);
+  const [riddleAnswer, setRiddleAnswer] = useState("");
+  const [makeCodeURL, setMakeCodeURL] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentInput(e.target.value);
+    if (activeInput === e.target.id) {
+      if (e.target.id === "riddleAnswer") {
+        setRiddleAnswer(e.target.value);
+      } else if (e.target.id === "makeCodeURL") {
+        setMakeCodeURL(e.target.value);
+      }
+    }
     if (isCorrect) setIsCorrect(false);
     if (hasSubmit) setHasSubmit(false);
   };
 
   const handleSubmit = () => {
-    const answer = currentInput.trim().toLowerCase();
+    const answer = riddleAnswer.trim().toLowerCase();
     setHasSubmit(true);
     if (answer === "cookies") {
       setIsCorrect(true);
@@ -145,6 +154,11 @@ export default function RiddlePage() {
               Each riddle contains clues that will help you move forward. Solve
               the puzzles and prove your ninja skills!
             </p>
+            <a href="https://arcade.makecode.com/#editor">
+              <button className="bg-yellow-400 text-white text-lg font-semibold px-6 py-2 rounded-md shadow hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition">
+                Go to Riddle!
+              </button>
+            </a>
           </div>
         </section>
 
@@ -174,15 +188,34 @@ export default function RiddlePage() {
           <p className="mb-6 text-gray-700 leading-relaxed">{currentRiddle.riddle}</p>
 
           <div className="mt-6">
-            <label htmlFor="riddleAnswer" className="block font-semibold mb-2">
+              <label htmlFor="riddleAnswer" className="block font-semibold mb-2">
               Your Answer:
             </label>
             <input
               id="riddleAnswer"
               type="text"
               placeholder="Enter your answer here..."
-              value={currentInput}
+              value={riddleAnswer}
               onChange={handleInputChange}
+              onFocus={() => setActiveInput("riddleAnswer")}
+              onBlur={() => setActiveInput(null)}
+              className="w-full p-3 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none"
+            />
+
+            <label
+              htmlFor="makeCodeURL"
+              className="block font-semibold mt-4 mb-2"
+            >
+              Make Code Link:
+            </label>
+            <input
+              id="makeCodeURL"
+              type="text"
+              placeholder="Enter your make code link here..."
+              value={makeCodeURL}
+              onChange={handleInputChange}
+              onFocus={() => setActiveInput("makeCodeURL")}
+              onBlur={() => setActiveInput(null)}
               className="w-full p-3 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none"
             />
             <button
