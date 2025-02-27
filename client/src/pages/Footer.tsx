@@ -17,7 +17,7 @@ export default function Footer() {
             <h2 className="font-semibold mb-2">Center</h2>
             <ul className="space-y-1">
               <li>
-                <a href="#" className="hover:underline">
+                <a href="https://www.codeninjas.com/aurora-on-ca" className="hover:underline">
                   Code Ninjas Aurora
                 </a>
               </li>
@@ -31,18 +31,13 @@ export default function Footer() {
             <h2 className="font-semibold mb-2">Company</h2>
             <ul className="space-y-1">
               <li>
-                <a href="#" className="hover:underline">
+                <a href="/about" className="hover:underline">
                   About
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
+                <a href="/contact" className="hover:underline">
                   Contacts
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:underline">
-                  FAQ
                 </a>
               </li>
             </ul>
@@ -95,7 +90,7 @@ export default function Footer() {
                   </svg>
                 </span>
               </a>
-              <a href="#" className="hover:opacity-75">
+              <a href="https://www.tiktok.com/@codeninjasaurora" className="hover:opacity-75">
                 <span className="[&>svg]:h-4 [&>svg]:w-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +101,7 @@ export default function Footer() {
                   </svg>
                 </span>
               </a>
-              <a href="#" className="hover:opacity-75">
+              <a href="" className="hover:opacity-75">
                 <span className="[&>svg]:h-4 [&>svg]:w-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

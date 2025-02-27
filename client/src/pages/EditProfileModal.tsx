@@ -70,62 +70,22 @@ const EditProfileModal: React.FC = () => {
               {/* Input fields for full name */}
               <div className="col-span-2 grid grid-cols-1 gap-4">
                 <input
-                  type="text"
+                  type="password"
+                  placeholder="Current Password"
                   className="w-7/8 p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F] ml-auto"
-                  value={formData.firstName}
-                  name="firstName"
-                  placeholder="First Name"
+                  value={formData.currentPassword}
+                  name="currentPassword"
                   onChange={handleInputChange}
                 />
                 <input
-                  type="text"
+                  type="password"
+                  placeholder="New Password"
                   className="w-7/8 p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F] ml-auto"
-                  value={formData.lastName}
-                  name="lastName"
-                  placeholder="Last Name"
+                  value={formData.newPassword}
+                  name="newPassword"
                   onChange={handleInputChange}
                 />
               </div>
-            </div>
-
-            {/* Input fields for username and email */}
-            <div className="grid grid-cols-2 gap-4">
-              <textarea
-                className="w-full p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F] resize-none"
-                value={formData.username}
-                name="username"
-                placeholder="Username"
-                rows={1}
-                onChange={handleInputChange}
-              />
-              <input
-                type="email"
-                className="w-full p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F]"
-                value={formData.email}
-                name="email"
-                placeholder="Email"
-                onChange={handleInputChange}
-              />
-            </div>
-
-            {/* Input fields for current and new passwords */}
-            <div className="grid grid-cols-2 gap-4">
-              <input
-                type="password"
-                placeholder="Current Password"
-                className="w-full p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F]"
-                value={formData.currentPassword}
-                name="currentPassword"
-                onChange={handleInputChange}
-              />
-              <input
-                type="password"
-                placeholder="New Password"
-                className="w-full p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F]"
-                value={formData.newPassword}
-                name="newPassword"
-                onChange={handleInputChange}
-              />
             </div>
 
             {/* Update button */}
@@ -134,6 +94,12 @@ const EditProfileModal: React.FC = () => {
               className="w-full p-3 bg-blue-200 text-white font-semibold rounded-md hover:bg-blue-400 transition"
             >
               Update
+            </button>
+            <button
+              type="submit"
+              className="w-full p-1 bg-gray-400 text-white font-semibold rounded-md hover:bg-gray-600 transition"
+            >
+              Logout
             </button>
           </form>
 
