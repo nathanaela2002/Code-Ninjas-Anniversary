@@ -9,6 +9,8 @@ import AboutPage from "./pages/AboutPage.tsx";
 import PrizePage from "./pages/PrizePage.tsx";
 import PrivacyPage from "./pages/PrivacyPage.tsx";
 import TermsPage from "./pages/TermsPage.tsx";
+import AdminPage from "./pages/AdminPage.tsx";
+import ContactPage from "./pages/ContactPage.tsx";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route path="/prizes" element={<PrizePage />} />         
           <Route path="/privacy" element={<PrivacyPage />} />'         
           <Route path="/terms" element={<TermsPage />} />'
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </Router>
     </div>

@@ -29,10 +29,8 @@ const PrivacyPage: React.FC = () => {
             <strong>Effective Date:</strong> February 18, 2025
           </p>
           <p className="text-gray-700 leading-relaxed">
-            Thank you for participating in our event (“Event”), which may
-            include web-based registration, event websites, email or SMS
-            communications, and other online services we provide (collectively,
-            our “Services”). We respect your privacy and are committed to
+            Thank you for participating in our 2nd Year Anniversary Challenge, which
+            includes web-based registration, event websites, and email. We respect your privacy and are committed to
             safeguarding your personal data. This Privacy Policy explains how we
             collect, use, share, and protect your information.
           </p>
@@ -52,13 +50,6 @@ const PrivacyPage: React.FC = () => {
             information about your child or children if they are participants
             and you provide it to us as part of the Event registration or
             participation process.
-          </p>
-          <p className="text-gray-700 mb-4 leading-relaxed">
-            <strong>Information from Third Parties:</strong> We may receive
-            additional information about you from third parties (for example, if
-            you authorize a social media platform to share information with us).
-            We combine such information with the information we already have
-            about you to improve the Services and tailor our communications.
           </p>
           <p className="text-gray-700 mb-4 leading-relaxed">
             <strong>Automatic Data Collection:</strong> When you access our
