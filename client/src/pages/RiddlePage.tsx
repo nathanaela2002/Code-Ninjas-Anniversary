@@ -8,7 +8,10 @@ import EditProfileModal from "./EditProfileModal";
 import Footer from "./Footer";
 import { useInView } from "./useInView"; // Import the hook
 
-const riddlesData: Record<string, { week: number; content: string; riddle: string; comic: string }> = {
+const riddlesData: Record<
+  string,
+  { week: number; content: string; riddle: string; comic: string }
+> = {
   "1": {
     week: 1,
     content:
@@ -91,44 +94,56 @@ const fireConfetti = () => {
 
 export default function RiddlePage() {
   const { id } = useParams();
-  const [currentInput, setCurrentInput] = useState("");
-  const [isCorrect, setIsCorrect] = useState(false);
+  const [makeCodeURL, setMakeCodeURL] = useState("");
   const [hasSubmit, setHasSubmit] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
 
   // Create refs with useInView for each major section
   const [introRef, introInView] = useInView();
   const [comicRef, comicInView] = useInView();
   const [riddleRef, riddleInView] = useInView();
-  const [activeInput, setActiveInput] = useState<string | null>(null);
-  const [riddleAnswer, setRiddleAnswer] = useState("");
-  const [makeCodeURL, setMakeCodeURL] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (activeInput === e.target.id) {
-      if (e.target.id === "riddleAnswer") {
-        setRiddleAnswer(e.target.value);
-      } else if (e.target.id === "makeCodeURL") {
-        setMakeCodeURL(e.target.value);
-      }
+    setMakeCodeURL(e.target.value);
+    if (hasSubmit) {
+      setHasSubmit(false);
+      setSubmitMessage("");
     }
-    if (isCorrect) setIsCorrect(false);
-    if (hasSubmit) setHasSubmit(false);
   };
 
-  const handleSubmit = () => {
-    const answer = riddleAnswer.trim().toLowerCase();
-    setHasSubmit(true);
-    if (answer === "cookies") {
-      setIsCorrect(true);
-      fireConfetti(); // Confetti trigger added here
-    } else {
-      setIsCorrect(false);
+  const handleSubmit = async () => {
+    if (!makeCodeURL.trim()) {
+      setSubmitMessage("Please enter a MakeCode Link.");
+      return;
     }
-    setCurrentInput("");
+
+    try {
+      const response = await fetch("http://localhost:8000/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ makeCodeURL: makeCodeURL, riddleId: id }),
+      });
+      if (response.ok) {
+        setHasSubmit(true);
+        setSubmitMessage("Submission recorded successfully");
+        fireConfetti();
+        setMakeCodeURL("");
+      } else {
+        const errorData = await response.json();
+        setSubmitMessage(`Error: ${errorData.message}`);
+      }
+    } catch (err) {
+      console.error("Error submitting MakeCode URL: ", err);
+      setSubmitMessage("Server error. Please try again later");
+    }
+
+    // what if the user fails, how long do they have until they can submit again
+    // they can submit again when their submission is disapproved
+    // when disapproved, delete the entry from the database
   };
 
   const currentRiddle = riddlesData[id ?? "1"] || riddlesData["1"];
-
   return (
     <div className="w-full min-h-screen font-sans bg-white text-gray-800">
       <Header />
@@ -136,7 +151,9 @@ export default function RiddlePage() {
         {/* Intro Section */}
         <section
           ref={introRef}
-          className={`flex flex-col md:flex-row items-center md:space-x-8 ${introInView ? "reveal-show" : "reveal-hidden"}`}
+          className={`flex flex-col md:flex-row items-center md:space-x-8 ${
+            introInView ? "reveal-show" : "reveal-hidden"
+          }`}
         >
           <div className="flex-shrink-0 mb-6 md:mb-0 md:w-1/2 lg:w-1/3">
             <img
@@ -165,7 +182,9 @@ export default function RiddlePage() {
         {/* Comic Section */}
         <section
           ref={comicRef}
-          className={`flex flex-col items-center justify-center mb-12 ${comicInView ? "reveal-show" : "reveal-hidden"}`}
+          className={`flex flex-col items-center justify-center mb-12 ${
+            comicInView ? "reveal-show" : "reveal-hidden"
+          }`}
         >
           <div className="flex justify-center w-2/3">
             <img
@@ -176,46 +195,33 @@ export default function RiddlePage() {
           </div>
         </section>
 
-        {/* Riddle Section */}
+        {/* Riddle and Submission Section */}
         <section
           ref={riddleRef}
-          className={`bg-gray-50 p-6 rounded-lg shadow-md relative ${riddleInView ? "reveal-show" : "reveal-hidden"}`}
+          className={`bg-gray-50 p-6 rounded-lg shadow-md relative ${
+            riddleInView ? "reveal-show" : "reveal-hidden"
+          }`}
         >
           <h2 className="text-2xl font-bold mb-4">Week {currentRiddle.week}</h2>
-          <p className="mb-6 text-gray-700 leading-relaxed">{currentRiddle.content}</p>
+          <p className="mb-6 text-gray-700 leading-relaxed">
+            {currentRiddle.content}
+          </p>
 
           <h2 className="text-2xl font-bold mb-4">Riddle</h2>
-          <p className="mb-6 text-gray-700 leading-relaxed">{currentRiddle.riddle}</p>
+          <p className="mb-6 text-gray-700 leading-relaxed">
+            {currentRiddle.riddle}
+          </p>
 
           <div className="mt-6">
-              <label htmlFor="riddleAnswer" className="block font-semibold mb-2">
-              Your Answer:
-            </label>
-            <input
-              id="riddleAnswer"
-              type="text"
-              placeholder="Enter your answer here..."
-              value={riddleAnswer}
-              onChange={handleInputChange}
-              onFocus={() => setActiveInput("riddleAnswer")}
-              onBlur={() => setActiveInput(null)}
-              className="w-full p-3 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none"
-            />
-
-            <label
-              htmlFor="makeCodeURL"
-              className="block font-semibold mt-4 mb-2"
-            >
-              Make Code Link:
+            <label htmlFor="makeCodeURL" className="block font-semibold mb-2">
+              Enter your MakeCode Link:
             </label>
             <input
               id="makeCodeURL"
               type="text"
-              placeholder="Enter your make code link here..."
+              placeholder="Enter your MakeCode link here..."
               value={makeCodeURL}
               onChange={handleInputChange}
-              onFocus={() => setActiveInput("makeCodeURL")}
-              onBlur={() => setActiveInput(null)}
               className="w-full p-3 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none"
             />
             <button
@@ -226,49 +232,18 @@ export default function RiddlePage() {
             </button>
 
             {hasSubmit && (
-              <>
-                {isCorrect ? (
-                  <div className="animate-slideIn mt-4 p-4 bg-green-100 border-2 border-green-400 rounded-lg flex items-center">
-                    <svg
-                      className="animate-tick h-6 w-6 text-green-600 mr-2"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    <span className="text-green-700 font-semibold">
-                      🎉 Correct! You've solved the riddle!
-                    </span>
-                  </div>
-                ) : (
-                  <div className="animate-slideIn mt-4 p-4 bg-red-100 border-2 border-red-400 rounded-lg flex items-center">
-                    <svg
-                      className="h-6 w-6 text-red-600 mr-2"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                    <span className="text-red-700 font-semibold">
-                      ❌ Not quite! Keep trying, ninja!
-                    </span>
-                  </div>
-                )}
-              </>
+              <div className="mt-4 p-4 bg-green-100 border-2 border-green-400 rounded-lg">
+                <span className="text-green-700 font-semibold">
+                  {submitMessage}
+                </span>
+              </div>
+            )}
+            {!hasSubmit && submitMessage && (
+              <div className="mt-4 p-4 bg-red-100 border-2 border-red-400 rounded-lg">
+                <span className="text-red-700 font-semibold">
+                  {submitMessage}
+                </span>
+              </div>
             )}
           </div>
         </section>

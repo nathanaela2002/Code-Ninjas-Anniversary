@@ -49,6 +49,24 @@ const EditProfileModal: React.FC = () => {
     fetchProfile();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message);
+        navigate("/login");
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (err) {
+      console.error("Error logging out:", err);
+    }
+  };
+
   // Handle input field changes
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -139,6 +157,7 @@ const EditProfileModal: React.FC = () => {
             <button
               type="submit"
               className="w-full p-1 bg-gray-400 text-white font-semibold rounded-md hover:bg-gray-600 transition"
+              onClick={handleLogout}
             >
               Logout
             </button>

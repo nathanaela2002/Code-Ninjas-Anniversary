@@ -1,48 +1,81 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface Submission {
-  id: number;
-  user: string;
-  points: number;
-  makeCodeUrl: string;
+  _id: string;
+  user: { username: string };
+  submissionLink: string;
+  createdAt: string;
+  approved: boolean | null;
 }
 
-const initialSubmissions: Submission[] = [
-  {
-    id: 1,
-    user: "Nathanael Ann",
-    points: 102,
-    makeCodeUrl: "https://makecode.com/tutorial-tool",
-  },
-  {
-    id: 2,
-    user: "Bryan Yang",
-    points: 83,
-    makeCodeUrl: "https://makecode.com/tutorial-tool",
-  },
-  {
-    id: 3,
-    user: "Daniel Yang",
-    points: 80,
-    makeCodeUrl: "https://makecode.com/tutorial-tool",
-  },
-  // Add more submissions as needed
-];
-
 const AdminPage: React.FC = () => {
-  const [submissions, setSubmissions] = useState<Submission[]>(initialSubmissions);
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
 
-  const handleApprove = (id: number) => {
+  useEffect(() => {
+    const fetchSubmissions = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8000/admin/submissions",
+          {
+            credentials: "include",
+          },
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setSubmissions(data);
+        } else {
+          const errorData = await response.json();
+          console.error("Error fetching submissions: ", errorData.message);
+        }
+      } catch (err) {
+        console.error("Error fetching submissions: ", err);
+      }
+    };
+
+    fetchSubmissions();
+  }, []);
+
+  const handleApprove = async (id: string) => {
     if (window.confirm("Are you sure you want to APPROVE this submission?")) {
-      // Replace with approval logic (e.g. update state or send API request)
-      alert(`Submission ${id} approved.`);
+      try {
+        const response = await fetch(`/admin/submissions/${id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ decision: "approve" }),
+        });
+        if (response.ok) {
+          setSubmissions((prev) => prev.filter((sub) => sub._id !== id));
+          alert(`Submission ${id} approved.`);
+        } else {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.message}`);
+        }
+      } catch (err) {
+        console.error("Error approving submission: ", err);
+      }
     }
   };
 
-  const handleDisapprove = (id: number) => {
-    if (window.confirm("Are you sure you want to DISAPPROVE this submission?")) {
-      // Replace with disapproval logic (e.g. update state or send API request)
-      alert(`Submission ${id} disapproved.`);
+  const handleDisapprove = async (id: string) => {
+    if (
+      window.confirm("Are you sure you want to DISAPPROVE this submission?")
+    ) {
+      try {
+        const response = await fetch(`/admin/submissions/${id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ decision: "disapprove" }),
+        });
+        if (response.ok) {
+          setSubmissions((prev) => prev.filter((sub) => sub._id !== id));
+          alert(`Submission ${id} disapproved.`);
+        } else {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.message}`);
+        }
+      } catch (err) {
+        console.error("Error disapproving submission: ", err);
+      }
     }
   };
 
@@ -71,29 +104,29 @@ const AdminPage: React.FC = () => {
             <tbody>
               {submissions.map((submission) => (
                 <tr
-                  key={submission.id}
+                  key={submission._id}
                   className="border-b hover:bg-blue-50 transition-colors"
                 >
                   <td className="px-6 py-4">
                     <a
-                      href={submission.makeCodeUrl}
+                      href={submission.submissionLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline"
                     >
-                      {submission.user}
+                      {submission.user.username}
                     </a>
                   </td>
-                  <td className="px-6 py-4">{submission.points}</td>
+                  <td className="px-6 py-4">{submission.createdAt}</td>
                   <td className="px-6 py-4">
                     <button
-                      onClick={() => handleApprove(submission.id)}
+                      onClick={() => handleApprove(submission._id)}
                       className="mr-4 bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded"
                     >
                       ✔️
                     </button>
                     <button
-                      onClick={() => handleDisapprove(submission.id)}
+                      onClick={() => handleDisapprove(submission._id)}
                       className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded"
                     >
                       ❌

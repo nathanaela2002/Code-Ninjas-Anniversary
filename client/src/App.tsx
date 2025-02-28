@@ -24,8 +24,8 @@ function App() {
           <Route path="/pfp" element={<SetProfileImagePage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/about" element={<AboutPage />} />'
-          <Route path="/prizes" element={<PrizePage />} />         
-          <Route path="/privacy" element={<PrivacyPage />} />'         
+          <Route path="/prizes" element={<PrizePage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />'
           <Route path="/terms" element={<TermsPage />} />'
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/admin" element={<AdminPage />} />
