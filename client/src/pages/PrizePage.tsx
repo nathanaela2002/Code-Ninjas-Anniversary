@@ -12,7 +12,7 @@ const HyperspaceTunnel = ({ progress }: { progress: any }) => {
   const rotate = useTransform(progress, [0, 1], [0, 360]);
 
   return (
-    <motion.div 
+    <motion.div
       className="fixed inset-0 bg-gradient-to-b from-blue-900 via-blue-900 to-black"
       style={{
         scale,
@@ -25,29 +25,35 @@ const HyperspaceTunnel = ({ progress }: { progress: any }) => {
   );
 };
 
-const ScrollEffect = ({ children, index }: { children: React.ReactNode; index: number }) => {
+const ScrollEffect = ({
+  children,
+  index,
+}: {
+  children: React.ReactNode;
+  index: number;
+}) => {
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 0]);
   const opacity = useTransform(
     scrollYProgress,
     [(index - 0.5) / 3, index / 3, (index + 0.5) / 3],
-    [1, 1, 1]
+    [1, 1, 1],
   );
   const scale = useTransform(
     scrollYProgress,
     [(index - 0.5) / 3, index / 3, (index + 0.5) / 3],
-    [1, 1, 1]
+    [1, 1, 1],
   );
 
   return (
-    <motion.section 
+    <motion.section
       className="h-screen flex items-center justify-center p-8"
-      style={{ 
+      style={{
         opacity,
         y,
         scale,
         position: "relative",
-        zIndex: 100 - index 
+        zIndex: 100 - index,
       }}
     >
       {children}
@@ -64,7 +70,7 @@ const InteractiveImageCard = ({ src, title, description }: any) => {
 
   return (
     <div className="relative w-full max-w-4xl h-128 perspective-1000">
-      <motion.div 
+      <motion.div
         className="relative h-full w-full bg-black/50 rounded-3xl p-8 flex flex-col items-center justify-center shadow-2xl backdrop-blur-xl border border-white/10"
         initial={{ opacity: 0, scale: 0.5 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -91,15 +97,15 @@ const InteractiveImageCard = ({ src, title, description }: any) => {
           }}
           whileTap={{ scale: 0.95 }}
         >
-          <img 
-            src={src} 
-            className="w-full h-full object-contain" 
+          <img
+            src={src}
+            className="w-full h-full object-contain"
             draggable="false"
             style={{ transform: "translateZ(50px)" }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50" />
         </motion.div>
-        <motion.h3 
+        <motion.h3
           className="text-5xl font-bold text-white mb-4 text-center"
           initial={{ y: 50, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
@@ -107,7 +113,7 @@ const InteractiveImageCard = ({ src, title, description }: any) => {
         >
           {title}
         </motion.h3>
-        <motion.p 
+        <motion.p
           className="text-gray-300 text-xl text-center max-w-2xl"
           initial={{ y: 30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
@@ -132,14 +138,16 @@ const Podium = ({ prizes }: any) => {
       >
         <div className="w-full max-w-4xl xl:max-w-none bg-gradient-to-b from-purple-500 to-pink-600 p-1 rounded-t-xl shadow-2xl">
           <div className="bg-gray-900/90 w-full h-full rounded-t-xl p-6 flex flex-col items-center backdrop-blur-sm">
-            <motion.img 
-              src={prizes[1].image} 
+            <motion.img
+              src={prizes[1].image}
               className="w-24 xl:w-32 h-24 xl:h-32 mb-4 object-contain"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ type: "spring" }}
             />
-            <h3 className="text-xl xl:text-2xl font-bold text-white">{prizes[1].title}</h3>
+            <h3 className="text-xl xl:text-2xl font-bold text-white">
+              {prizes[1].title}
+            </h3>
             <p className="text-gray-300 text-center text-sm xl:text-base">
               {prizes[1].description}
             </p>
@@ -157,20 +165,24 @@ const Podium = ({ prizes }: any) => {
       >
         <div className="w-full max-w-4xl xl:max-w-none bg-gradient-to-b from-yellow-400 to-orange-600 p-1 rounded-t-xl shadow-2xl">
           <div className="bg-gray-900/90 w-full h-full rounded-t-xl p-4 xl:p-8 flex flex-col items-center backdrop-blur-sm">
-            <motion.img 
-              src={prizes[0].image} 
+            <motion.img
+              src={prizes[0].image}
               className="w-32 xl:w-48 h-32 xl:h-48 mb-4 object-contain"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ type: "spring", delay: 0.2 }}
             />
-            <h3 className="text-2xl xl:text-3xl font-bold text-white">{prizes[0].title}</h3>
+            <h3 className="text-2xl xl:text-3xl font-bold text-white">
+              {prizes[0].title}
+            </h3>
             <p className="text-gray-300 text-center text-sm xl:text-base">
               {prizes[0].description}
             </p>
           </div>
         </div>
-        <div className="text-3xl xl:text-4xl font-bold text-white mt-4 animate-pulse">#1</div>
+        <div className="text-3xl xl:text-4xl font-bold text-white mt-4 animate-pulse">
+          #1
+        </div>
       </motion.div>
 
       {/* 3rd Place */}
@@ -182,14 +194,16 @@ const Podium = ({ prizes }: any) => {
       >
         <div className="w-full max-w-4xl xl:max-w-none bg-gradient-to-b from-blue-500 to-cyan-600 p-1 rounded-t-xl shadow-2xl">
           <div className="bg-gray-900/90 w-full h-full rounded-t-xl p-6 flex flex-col items-center backdrop-blur-sm">
-            <motion.img 
-              src={prizes[2].image} 
+            <motion.img
+              src={prizes[2].image}
               className="w-24 xl:w-32 h-24 xl:h-32 mb-4 object-contain"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ type: "spring", delay: 0.1 }}
             />
-            <h3 className="text-xl xl:text-2xl font-bold text-white">{prizes[2].title}</h3>
+            <h3 className="text-xl xl:text-2xl font-bold text-white">
+              {prizes[2].title}
+            </h3>
             <p className="text-gray-300 text-center text-sm xl:text-base">
               {prizes[2].description}
             </p>
@@ -203,7 +217,7 @@ const Podium = ({ prizes }: any) => {
 
 const PrizePage = () => {
   const { scrollYProgress } = useScroll();
-  
+
   const prizes = [
     {
       title: "First Prize",
@@ -227,11 +241,11 @@ const PrizePage = () => {
       <Header />
 
       <HyperspaceTunnel progress={scrollYProgress} />
-      
+
       <div className="fixed inset-0 bg-gradient-to-t from-black via-transparent to-black pointer-events-none" />
 
       <main className="relative">
-        <motion.section 
+        <motion.section
           className="h-screen flex items-center justify-center"
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}

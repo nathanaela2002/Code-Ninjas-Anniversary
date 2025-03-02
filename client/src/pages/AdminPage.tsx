@@ -22,7 +22,11 @@ const AdminPage: React.FC = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          setSubmissions(data);
+          setSubmissions(
+            data.filter(
+              (submission: Submission) => submission.approved !== true,
+            ),
+          );
         } else {
           const errorData = await response.json();
           console.error("Error fetching submissions: ", errorData.message);
@@ -38,13 +42,19 @@ const AdminPage: React.FC = () => {
   const handleApprove = async (id: string) => {
     if (window.confirm("Are you sure you want to APPROVE this submission?")) {
       try {
-        const response = await fetch(`/admin/submissions/${id}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ decision: "approve" }),
-        });
+        const response = await fetch(
+          `http://localhost:8000/admin/submissions/${id}`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ decision: "approve" }),
+          },
+        );
         if (response.ok) {
-          setSubmissions((prev) => prev.filter((sub) => sub._id !== id));
+          setSubmissions((prev) =>
+            prev.filter((submission) => submission._id !== id),
+          );
           alert(`Submission ${id} approved.`);
         } else {
           const errorData = await response.json();
@@ -61,13 +71,19 @@ const AdminPage: React.FC = () => {
       window.confirm("Are you sure you want to DISAPPROVE this submission?")
     ) {
       try {
-        const response = await fetch(`/admin/submissions/${id}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ decision: "disapprove" }),
-        });
+        const response = await fetch(
+          `http://localhost:8000/admin/submissions/${id}`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ decision: "disapprove" }),
+          },
+        );
         if (response.ok) {
-          setSubmissions((prev) => prev.filter((sub) => sub._id !== id));
+          setSubmissions((prev) =>
+            prev.filter((submission) => submission._id !== id),
+          );
           alert(`Submission ${id} disapproved.`);
         } else {
           const errorData = await response.json();
@@ -94,7 +110,10 @@ const AdminPage: React.FC = () => {
                   User
                 </th>
                 <th className="px-6 py-3 text-left text-white font-bold uppercase">
-                  Points Earned
+                  Submission Link
+                </th>
+                <th className="px-6 py-3 text-left text-white font-bold uppercase">
+                  Created At
                 </th>
                 <th className="px-6 py-3 text-left text-white font-bold uppercase">
                   Status
@@ -107,6 +126,8 @@ const AdminPage: React.FC = () => {
                   key={submission._id}
                   className="border-b hover:bg-blue-50 transition-colors"
                 >
+                  <td className="px-6 py-4">{submission.username}</td>
+
                   <td className="px-6 py-4">
                     <a
                       href={submission.submissionLink}
@@ -114,19 +135,19 @@ const AdminPage: React.FC = () => {
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline"
                     >
-                      {submission.user.username}
+                      {submission.submissionLink}
                     </a>
                   </td>
-                  <td className="px-6 py-4">{submission.createdAt}</td>
+                  <td className="px-6 py-4">{submission.timeSubmitted}</td>
                   <td className="px-6 py-4">
                     <button
-                      onClick={() => handleApprove(submission._id)}
+                      onClick={() => handleApprove(submission.id)}
                       className="mr-4 bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded"
                     >
                       ✔️
                     </button>
                     <button
-                      onClick={() => handleDisapprove(submission._id)}
+                      onClick={() => handleDisapprove(submission.id)}
                       className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded"
                     >
                       ❌

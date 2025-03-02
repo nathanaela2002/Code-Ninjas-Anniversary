@@ -17,6 +17,7 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
 const User = require("./models/User");
+const Submissions = require("./models/Submissions");
 const multerS3 = require("multer-s3");
 const {
   S3Client,
@@ -247,33 +248,11 @@ app.get("/profile", authenticate, async (req, res) => {
   }
 });
 
-// TODO: change the flag and points awarded to an actual value
-const flags = {
-  riddle1: { flag: "some type of submission", points: 100 },
-  riddle2: { flag: "asdf", points: 200 },
-  riddle3: { flag: "asdf", points: 300 },
-  riddle4: { flag: "asdf", points: 400 },
-  riddle5: { flag: "asdf", points: 500 },
-  riddle6: { flag: "asdf", points: 600 },
-  riddle7: { flag: "asdf", points: 700 },
-};
-let submissionOrder = {};
-
 app.post("/submit", authenticate, async (req, res) => {
-  const { userId, riddleId, userAnswer } = req.body;
+  const { makeCodeURL, riddleId } = req.body;
 
-  if (!riddleId || !userAnswer) {
-    return res.status(400).json({ message: "Riddle and Answer are required" });
-  }
-
-  const riddle = flags[riddleId];
-
-  if (!riddle) {
-    return res.status(404).json({ message: "Challenge not found" });
-  }
-
-  if (riddle.flag !== userAnswer) {
-    return res.status(400).json({ message: "Incorrect answer" });
+  if (!makeCodeURL) {
+    return res.status(400).json({ message: "Submission URL required" });
   }
 
   try {
@@ -282,33 +261,29 @@ app.post("/submit", authenticate, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (!submissionOrder[riddleId]) {
-      submissionOrder[riddleId] = [];
-    }
-
-    const alrSubmit = submissionOrder[riddleId].includes(user._id);
-    if (alrSubmit) {
+    const existingSubmission = await Submissions.findOne({
+      userId: user._id,
+      riddleId: riddleId,
+    });
+    if (existingSubmission) {
       return res
         .status(400)
-        .json({ message: "You have already completed this riddle" });
+        .json({ message: "You have already submitted this riddle" });
     }
 
-    submissionOrder[riddleId].push(user._id);
-
-    // TODO: find a reasonable way to award points using the players position in the submission ranking
-    const position = submissionOrder[riddleId].length;
-    const rewardedPoints = 1000000;
-
-    user.points += rewardedPoints;
-    await user.save();
+    const submission = new Submissions({
+      userId: user._id,
+      riddleId,
+      submissionLink: makeCodeURL,
+    });
+    await submission.save();
 
     res.json({
-      message: "Answer submitted successfully",
-      rewardedPoints,
-      total: user.points,
+      message:
+        "Submission recorded successfully and is awaiting admin approval",
     });
   } catch (error) {
-    console.error("Error in submission", error);
+    console.error("Error in submission:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -338,13 +313,20 @@ app.post("/forgot-password", async (req, res) => {
         pass: process.env.VITE_EMAIL_PASS,
       },
     });
-    // TODO: change the from field to actual email once confirmed
-    await transporter.sendMail({
-      from: "compliancecna@gmail.com",
+
+    const options = {
+      from: "cnaeventsdonotreply@gmail.com",
       to: user.email,
-      subject: "Password Reset Request",
-      text: `Click this link to reset your password: ${resetLink}`,
-      html: `<p>Click <a href="${resetLink}">here</a> to reset your password. This link will expire in 1 hour.</p>`,
+      subject: "Testing email",
+      text: "test",
+    };
+
+    transporter.sendMail(options, function (err, info) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log("Sent: ", info.response);
     });
 
     res.json({ message: "Password reset link sent" });
@@ -421,6 +403,63 @@ app.get("/rank", authenticate, async (req, res) => {
     res.json({ rank });
   } catch (error) {
     console.error("Rank error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.post("/logout", authenticate, async (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.status(200).json({ message: "Logged out successfully" });
+});
+
+app.get("/admin/submissions", authenticate, async (req, res) => {
+  try {
+    const submissions = await Submissions.find()
+      .populate("userId", "username")
+      .sort({ createdAt: 1 });
+
+    const data = submissions.map((sub) => ({
+      id: sub._id,
+      username: sub.userId.username,
+      submissionLink: sub.submissionLink,
+      timeSubmitted: sub.createdAt,
+      approved: sub.approved,
+    }));
+    res.json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.post("/admin/submissions/:id", authenticate, async (req, res) => {
+  const { id } = req.params;
+  const { decision } = req.body;
+
+  try {
+    const submission = await Submissions.findById(id);
+    if (!submission) {
+      return res.status(404).json({ message: "Submission not found" });
+    }
+
+    if (decision === "approve") {
+      submission.approved = true;
+      const user = await User.findById(submission.userId);
+      if (user) {
+        user.points += 100;
+        await user.save();
+      }
+      await submission.save();
+    } else if (decision === "disapprove") {
+      await Submissions.findByIdAndDelete(id);
+    }
+
+    res.json({ message: `Submission ${decision}d successfully` });
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 });
