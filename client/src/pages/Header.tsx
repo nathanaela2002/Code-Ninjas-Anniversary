@@ -14,6 +14,10 @@ export default function Header() {
   const [user, setUser] = useState({});
   const [rank, setRank] = useState(null);
 
+  const [notifications, setNotifications] = useState([]);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const notificationsRef = useRef(null);
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -56,6 +60,37 @@ export default function Header() {
     fetchRank();
   }, []);
 
+  useEffect(() => {
+    if (isNotificationsOpen) {
+      const fetchNotifications = async () => {
+        try {
+          const response = await fetch("http://localhost:8000/notifications", {
+            credentials: "include",
+          });
+          const data = await response.json();
+          setNotifications(data);
+        } catch (err) {
+          console.error("Error getting notifications: ", err);
+        }
+      };
+      fetchNotifications();
+    }
+  }, [isNotificationsOpen]);
+
+  useEffect(() => {
+    if (!isNotificationsOpen) return;
+    const handleClickOutside = (e) => {
+      if (
+        notificationsRef.current &&
+        !notificationsRef.current.contains(e.target)
+      ) {
+        setIsNotificationsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isNotificationsOpen]);
+
   // Track if the viewport is mobile based on a breakpoint.
   const [isMobile, setIsMobile] = useState(
     window.innerWidth <= MOBILE_BREAKPOINT,
@@ -92,6 +127,10 @@ export default function Header() {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
+  };
+
+  const toggleNotifications = () => {
+    setIsNotificationsOpen((prev) => !prev);
   };
 
   const openEditProfileModal = () => {
@@ -188,8 +227,43 @@ export default function Header() {
           </a>
         </nav>
 
-        {/* Right: User Info */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-4">
+          {/* NEW: Notifications Icon */}
+          <div className="relative">
+            <span
+              onClick={toggleNotifications}
+              className="cursor-pointer text-2xl"
+            >
+              🔔
+            </span>
+            {isNotificationsOpen && (
+              <div
+                ref={notificationsRef}
+                className="absolute right-0 mt-2 w-64 bg-white shadow-lg border border-gray-200 rounded-md z-50"
+              >
+                <ul className="max-h-64 overflow-y-auto">
+                  {notifications.length ? (
+                    notifications.map((notif, index) => (
+                      <li
+                        key={index}
+                        className="px-4 py-2 border-b border-gray-100"
+                      >
+                        {notif.type === "submissionUpdate" && (
+                          <span>
+                            Your submission has been {notif.payload.decision}d.
+                          </span>
+                        )}
+                        {/* Additional notification types can be handled here */}
+                      </li>
+                    ))
+                  ) : (
+                    <li className="px-4 py-2">No notifications</li>
+                  )}
+                </ul>
+              </div>
+            )}
+          </div>
+
           <span className="font-bold">{formatRank(rank)}</span>
           <img
             src={user.profilePicture || DefaultAvatar}
@@ -211,12 +285,44 @@ export default function Header() {
         >
           ☰
         </button>
-        {/* Always Visible User Info on Mobile */}
         <div className="flex items-center space-x-2">
           <span className="font-bold">{formatRank(rank)}</span>
+          <div className="relative">
+            <span
+              onClick={toggleNotifications}
+              className="cursor-pointer text-xl"
+            >
+              🔔
+            </span>
+            {isNotificationsOpen && (
+              <div
+                ref={notificationsRef}
+                className="absolute right-0 mt-2 w-64 bg-white shadow-lg border border-gray-200 rounded-md z-50"
+              >
+                <ul className="max-h-64 overflow-y-auto">
+                  {notifications.length ? (
+                    notifications.map((notif, index) => (
+                      <li
+                        key={index}
+                        className="px-4 py-2 border-b border-gray-100"
+                      >
+                        {notif.type === "submissionUpdate" && (
+                          <span>
+                            Your submission has been {notif.payload.decision}d.
+                          </span>
+                        )}
+                      </li>
+                    ))
+                  ) : (
+                    <li className="px-4 py-2">No notifications</li>
+                  )}
+                </ul>
+              </div>
+            )}
+          </div>
           <img
-            src={DefaultAvatar}
-            className="h-8 w-auto object-contain cursor-pointer"
+            src={user.profilePicture || DefaultAvatar}
+            className="h-8 w-auto object-cover rounded-full cursor-pointer"
             alt="User Avatar"
             onClick={openEditProfileModal}
           />

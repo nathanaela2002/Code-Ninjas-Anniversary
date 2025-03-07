@@ -18,6 +18,7 @@ const nodemailer = require("nodemailer");
 const cors = require("cors");
 const User = require("./models/User");
 const Submissions = require("./models/Submissions");
+const Notifications = require("./models/Notifications");
 const multerS3 = require("multer-s3");
 const {
   S3Client,
@@ -445,21 +446,52 @@ app.post("/admin/submissions/:id", authenticate, async (req, res) => {
       return res.status(404).json({ message: "Submission not found" });
     }
 
+    const user = await User.findById(submission.userId);
+
     if (decision === "approve") {
       submission.approved = true;
-      const user = await User.findById(submission.userId);
       if (user) {
         user.points += 100;
         await user.save();
       }
       await submission.save();
+      const notification = new Notifications({
+        userId: user._id,
+        type: "submissionUpdate",
+        payload: {
+          decision,
+          submissionId: submission._id,
+        },
+      });
+      await notification.save();
     } else if (decision === "disapprove") {
+      const notification = new Notifications({
+        userId: user._id,
+        type: "submissionUpdate",
+        payload: {
+          decision,
+          submissionId: submission._id,
+        },
+      });
+      await notification.save();
       await Submissions.findByIdAndDelete(id);
     }
 
     res.json({ message: `Submission ${decision}d successfully` });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/notifications", authenticate, async (req, res) => {
+  try {
+    const notifications = await Notifications.find({ userId: req.userId }).sort(
+      { createdAt: -1 },
+    );
+    res.json(notifications);
+  } catch (error) {
+    console.error("Error fetching notifications: ", error);
     res.status(500).json({ message: "Server error" });
   }
 });
