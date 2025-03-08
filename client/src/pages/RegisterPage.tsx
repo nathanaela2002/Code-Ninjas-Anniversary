@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import NinjaImage from "./ninja.png";
 
 const RegisterPage = () => {
@@ -9,14 +9,25 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [token, setToken] = useState<string>("");
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const tokenFromUrl = query.get("token");
+    if (tokenFromUrl) {
+      setToken(tokenFromUrl);
+    }
+  }, [location.search]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMsg("");
 
     const registrationData = {
+      token,
       firstName,
       lastName,
       username,
@@ -162,4 +173,4 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
-  
+

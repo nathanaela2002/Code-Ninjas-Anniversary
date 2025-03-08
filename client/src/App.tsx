@@ -11,6 +11,7 @@ import PrivacyPage from "./pages/PrivacyPage.tsx";
 import TermsPage from "./pages/TermsPage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
+import RegisterTokenPage from "./pages/RegisterTokenPage.tsx";
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
           <Route path="/privacy" element={<PrivacyPage />} />'
           <Route path="/terms" element={<TermsPage />} />'
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/submissions" element={<AdminPage />} />
+          <Route path="/admin/registers" element={<RegisterTokenPage />} />
         </Routes>
       </Router>
     </div>

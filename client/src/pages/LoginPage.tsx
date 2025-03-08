@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NinjaImage from "./ninja.png";
 import ForgotPasswordModal from "./ForgotPasswordModal";
+import RegisterModal from "./RegisterModal";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -14,6 +15,10 @@ const LoginPage: React.FC = () => {
   const [showForgotModal, setShowForgotModal] = useState(false);
   const handleOpenForgotModal = () => setShowForgotModal(true);
   const handleCloseForgotModal = () => setShowForgotModal(false);
+
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const handleOpenRegisterModal = () => setShowRegisterModal(true);
+  const handleCloseRegisterModal = () => setShowRegisterModal(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -120,9 +125,13 @@ const LoginPage: React.FC = () => {
 
           <p className="text-center text-gray-600 mt-3 md:mt-4 text-xs md:text-sm">
             Don&apos;t have an account?{" "}
-            <a href="/register" className="text-blue-500 underline">
-              Sign Up
-            </a>
+            <button
+              type="button"
+              onClick={handleOpenRegisterModal}
+              className="text-blue-500 underline"
+            >
+              Click Here
+            </button>
           </p>
           <p className="text-center text-gray-600 mt-2 text-xs md:text-sm">
             Forgot password?{" "}
@@ -141,6 +150,10 @@ const LoginPage: React.FC = () => {
       <ForgotPasswordModal
         isOpen={showForgotModal}
         onClose={handleCloseForgotModal}
+      />
+      <RegisterModal
+        isOpen={showRegisterModal}
+        onClose={handleCloseRegisterModal}
       />
     </div>
   );

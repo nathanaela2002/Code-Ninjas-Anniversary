@@ -19,6 +19,7 @@ const cors = require("cors");
 const User = require("./models/User");
 const Submissions = require("./models/Submissions");
 const Notifications = require("./models/Notifications");
+const RegistrationRequest = require("./models/RegistrationRequest.js");
 const multerS3 = require("multer-s3");
 const {
   S3Client,
@@ -83,9 +84,37 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("connection error", err));
 
+app.post("/generate-registration-url", async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
+  try {
+    const token = crypto.randomBytes(32).toString("hex");
+    const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+
+    const regRequest = new RegistrationRequest({ email, token, expiresAt });
+    await regRequest.save();
+
+    const registrationLink = `http://localhost:3000/register?token=${token}`;
+    res.json({ registrationLink });
+  } catch (err) {
+    console.error("Error generating registration URL: ", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 app.post("/register", async (req, res) => {
-  const { firstName, lastName, username, email, password, profilePicture } =
-    req.body;
+  const {
+    token,
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+    profilePicture,
+  } = req.body;
 
   if (!username || !email || !password) {
     return res
@@ -93,14 +122,33 @@ app.post("/register", async (req, res) => {
       .json({ message: "Username, email, and password are required" });
   }
 
+  if (!token) {
+    return res.status(400).json({ message: "No registration token" });
+  }
+
   try {
+    const regRequest = await RegistrationRequest.findOne({ token });
+    if (!regRequest) {
+      return res.status(400).json({ message: "Invalid registration token" });
+    }
+    if (regRequest.expiresAt < Date.now()) {
+      return res
+        .status(400)
+        .json({ message: "Registration token has expired" });
+    }
+    if (regRequest.email !== email) {
+      return res
+        .status(400)
+        .json({ message: "Email does not match the requested email" });
+    }
+
     const alreadyExists = await User.findOne({
       $or: [{ username }, { email }],
     });
     if (alreadyExists) {
       return res
         .status(400)
-        .json({ message: "Username or email already in use " });
+        .json({ message: "Username or email already in use" });
     }
 
     const user = new User({
@@ -115,6 +163,9 @@ app.post("/register", async (req, res) => {
 
     const savedUser = await user.save();
     console.log("User saved:", savedUser);
+
+    await RegistrationRequest.deleteOne({ token });
+
     res.status(201).json(savedUser);
   } catch (error) {
     console.error("Registration error:", error);
@@ -308,7 +359,7 @@ app.post("/forgot-password", async (req, res) => {
     const resetLink = `${process.env.VITE_FRONTEND_URL}/reset-password/${resetToken}`;
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      service: "Outlook365",
       auth: {
         user: process.env.VITE_EMAIL_USER,
         pass: process.env.VITE_EMAIL_PASS,
