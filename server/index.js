@@ -2,10 +2,6 @@
 // you will not be able to access MongoDB without whitelisting your ip
 // as a side note, prefix any environment variable with VITE or else it will not work. e.g. VITE_MONGO_URI
 
-// todos:
-// TODO: setup s3 bucket to store user pfps
-// TODO: CORS
-
 const express = require("express");
 const app = express();
 const jwt = require("jsonwebtoken");
@@ -487,6 +483,18 @@ app.get("/admin/submissions", authenticate, async (req, res) => {
   }
 });
 
+// pass in the week number into the payload for the /admin/submissions
+// then search db and count documents for approved = true and riddleId = weeknumber
+
+function calculateSubmissionOrderBonus(
+  approvedCount,
+  initialBonus = 50,
+  decrement = 10,
+) {
+  const bonus = initialBonus - approvedCount * decrement;
+  return bonus < 0 ? 0 : bonus;
+}
+
 app.post("/admin/submissions/:id", authenticate, async (req, res) => {
   const { id } = req.params;
   const { decision } = req.body;
@@ -498,11 +506,21 @@ app.post("/admin/submissions/:id", authenticate, async (req, res) => {
     }
 
     const user = await User.findById(submission.userId);
+    const riddleId = submission.riddleId;
 
     if (decision === "approve") {
+      const approvedCount = await Submissions.countDocuments({
+        riddleId: riddleId,
+        approved: true,
+      });
+
+      const weekNum = Number(riddleId);
+      const bonus = calculateSubmissionOrderBonus(approvedCount);
+      const pointsAwarded = weekNum * 100 + bonus;
+
       submission.approved = true;
       if (user) {
-        user.points += 100;
+        user.points += pointsAwarded;
         await user.save();
       }
       await submission.save();
@@ -512,6 +530,7 @@ app.post("/admin/submissions/:id", authenticate, async (req, res) => {
         payload: {
           decision,
           submissionId: submission._id,
+          pointsAwarded,
         },
       });
       await notification.save();
