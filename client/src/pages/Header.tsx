@@ -68,6 +68,7 @@ export default function Header() {
             credentials: "include",
           });
           const data = await response.json();
+          console.log("notif data: ", data);
           setNotifications(data);
         } catch (err) {
           console.error("Error getting notifications: ", err);
@@ -250,7 +251,15 @@ export default function Header() {
                       >
                         {notif.type === "submissionUpdate" && (
                           <span>
-                            Your submission has been {notif.payload.decision}d.
+                            Your week {notif.payload.riddleId} riddle submission
+                            has been {notif.payload.decision}d.
+                            {notif.payload.decision === "approve" && (
+                              <span>
+                                {" "}
+                                <br />
+                                Points awarded: {notif.payload.pointsAwarded}
+                              </span>
+                            )}
                           </span>
                         )}
                         {/* Additional notification types can be handled here */}

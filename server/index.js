@@ -119,7 +119,9 @@ app.post("/register", async (req, res) => {
   }
 
   if (!token) {
-    return res.status(400).json({ message: "No registration token" });
+    return res.status(400).json({
+      message: "No registration token. Please request another register link.",
+    });
   }
 
   try {
@@ -528,6 +530,7 @@ app.post("/admin/submissions/:id", authenticate, async (req, res) => {
         userId: user._id,
         type: "submissionUpdate",
         payload: {
+          riddleId,
           decision,
           submissionId: submission._id,
           pointsAwarded,

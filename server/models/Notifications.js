@@ -15,6 +15,12 @@ const notificationSchema = new mongoose.Schema({
       ref: "Submission",
       required: true,
     },
+    riddleId: {
+      type: Number,
+    },
+    pointsAwarded: {
+      type: Number,
+    },
   },
   isRead: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },

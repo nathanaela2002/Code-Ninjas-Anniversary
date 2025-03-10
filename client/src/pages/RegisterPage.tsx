@@ -8,8 +8,9 @@ const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [agreed, setAgreed] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [token, setToken] = useState<string>("");
+  const [token, setToken] = useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,9 +23,14 @@ const RegisterPage = () => {
     }
   }, [location.search]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
+
+    if (!agreed) {
+      setErrorMsg("You must agree to the terms and conditions to register.");
+      return;
+    }
 
     const registrationData = {
       token,
@@ -38,9 +44,7 @@ const RegisterPage = () => {
     try {
       const response = await fetch("http://localhost:8000/register", {
         method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
+        headers: { "Content-type": "application/json" },
         credentials: "include",
         body: JSON.stringify(registrationData),
       });
@@ -152,6 +156,21 @@ const RegisterPage = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
 
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="agreeCheckbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+              />
+              <label
+                htmlFor="agreeCheckbox"
+                className="text-sm md:text-base text-gray-700"
+              >
+                I am between the ages 6-14
+              </label>
+            </div>
+
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-2 md:py-3 rounded-sm md:rounded-lg hover:bg-blue-700 transition text-sm md:text-base"
@@ -159,13 +178,6 @@ const RegisterPage = () => {
               Create Account
             </button>
           </form>
-
-          <p className="text-center text-gray-600 mt-3 md:mt-4 text-xs md:text-sm">
-            Already have an account?{" "}
-            <a href="/login" className="text-blue-500 underline">
-              Login
-            </a>
-          </p>
         </div>
       </div>
     </div>
@@ -173,4 +185,3 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
-
