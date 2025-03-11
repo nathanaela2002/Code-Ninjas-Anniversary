@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function ResetPasswordPage() {
+  const { token } = useParams();
+  const navigate = useNavigate();
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -8,12 +12,40 @@ export default function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-    } else {
-      alert("Password changed successfully!");
+      alert("Passwords do not match");
+      return;
+    }
+    if (password.length < 8) {
+      alert("Password must be at least 8 characters in length");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/reset-password/${token}`,
+        {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({
+            newPassword: password,
+            confirmPassword: confirmPassword,
+          }),
+        },
+      );
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || "An error occured.");
+      } else {
+        alert("Password reset successful!");
+        navigate("/login");
+      }
+    } catch (err) {
+      console.error("Error resetting password: ", err);
+      alert("An error occurred while resetting your password.");
     }
   };
 
@@ -32,7 +64,13 @@ export default function ResetPasswordPage() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round" />
+      <circle
+        cx="12"
+        cy="12"
+        r="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 
@@ -60,7 +98,9 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-white font-sans">
-      <h1 className="text-4xl font-semibold mb-8 text-center text-gray-700">Choose a new password</h1>
+      <h1 className="text-4xl font-semibold mb-8 text-center text-gray-700">
+        Choose a new password
+      </h1>
       <form onSubmit={handleSubmit} className="flex flex-col w-[300px]">
         {/* Password Input */}
         <div className="relative mb-4">

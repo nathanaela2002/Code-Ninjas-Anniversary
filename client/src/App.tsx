@@ -12,6 +12,7 @@ import TermsPage from "./pages/TermsPage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import RegisterTokenPage from "./pages/RegisterTokenPage.tsx";
+import ForgotPasswordTokenPage from "./pages/ForgotPasswordTokenPage.tsx";
 
 function App() {
   return (
@@ -23,7 +24,10 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/riddle/:id" element={<RiddlePage />} />
           <Route path="/pfp" element={<SetProfileImagePage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route
+            path="/reset-password/:token"
+            element={<ResetPasswordPage />}
+          />
           <Route path="/about" element={<AboutPage />} />'
           <Route path="/prizes" element={<PrizePage />} />
           <Route path="/privacy" element={<PrivacyPage />} />'
@@ -31,6 +35,7 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/admin/submissions" element={<AdminPage />} />
           <Route path="/admin/registers" element={<RegisterTokenPage />} />
+          <Route path="/admin/resets" element={<ForgotPasswordTokenPage />} />
         </Routes>
       </Router>
     </div>

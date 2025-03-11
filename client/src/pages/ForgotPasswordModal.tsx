@@ -41,7 +41,8 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
 
       if (response.ok) {
         setMessage(
-          data.message || "Password reset link sent. Please check your email.",
+          data.message ||
+            "Password reset request sent. We will send you a link with the password reset link.",
         );
       } else {
         setError(data.message || "Failed to send reset link.");
@@ -108,8 +109,7 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
 
         {/* Subtext */}
         <p className="mt-4 text-left text-gray-500 text-lg leading-snug">
-          Enter the email, or username associated with your account to change
-          your password.
+          Enter the email associated with your account to change your password.
         </p>
 
         {/* Form */}

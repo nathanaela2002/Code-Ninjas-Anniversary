@@ -16,6 +16,7 @@ const User = require("./models/User");
 const Submissions = require("./models/Submissions");
 const Notifications = require("./models/Notifications");
 const RegistrationRequest = require("./models/RegistrationRequest.js");
+const ResetPasswordRequest = require("./models/ResetPasswordRequest.js");
 const multerS3 = require("multer-s3");
 const {
   S3Client,
@@ -347,39 +348,19 @@ app.post("/forgot-password", async (req, res) => {
       return res.status(404).json({ message: "Invalid email" });
     }
 
-    const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetTokenExpiry = Date.now() + 3600000;
+    const token = crypto.randomBytes(32).toString("hex");
+    const expiresAt = Date.now() + 3600000;
 
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpires = resetTokenExpiry;
-    await user.save();
+    const resetLink = `${process.env.VITE_FRONTEND_URL}/reset-password/${token}`;
 
-    const resetLink = `${process.env.VITE_FRONTEND_URL}/reset-password/${resetToken}`;
-
-    const transporter = nodemailer.createTransport({
-      service: "Outlook365",
-      auth: {
-        user: process.env.VITE_EMAIL_USER,
-        pass: process.env.VITE_EMAIL_PASS,
-      },
+    const resetRequest = new ResetPasswordRequest({
+      email,
+      token,
+      resetLink,
+      expiresAt,
     });
-
-    const options = {
-      from: "cnaeventsdonotreply@gmail.com",
-      to: user.email,
-      subject: "Testing email",
-      text: "test",
-    };
-
-    transporter.sendMail(options, function (err, info) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      console.log("Sent: ", info.response);
-    });
-
-    res.json({ message: "Password reset link sent" });
+    await resetRequest.save();
+    res.json({ resetLink });
   } catch (error) {
     console.error("Forgot password error:", error);
     res.status(500).json({ message: "Server error" });
@@ -388,35 +369,45 @@ app.post("/forgot-password", async (req, res) => {
 
 app.post("/reset-password/:token", async (req, res) => {
   const { token } = req.params;
-  const { newPassword } = req.body;
+  const { newPassword, confirmPassword } = req.body;
+
+  if (!newPassword || !confirmPassword) {
+    return res
+      .status(400)
+      .json({ message: "Both password fields are required" });
+  }
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ message: "Passwords do not match" });
+  }
+  if (newPassword.length < 8) {
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 8 characters in length" });
+  }
 
   try {
-    const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() },
+    const resetRequest = await ResetPasswordRequest.findOne({
+      token,
+      expiresAt: { $gt: Date.now() },
     });
 
+    if (!resetRequest) {
+      return res.status(400).json({ message: "Invalid or expired reset" });
+    }
+
+    const user = await User.findOne({ email: resetRequest.email });
     if (!user) {
-      return res
-        .status(400)
-        .json({ message: "Invalid or expired reset token" });
+      return res.status(400).json({ message: "User not found" });
     }
 
-    if (newPassword.length < 8) {
-      return res
-        .status(400)
-        .json({ message: "Password must be at least 8 characters in length" });
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(newPassword, salt);
-
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
-
+    user.password = newPassword;
     await user.save();
 
-    res.json({ message: "Password reset successful" });
+    await ResetPasswordRequest.deleteOne({ _id: resetRequest._id });
+
+    res.json({
+      message: "Password reset successful. You may now go back to login",
+    });
   } catch (error) {
     console.error("Password reset error:", error);
     res.status(500).json({ message: "Server error" });
