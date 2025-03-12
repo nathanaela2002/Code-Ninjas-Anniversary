@@ -45,10 +45,18 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
 
         {/* Text Content */}
         <div className="mt-8">
-          <p className="text-lg text-left">
-            To sign up for this event, send end an email to
-            events.cnaurora@codeninjas.com including your email used to sign up,
-            name, and age. Note: Prizes are only available to participants
+          <h2 className="text-3xl font-bold mt-8 text-left">
+            Register for the challenge
+          </h2>
+          <p className="mt-4 text-left text-gray-500 text-lg leading-snug">
+            To sign up for this event, please have a parent or guardian send us
+            an email at &nbsp;
+            <strong>events.cnaurora@codeninjas.com</strong> with the subject as{" "}
+            <strong>"Register Request"</strong>. <br />
+            <br />
+            Include the <strong>email used to sign up, name, and age</strong> so
+            we can verify you and send a register link. <br />
+            <strong>Note:</strong> Prizes are only available to participants
             between the ages of 6-14.
           </p>
         </div>

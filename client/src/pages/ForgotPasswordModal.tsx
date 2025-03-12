@@ -109,58 +109,16 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
 
         {/* Subtext */}
         <p className="mt-4 text-left text-gray-500 text-lg leading-snug">
-          Enter the email associated with your account to change your password.
+          If you have forgotten the password to your account, please send us an
+          email at <strong>events.cnaurora@codeninjas.com</strong> with the
+          subject as <strong>"Forgot Password"</strong>. <br />
+          <br />
+          Include your{" "}
+          <strong>Email, Username, First name, and Last name</strong> in the
+          email so we can verify you and send a password reset link by email. We
+          will try our best to get back to you as soon as possible, thank you
+          for your patience.
         </p>
-
-        {/* Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="mt-10 flex flex-col space-y-16"
-        >
-          {/* Input Field */}
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="
-              w-full
-              bg-transparent
-              border
-              border-gray-600
-              rounded-md
-              px-4
-              py-3
-              text-white
-              placeholder-gray-500
-              focus:outline-none
-              focus:ring-1
-              focus:ring-gray-500
-              text-lg
-            "
-          />
-
-          {message && <p className="text-green-500 text-center">{message}</p>}
-          {error && <p className="text-red-500 text-center">{error}</p>}
-
-          {/* Next Button */}
-          <button
-            type="submit"
-            className="
-              w-full
-              bg-gray-700
-              hover:bg-gray-500
-              text-white
-              font-semibold
-              py-4
-              rounded-full
-              transition-colors
-              text-lg
-            "
-          >
-            Next
-          </button>
-        </form>
       </div>
     </div>
   );
