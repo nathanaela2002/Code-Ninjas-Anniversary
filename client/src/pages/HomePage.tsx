@@ -8,6 +8,14 @@ import EditProfileModal from "./EditProfileModal";
 import { useInView } from "./useInView";
 
 // --- HOME PAGE COMPONENT ---
+const weekDates: Record<number, string> = {
+  1: "2025-03-11T00:00:00",
+  2: "2025-03-25T00:00:00",
+  3: "2025-04-01T00:00:00",
+  4: "2025-04-08T00:00:00",
+  5: "2025-04-15T00:00:00",
+  6: "2025-04-22T00:00:00",
+};
 export default function HomePage() {
   const [heroRef, heroInView] = useInView();
   const [weeksRef, weeksInView] = useInView();
@@ -54,18 +62,37 @@ export default function HomePage() {
           className={`relative mb-16 ${weeksInView ? "reveal-show" : "reveal-hidden"}`}
         >
           <div className="flex flex-wrap items-start justify-center space-x-4 md:space-x-6">
-            {Array.from({ length: 7 }).map((_, idx) => (
-              <Link
-                key={idx}
-                to={`/riddle/${idx + 1}`}
-                className="flex flex-col items-center mb-6 transform hover:scale-105"
-              >
-                <div className="bg-white w-24 h-28 shadow-md mb-2 flex flex-col justify-center items-center relative">
-                  <span className="font-bold text-sm">Week {idx + 1}</span>
+            {Array.from({ length: 6 }).map((_, idx) => {
+              const weekNumber = idx + 1;
+              const weekDateStr = weekDates[weekNumber];
+              const weekDate = new Date(weekDateStr);
+              const isClickable = new Date() >= weekDate;
+
+              const content = (
+                <>
+                  <div className="bg-white w-24 h-28 shadow-md mb-2 flex flex-col justify-center items-center relative">
+                    <span className="font-bold text-sm">Week {weekNumber}</span>
+                  </div>
+                </>
+              );
+
+              return isClickable ? (
+                <Link
+                  key={idx}
+                  to={`/riddle/${weekNumber}`}
+                  className="flex flex-col items-center mb-6 transform hover:scale-105"
+                >
+                  {content}
+                </Link>
+              ) : (
+                <div
+                  key={idx}
+                  className="flex flex-col items-center mb-6 opacity-50 cursor-not-allowed"
+                >
+                  {content}
                 </div>
-                <span className="text-xs text-gray-600">TBD...</span>
-              </Link>
-            ))}
+              );
+            })}
           </div>
         </section>
       </main>

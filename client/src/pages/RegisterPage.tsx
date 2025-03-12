@@ -74,13 +74,13 @@ const RegisterPage = () => {
           className="text-4xl font-semibold font-syne text-white"
           style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)" }}
         >
-          Kids have Fun
+          A World Where
         </h1>
         <h1
           className="text-4xl font-semibold font-syne text-white"
           style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)" }}
         >
-          Parents See Results!
+          Kids Write The Code!
         </h1>
       </div>
 

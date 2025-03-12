@@ -10,7 +10,13 @@ import { useInView } from "./useInView"; // Import the hook
 
 const riddlesData: Record<
   string,
-  { week: number; content: string; riddle: string; comic: string }
+  {
+    week: number;
+    content: string;
+    riddle: string;
+    comic: string;
+    releaseDate: string;
+  }
 > = {
   "1": {
     week: 1,
@@ -19,6 +25,7 @@ const riddlesData: Record<
     riddle:
       "A ninja shop, its name not right, an alligator eats yet portions are light, Two bugs in the code, one bites, one blue, fix them both to uncover the clue!",
     comic: NinjaComic1,
+    releaseDate: "2025-03-11T00:00:00",
   },
   "2": {
     week: 2,
@@ -27,6 +34,7 @@ const riddlesData: Record<
     riddle:
       "Codey’s dojo lies undone, A puzzle waits for everyone. Walls must rise and tiles align, A test of skill, a mastermind. Beware the blocks that trap or halt, One wrong move, it’s your fault. Dodge the roomba, the table too, Navigate smart, and see it through. Reach the lab where truths attack, Solve this now what word comes back?",
     comic: NinjaComic1,
+    releaseDate: "2025-03-25T00:00:00",
   },
   "3": {
     week: 3,
@@ -35,6 +43,7 @@ const riddlesData: Record<
     riddle:
       "A cloud of smoke, a flash, a fright, Three shadows vanish into the night. Codey’s gone, the dojo’s still, A clue remains to test your skill. Sprites appear in disarray, Their order lost, led astray. Chance and math, the code’s unclear, Fix the logic, bring truth near. Solve the puzzle, restore the quests, Let's hope you’re feeling blessed.",
     comic: NinjaComic1,
+    releaseDate: "2025-04-01T00:00:00",
   },
   "4": {
     week: 4,
@@ -43,6 +52,7 @@ const riddlesData: Record<
     riddle:
       "If this happens, then that will too. Ninjas train here to move and fight for you. Find the place where actions begin, and ninjas start to spin!",
     comic: NinjaComic1,
+    releaseDate: "2025-04-08T00:00:00",
   },
   "5": {
     week: 5,
@@ -51,6 +61,7 @@ const riddlesData: Record<
     riddle:
       "In rows and rows, ninjas grow. Each has its place, all in a row. Look for the farm where ninjas train, neatly lined up like grain.",
     comic: NinjaComic1,
+    releaseDate: "2025-04-15T00:00:00",
   },
   "6": {
     week: 6,
@@ -59,6 +70,7 @@ const riddlesData: Record<
     riddle:
       "Round and round, ninjas run fast, looping forever, never the last. Find the dimension where racers speed.",
     comic: NinjaComic1,
+    releaseDate: "2025-04-22T00:00:00",
   },
   "7": {
     week: 7,
@@ -67,6 +79,7 @@ const riddlesData: Record<
     riddle:
       "Back to where it all began, mystery, fun, and riddles at hand. An adventure for sure for the ones who remain, but beware of the boss at the end of the game. To relive this quest, use your code to create, and make this adventure forever great!",
     comic: NinjaComic1,
+    releaseDate: "2025-04-28T00:00:00",
   },
 };
 
@@ -103,6 +116,19 @@ export default function RiddlePage() {
   const [comicRef, comicInView] = useInView();
   const [riddleRef, riddleInView] = useInView();
 
+  const currentRiddle = riddlesData[id ?? "1"] || riddlesData["1"];
+
+  const riddleReleaseDate = new Date(currentRiddle.releaseDate);
+  if (new Date() < riddleReleaseDate) {
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center bg-white">
+        <h1 className="text-3xl font-bold text-gray-800">
+          This riddle has not released yet.
+        </h1>
+      </div>
+    );
+  }
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMakeCodeURL(e.target.value);
     if (hasSubmit) {
@@ -137,13 +163,8 @@ export default function RiddlePage() {
       console.error("Error submitting MakeCode URL: ", err);
       setSubmitMessage("Server error. Please try again later");
     }
-
-    // what if the user fails, how long do they have until they can submit again
-    // they can submit again when their submission is disapproved
-    // when disapproved, delete the entry from the database
   };
 
-  const currentRiddle = riddlesData[id ?? "1"] || riddlesData["1"];
   return (
     <div className="w-full min-h-screen font-sans bg-white text-gray-800">
       <Header />
