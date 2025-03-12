@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const EditProfileModal: React.FC = () => {
-  // State to manage the form data for profile editing
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -67,13 +66,6 @@ const EditProfileModal: React.FC = () => {
     }
   };
 
-  // Handle input field changes
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const handlePfpClick = () => {
     navigate("/pfp");
   };
@@ -89,20 +81,18 @@ const EditProfileModal: React.FC = () => {
             "edit_profile_modal",
           ) as HTMLDialogElement;
           if (e.target === modal) {
-            modal.close(); // Close the modal only when clicking outside the box
-            document.body.style.overflow = ""; // Disable scrolling
+            modal.close();
+            document.body.style.overflow = "";
           }
         }}
       >
         <div
           className="modal-box bg-blue-50 rounded-xl shadow-md max-w-lg w-full p-10"
-          onClick={(e) => e.stopPropagation()} // Prevent modal box clicks from closing the modal
+          onClick={(e) => e.stopPropagation()}
         >
-          <h3 className="font-bold text-xl text-[#2F2F4F] mb-4">
-            Update Profile
-          </h3>
+          <h3 className="font-bold text-xl text-[#2F2F4F] mb-4">Profile</h3>
 
-          {/* Form to update profile information */}
+          {/* Flex container for profile image and user details */}
           <form
             className="flex flex-col gap-4"
             onSubmit={(e) => {
@@ -110,14 +100,14 @@ const EditProfileModal: React.FC = () => {
               console.log(formData);
             }}
           >
-            {/* Edit Profile Image Section */}
-            <div className="grid grid-cols-3 gap-4 items-center">
-              <div className="col-span-1 flex flex-col items-center">
-                <div className="w-40 h-40 rounded-full border border-[#BCCCDC] flex items-center justify-center overflow-hidden ml-16">
+            <div className="flex items-center gap-6">
+              {/* Profile Picture */}
+              <div className="flex flex-col items-center">
+                <div className="w-40 h-40 rounded-full border border-[#BCCCDC] flex items-center justify-center overflow-hidden">
                   <img
                     src={formData.profilePicture || "placeholder-image-url"}
                     alt="Profile"
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-full cursor-pointer"
                     onClick={handlePfpClick}
                   />
                 </div>
@@ -126,36 +116,20 @@ const EditProfileModal: React.FC = () => {
                 </label>
               </div>
 
-              {/* Input fields for full name */}
-              <div className="col-span-2 grid grid-cols-1 gap-4">
-                <input
-                  type="password"
-                  placeholder="Current Password"
-                  className="w-7/8 p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F] ml-auto"
-                  value={formData.currentPassword}
-                  name="currentPassword"
-                  onChange={handleInputChange}
-                />
-                <input
-                  type="password"
-                  placeholder="New Password"
-                  className="w-7/8 p-3 border border-[#BCCCDC] rounded-md focus:ring-2 focus:ring-blue-300 text-[#2F2F4F] ml-auto"
-                  value={formData.newPassword}
-                  name="newPassword"
-                  onChange={handleInputChange}
-                />
+              {/* User Details */}
+              <div className="flex flex-col gap-4">
+                <div className="p-3 border border-[#BCCCDC] rounded-md text-[#2F2F4F] text-left bg-white">
+                  Username: {formData.username}
+                </div>
+                <div className="p-3 border border-[#BCCCDC] rounded-md text-[#2F2F4F] text-left bg-white">
+                  Email: {formData.email}
+                </div>
               </div>
             </div>
 
-            {/* Update button */}
+            {/* Logout Button */}
             <button
-              type="submit"
-              className="w-full p-3 bg-blue-200 text-white font-semibold rounded-md hover:bg-blue-400 transition"
-            >
-              Update
-            </button>
-            <button
-              type="submit"
+              type="button"
               className="w-full p-1 bg-gray-400 text-white font-semibold rounded-md hover:bg-gray-600 transition"
               onClick={handleLogout}
             >

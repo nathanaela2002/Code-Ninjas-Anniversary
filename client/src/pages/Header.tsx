@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import DefaultAvatar from "./default.png";
 import LOGOImage from "./codeninjalogo.png";
+import { IoIosNotifications } from "react-icons/io";
 import { useInView } from "./useInView";
 
 const MOBILE_BREAKPOINT = 768;
@@ -235,7 +236,7 @@ export default function Header() {
               onClick={toggleNotifications}
               className="cursor-pointer text-2xl"
             >
-              🔔
+              <IoIosNotifications className="text-3xl" />
             </span>
             {isNotificationsOpen && (
               <div
@@ -301,7 +302,7 @@ export default function Header() {
               onClick={toggleNotifications}
               className="cursor-pointer text-xl"
             >
-              🔔
+              <IoIosNotifications className="text-3xl" />
             </span>
             {isNotificationsOpen && (
               <div

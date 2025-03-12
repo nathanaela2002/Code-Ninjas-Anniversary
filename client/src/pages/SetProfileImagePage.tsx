@@ -56,6 +56,12 @@ const ProfilePictureSetup = () => {
         <h1 className="text-2xl font-bold text-center text-gray-700 mb-6">
           Upload Your Profile Picture
         </h1>
+        <p className="text-center text-gray-700 mb-6">
+          Please ensure your profile picture is appropriate.
+        </p>
+        <p className="text-center text-gray-700 mb-6 font-bold">
+          Inappropriate images are not allowed.
+        </p>
         <form
           className="flex flex-col items-center gap-4"
           onSubmit={handleSubmit}
