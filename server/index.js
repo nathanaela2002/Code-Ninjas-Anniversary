@@ -89,7 +89,7 @@ app.post("/generate-registration-url", async (req, res) => {
 
   try {
     const token = crypto.randomBytes(32).toString("hex");
-    const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+    const expiresAt = Date.now() + 24 * 60 * 60 * 1000 * 2;
 
     const regRequest = new RegistrationRequest({ email, token, expiresAt });
     await regRequest.save();
@@ -349,7 +349,7 @@ app.post("/forgot-password", async (req, res) => {
     }
 
     const token = crypto.randomBytes(32).toString("hex");
-    const expiresAt = Date.now() + 3600000;
+    const expiresAt = Date.now() + 24 * 60 * 60 * 1000 * 2;
 
     const resetLink = `${process.env.VITE_FRONTEND_URL}/reset-password/${token}`;
 
