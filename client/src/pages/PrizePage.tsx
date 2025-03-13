@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
-import firstImage from "./tablet.png";
-import secondImage from "./smartwatch.png";
-import thirdImage from "./headset.png";
+import firstImage from "./skull.png";
+import secondImage from "./garminWatch.png";
+import thirdImage from "./amazonecho.png";
 import Header from "./Header";
 import Footer from "./Footer";
 import EditProfileModal from "./EditProfileModal";
