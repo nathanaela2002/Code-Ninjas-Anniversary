@@ -208,7 +208,7 @@ export default function Header() {
             </button>
             {isRiddleOpen && (
               <ul className="absolute top-8 left-0 w-32 bg-white shadow-md rounded-md border border-gray-200 flex flex-col z-50 py-2">
-                {[1, 2, 3, 4, 5, 6, 7].map((week) => (
+                {[1, 2, 3, 4, 5, 6].map((week) => (
                   <li key={week}>
                     <a
                       href={`/riddle/${week}`}
@@ -384,7 +384,7 @@ export default function Header() {
                 </button>
                 {isRiddleOpen && (
                   <ul className="mt-2 ml-4 mr-4 bg-gray-50 shadow-lg rounded-md border border-gray-300 flex flex-col z-50 py-2">
-                    {[1, 2, 3, 4, 5, 6, 7].map((week) => (
+                    {[1, 2, 3, 4, 5, 6].map((week) => (
                       <li key={week}>
                         <a
                           href={`/riddle/${week}`}

@@ -72,15 +72,6 @@ const riddlesData: Record<
     comic: NinjaComic1,
     releaseDate: "2025-04-22T00:00:00",
   },
-  "7": {
-    week: 7,
-    content:
-      "It’s the last week before anniversary and all the belts have been found, but, where’s Codey? Back to the dojo we go, and here lays the final quest.",
-    riddle:
-      "Back to where it all began, mystery, fun, and riddles at hand. An adventure for sure for the ones who remain, but beware of the boss at the end of the game. To relive this quest, use your code to create, and make this adventure forever great!",
-    comic: NinjaComic1,
-    releaseDate: "2025-04-28T00:00:00",
-  },
 };
 
 const fireConfetti = () => {
@@ -115,6 +106,17 @@ export default function RiddlePage() {
   const [introRef, introInView] = useInView();
   const [comicRef, comicInView] = useInView();
   const [riddleRef, riddleInView] = useInView();
+
+  const riddleId = parseInt(id ?? "1", 10);
+  if (isNaN(riddleId) || riddleId < 1 || riddleId > 6) {
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center bg-white">
+        <h1 className="text-3xl font-bold text-gray-800">
+          404: Riddle not found.
+        </h1>
+      </div>
+    );
+  }
 
   const currentRiddle = riddlesData[id ?? "1"] || riddlesData["1"];
 

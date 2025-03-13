@@ -13,6 +13,7 @@ import AdminPage from "./pages/AdminPage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
 import RegisterTokenPage from "./pages/RegisterTokenPage.tsx";
 import ForgotPasswordTokenPage from "./pages/ForgotPasswordTokenPage.tsx";
+import TutorialPage from "./pages/TutorialPage.tsx";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/admin/submissions" element={<AdminPage />} />
           <Route path="/admin/registers" element={<RegisterTokenPage />} />
           <Route path="/admin/resets" element={<ForgotPasswordTokenPage />} />
+          <Route path="/tutorial-page" element={<TutorialPage />} />
         </Routes>
       </Router>
     </div>

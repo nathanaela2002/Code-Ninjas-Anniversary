@@ -56,7 +56,7 @@ const RegisterPage = () => {
         return;
       }
 
-      navigate("/login");
+      navigate("/tutorial-page");
     } catch (error) {
       console.error("Registration error: ", error);
       setErrorMsg("Server error");
