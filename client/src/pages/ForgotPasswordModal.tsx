@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 
 interface ForgotPasswordModalProps {
   isOpen: boolean;
@@ -10,47 +9,11 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
-  // If modal should be hidden, return null
   if (!isOpen) return null;
 
   // Stop propagation so clicks inside the modal do not close it
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setMessage("");
-    setError("");
-
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/forgot-password`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        },
-      );
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(
-          data.message ||
-            "Password reset request sent. We will send you a link with the password reset link.",
-        );
-      } else {
-        setError(data.message || "Failed to send reset link.");
-      }
-    } catch (err) {
-      console.error("Error sending password reset link", err);
-      setError("An error occurred. Please try again later.");
-    }
   };
 
   return (

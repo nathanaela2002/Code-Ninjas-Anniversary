@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import NinjaImage from "./ninja.png";
 
@@ -23,7 +23,7 @@ const RegisterPage = () => {
     }
   }, [location.search]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMsg("");
 

@@ -1,38 +1,44 @@
-import React, { useState, useMemo } from "react";
+import { useMemo } from "react";
 
 const FloatingDecorations = () => {
-    const confettiColors = ["#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF", "#845EC2"];
-  
-    // Generate an array of balloon objects with random properties
-  
-    // Generate an array of confetti pieces with random properties
-    const confettiPieces = useMemo(() => {
-      return Array.from({ length: 20 }).map(() => ({
-        left: Math.random() * 100, // percentage
-        delay: Math.random() * 5, // seconds
-        size: 8 + Math.random() * 4, // size in pixels
-        color: confettiColors[Math.floor(Math.random() * confettiColors.length)]
-      }));
-    }, [confettiColors]);
-  
-    return (
-      <>
-        <div className="floating-decorations">
-          {confettiPieces.map((piece, index) => (
-            <div
-              key={`confetti-${index}`}
-              className="confetti"
-              style={{
-                left: `${piece.left}%`,
-                width: `${piece.size}px`,
-                height: `${piece.size}px`,
-                animationDelay: `${piece.delay}s`,
-                backgroundColor: piece.color,
-              }}
-            />
-          ))}
-        </div>
-        <style>{`
+  const confettiColors = [
+    "#FF6B6B",
+    "#FFD93D",
+    "#6BCB77",
+    "#4D96FF",
+    "#845EC2",
+  ];
+
+  // Generate an array of balloon objects with random properties
+
+  // Generate an array of confetti pieces with random properties
+  const confettiPieces = useMemo(() => {
+    return Array.from({ length: 20 }).map(() => ({
+      left: Math.random() * 100, // percentage
+      delay: Math.random() * 5, // seconds
+      size: 8 + Math.random() * 4, // size in pixels
+      color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+    }));
+  }, [confettiColors]);
+
+  return (
+    <>
+      <div className="floating-decorations">
+        {confettiPieces.map((piece, index) => (
+          <div
+            key={`confetti-${index}`}
+            className="confetti"
+            style={{
+              left: `${piece.left}%`,
+              width: `${piece.size}px`,
+              height: `${piece.size}px`,
+              animationDelay: `${piece.delay}s`,
+              backgroundColor: piece.color,
+            }}
+          />
+        ))}
+      </div>
+      <style>{`
           .floating-decorations {
             position: fixed;
             top: 0;
@@ -73,8 +79,9 @@ const FloatingDecorations = () => {
             }
           }
         `}</style>
-      </>
-    );
-  };
+    </>
+  );
+};
 
-  export default FloatingDecorations;
+export default FloatingDecorations;
+

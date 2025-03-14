@@ -6,18 +6,35 @@ import { useInView } from "./useInView";
 
 const MOBILE_BREAKPOINT = 768;
 
+interface User {
+  profilePicture?: string;
+  username?: string;
+  points?: number;
+}
+
+interface NotificationPayload {
+  decision: string;
+  riddleId?: number;
+  pointsAwarded?: number;
+}
+
+interface Notification {
+  type: string;
+  payload: NotificationPayload;
+}
+
 export default function Header() {
   const [headerRef, headerInView] = useInView();
   const [isRiddleOpen, setIsRiddleOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const [user, setUser] = useState({});
-  const [rank, setRank] = useState(null);
+  const [user, setUser] = useState<User>({});
+  const [rank, setRank] = useState<number | null>(null);
 
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const notificationsRef = useRef(null);
+  const notificationsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -90,10 +107,10 @@ export default function Header() {
 
   useEffect(() => {
     if (!isNotificationsOpen) return;
-    const handleClickOutside = (e) => {
+    const handleClickOutside = (e: MouseEvent) => {
       if (
         notificationsRef.current &&
-        !notificationsRef.current.contains(e.target)
+        !notificationsRef.current.contains(e.target as Node)
       ) {
         setIsNotificationsOpen(false);
       }

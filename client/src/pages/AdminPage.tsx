@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 interface Submission {
-  _id: string;
-  user: { username: string };
+  id: string;
+  username: string;
   submissionLink: string;
-  createdAt: string;
+  timeSubmitted: string;
   approved: boolean | null;
 }
 
@@ -53,7 +53,7 @@ const AdminPage: React.FC = () => {
         );
         if (response.ok) {
           setSubmissions((prev) =>
-            prev.filter((submission) => submission._id !== id),
+            prev.filter((submission) => submission.id !== id),
           );
           alert(`Submission ${id} approved.`);
         } else {
@@ -82,7 +82,7 @@ const AdminPage: React.FC = () => {
         );
         if (response.ok) {
           setSubmissions((prev) =>
-            prev.filter((submission) => submission._id !== id),
+            prev.filter((submission) => submission.id !== id),
           );
           alert(`Submission ${id} disapproved.`);
         } else {
@@ -123,7 +123,7 @@ const AdminPage: React.FC = () => {
             <tbody>
               {submissions.map((submission) => (
                 <tr
-                  key={submission._id}
+                  key={submission.id}
                   className="border-b hover:bg-blue-50 transition-colors"
                 >
                   <td className="px-6 py-4">{submission.username}</td>

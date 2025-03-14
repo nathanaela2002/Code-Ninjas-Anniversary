@@ -533,6 +533,7 @@ app.post("/admin/submissions/:id", authenticate, async (req, res) => {
         userId: user._id,
         type: "submissionUpdate",
         payload: {
+          riddleId,
           decision,
           submissionId: submission._id,
         },
