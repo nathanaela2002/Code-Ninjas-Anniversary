@@ -163,12 +163,15 @@ export default function RiddlePage() {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ makeCodeURL: makeCodeURL, riddleId: id }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/submit`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ makeCodeURL: makeCodeURL, riddleId: id }),
+        },
+      );
       if (response.ok) {
         setHasSubmit(true);
         setSubmitMessage("Submission recorded successfully");

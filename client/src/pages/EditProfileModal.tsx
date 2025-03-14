@@ -17,9 +17,12 @@ const EditProfileModal: React.FC = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://localhost:8000/profile", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/profile`,
+          {
+            credentials: "include",
+          },
+        );
 
         if (response.status === 404) {
           window.location.href = "/login";
@@ -50,10 +53,13 @@ const EditProfileModal: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:8000/logout", {
-        method: "POST",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+        },
+      );
       if (response.ok) {
         const data = await response.json();
         console.log(data.message);

@@ -42,12 +42,15 @@ const RegisterPage = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/register", {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(registrationData),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/register`,
+        {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(registrationData),
+        },
+      );
 
       const data = await response.json();
 

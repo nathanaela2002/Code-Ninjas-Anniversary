@@ -15,7 +15,7 @@ const AdminPage: React.FC = () => {
     const fetchSubmissions = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/admin/submissions",
+          `${import.meta.env.VITE_BACKEND_URL}/admin/submissions`,
           {
             credentials: "include",
           },
@@ -43,7 +43,7 @@ const AdminPage: React.FC = () => {
     if (window.confirm("Are you sure you want to APPROVE this submission?")) {
       try {
         const response = await fetch(
-          `http://localhost:8000/admin/submissions/${id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/admin/submissions/${id}`,
           {
             method: "POST",
             credentials: "include",
@@ -72,7 +72,7 @@ const AdminPage: React.FC = () => {
     ) {
       try {
         const response = await fetch(
-          `http://localhost:8000/admin/submissions/${id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/admin/submissions/${id}`,
           {
             method: "POST",
             credentials: "include",

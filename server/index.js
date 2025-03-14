@@ -68,7 +68,7 @@ const uploadMiddleware = multer({
 //TODO: change origin to production url
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: `${process.env.VITE_FRONTEND_URL}`,
     credentials: true,
   }),
 );
@@ -94,7 +94,7 @@ app.post("/generate-registration-url", async (req, res) => {
     const regRequest = new RegistrationRequest({ email, token, expiresAt });
     await regRequest.save();
 
-    const registrationLink = `http://localhost:3000/register?token=${token}`;
+    const registrationLink = `${process.env.VITE_FRONTEND_URL}/register?token=${token}`;
     res.json({ registrationLink });
   } catch (err) {
     console.error("Error generating registration URL: ", err);

@@ -22,9 +22,12 @@ export default function Header() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://localhost:8000/profile", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/profile`,
+          {
+            credentials: "include",
+          },
+        );
 
         if (response.status === 404) {
           window.location.href = "/login";
@@ -48,9 +51,12 @@ export default function Header() {
   useEffect(() => {
     const fetchRank = async () => {
       try {
-        const response = await fetch("http://localhost:8000/rank", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/rank`,
+          {
+            credentials: "include",
+          },
+        );
         const data = await response.json();
         console.log("rank value:", data.rank);
         setRank(data.rank);
@@ -65,9 +71,12 @@ export default function Header() {
     if (isNotificationsOpen) {
       const fetchNotifications = async () => {
         try {
-          const response = await fetch("http://localhost:8000/notifications", {
-            credentials: "include",
-          });
+          const response = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/notifications`,
+            {
+              credentials: "include",
+            },
+          );
           const data = await response.json();
           console.log("notif data: ", data);
           setNotifications(data);

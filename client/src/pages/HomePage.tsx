@@ -129,9 +129,12 @@ const Leaderboard: React.FC = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const response = await fetch("http://localhost:8000/leaderboard", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/leaderboard`,
+          {
+            credentials: "include",
+          },
+        );
 
         if (response.status === 401) {
           window.location.href = "/login";

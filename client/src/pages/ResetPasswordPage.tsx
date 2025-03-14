@@ -25,7 +25,7 @@ export default function ResetPasswordPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/reset-password/${token}`,
+        `${import.meta.env.VITE_BACKEND_URL}/reset-password/${token}`,
         {
           method: "POST",
           headers: { "Content-type": "application/json" },

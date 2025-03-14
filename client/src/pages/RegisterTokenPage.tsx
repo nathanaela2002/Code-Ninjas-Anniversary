@@ -11,7 +11,7 @@ const RegisterTokenPage = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/generate-registration-url",
+        `${import.meta.env.VITE_BACKEND_URL}/generate-registration-url`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

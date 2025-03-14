@@ -25,14 +25,17 @@ const LoginPage: React.FC = () => {
     setErrorMsg("");
 
     try {
-      const response = await fetch("http://localhost:8000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ username, password }),
         },
-        credentials: "include",
-        body: JSON.stringify({ username, password }),
-      });
+      );
 
       const data = await response.json();
       if (!response.ok) {

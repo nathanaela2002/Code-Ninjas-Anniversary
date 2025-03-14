@@ -30,11 +30,14 @@ const ProfilePictureSetup = () => {
     const formData = new FormData();
     formData.append("pfp", selectedFile);
     try {
-      const response = await fetch("http://localhost:8000/upload-pfp", {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/upload-pfp`,
+        {
+          method: "POST",
+          credentials: "include",
+          body: formData,
+        },
+      );
 
       const data = await response.json();
       if (response.ok) {
