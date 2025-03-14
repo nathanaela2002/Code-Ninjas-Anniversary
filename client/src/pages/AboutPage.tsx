@@ -5,7 +5,9 @@ import Header from "./Header";
 import Footer from "./Footer";
 import EditProfileModal from "./EditProfileModal";
 
-const AnimatedWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const AnimatedWrapper: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [ref, isVisible] = useInView<HTMLDivElement>();
   return (
     <motion.div
@@ -27,11 +29,11 @@ const About: React.FC = () => {
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Page Title */}
         <AnimatedWrapper>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-center">
             Codey's Missing!
             <br />
             2nd Year Anniversary Challenge
-            </h1>
+          </h1>
         </AnimatedWrapper>
         <AnimatedWrapper>
           <h2 className="text-lg text-center mb-8">
@@ -48,15 +50,17 @@ const About: React.FC = () => {
               </h3>
               <p className="mb-4">
                 Celebrate our 2nd anniversary by solving weekly coding riddles!
-                Codey has mysteriously disappeared and needs your help to return.
-                Over the course of 7 weeks, we'll release new{" "}
-                <span className="font-bold text-cyan-600">MakeCode Arcade Challenges</span>{" "}
+                Codey has mysteriously disappeared and needs your help to
+                return. Over the course of 7 weeks, we'll release new{" "}
+                <span className="font-bold text-cyan-600">
+                  MakeCode Arcade Challenges
+                </span>{" "}
                 that will test your ninja programming skills and creativity.
               </p>
               <p>
-                Gather your coding wits and get ready to crack the clues. Bring your
-                best logic, speed, and teamwork to the table—the fate of Codey is in
-                your hands!
+                Gather your coding wits and get ready to crack the clues. Bring
+                your best logic, speed, and teamwork to the table—the fate of
+                Codey is in your hands!
               </p>
             </div>
           </section>
@@ -104,18 +108,30 @@ const About: React.FC = () => {
               </h3>
               <div className="grid grid-cols-3 gap-4 text-center">
                 {[1, 2, 3, 4, 5, 6].map((week) => (
-                    <motion.a
+                  <motion.a
                     href={`/riddle/${week}`}
                     key={week}
                     whileHover={{ scale: 1.05 }}
                     className="p-1 bg-blue-300 rounded-lg"
-                    >
+                  >
                     <div className="bg-gray-100 rounded-lg p-4 h-full">
                       Week {week}
                       <br />
-                      {week === 1 ? "Operators" : week === 2 ? "Sequencing" : "???"}
+                      {week === 1
+                        ? "Operators"
+                        : week === 2
+                          ? "Sequencing"
+                          : week === 3
+                            ? "Math Operations"
+                            : week === 4
+                              ? "Conditionals"
+                              : week === 5
+                                ? "Tilemaps"
+                                : week === 6
+                                  ? "Anniversary"
+                                  : ""}
                     </div>
-                    </motion.a>
+                  </motion.a>
                 ))}
               </div>
             </div>
@@ -130,7 +146,8 @@ const About: React.FC = () => {
                 🏆 Legendary Prizes Await! 🏆
               </h3>
               <p className="text-gray-700 mb-6">
-                Check out the amazing prizes you could win in our anniversary challenge!
+                Check out the amazing prizes you could win in our anniversary
+                challenge!
               </p>
               <motion.a
                 href="/prizes"
