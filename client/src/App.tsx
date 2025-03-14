@@ -14,7 +14,6 @@ import ContactPage from "./pages/ContactPage.tsx";
 import RegisterTokenPage from "./pages/RegisterTokenPage.tsx";
 import ForgotPasswordTokenPage from "./pages/ForgotPasswordTokenPage.tsx";
 import TutorialPage from "./pages/TutorialPage.tsx";
-import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   return (
