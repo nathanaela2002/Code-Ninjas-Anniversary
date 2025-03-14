@@ -68,7 +68,8 @@ const uploadMiddleware = multer({
 //TODO: change origin to production url
 app.use(
   cors({
-    origin: 'https://anniversary-frontend-l1hyzl4cq-compliances-projects.vercel.app'
+    origin:
+      "https://anniversary-frontend-l1hyzl4cq-compliances-projects.vercel.app",
     //origin: `${process.env.VITE_FRONTEND_URL}`,
     credentials: true,
   }),
