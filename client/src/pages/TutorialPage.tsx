@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import tutorialVideo from "./tutorial-video.mp4";
 
 const TutorialPage: React.FC = () => {
   return (
@@ -19,13 +20,12 @@ const TutorialPage: React.FC = () => {
               width="750"
               height="500"
             >
-              <source src="" type="video/mp4" />
+              <source src={tutorialVideo} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
         </section>
 
-        {/* Button to redirect users to "/" */}
         <div className="flex justify-center mt-8">
           <a
             href="/login"
