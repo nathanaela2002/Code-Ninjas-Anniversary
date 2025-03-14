@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
-import firstImage from "./tablet.png";
-import secondImage from "./smartwatch.png";
-import thirdImage from "./headset.png";
+import firstImage from "./skull.png";
+import secondImage from "./garminWatch.png";
+import thirdImage from "./amazonecho.png";
 import Header from "./Header";
 import Footer from "./Footer";
 import EditProfileModal from "./EditProfileModal";
@@ -221,17 +221,17 @@ const PrizePage = () => {
   const prizes = [
     {
       title: "First Prize",
-      description: "Samsung Galaxy Tab S9 FE - Your portal to the stars",
+      description: "Skullcandy Headphones",
       image: firstImage,
     },
     {
       title: "Second Prize",
-      description: "Apple Watch Series 10 - Track space-time continuum",
+      description: "Garmin Watch",
       image: secondImage,
     },
     {
       title: "Third Prize",
-      description: "Sony WH-1000XM5 - Silence the vacuum of space",
+      description: "Amazon Echo",
       image: thirdImage,
     },
   ];

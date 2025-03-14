@@ -3,6 +3,11 @@ import { useParams } from "react-router-dom";
 import confetti from "canvas-confetti";
 import NinjaImage from "./ninja.png";
 import NinjaComic1 from "./ninjacomic1.png";
+import NinjaComic2 from "./NinjaComic2.png";
+import NinjaComic3 from "./ninjacomic3.png";
+import NinjaComic4 from "./NinjaComic4.png";
+import NinjaComic5 from "./ninjacomic5.png";
+import NinjaComic6 from "./ninjacomic6.png";
 import Header from "./Header";
 import EditProfileModal from "./EditProfileModal";
 import Footer from "./Footer";
@@ -16,6 +21,7 @@ const riddlesData: Record<
     riddle: string;
     comic: string;
     releaseDate: string;
+    riddleURL: string;
   }
 > = {
   "1": {
@@ -34,7 +40,7 @@ const riddlesData: Record<
       "Codey makes his way back to the center, he creates a map and pinpoints the locations where the decorations will be placed. To really fall in line with the birthday anniversary theme, drastic changes are made to the dojo and lab with previously existing items being replaced by ninja stars and birthday themed decorations. All is according to plan, what is yet to be discovered is what Codey did next.",
     riddle:
       "Codey’s dojo lies undone, A puzzle waits for everyone. Walls must rise and tiles align, A test of skill, a mastermind. Beware the blocks that trap or halt, One wrong move, it’s your fault. Dodge the roomba, the table too, Navigate smart, and see it through. Reach the lab where truths attack, Solve this now what word comes back?",
-    comic: NinjaComic1,
+    comic: NinjaComic2,
     releaseDate: "2025-03-25T00:00:00",
     riddleURL:
       "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle2",
@@ -45,7 +51,7 @@ const riddlesData: Record<
       "As Codey finished setting up decorations around the dojo, a cloud of smoke washed over the room, instinctively, per his ninja training, Codey prepared for the worst. Three mysterious figures could faintly be seen behind smoke, and in the blink of an eye, they vanished. The smoke disappeared and so too did Codey. A clue was left behind, but that's for you to uncover.",
     riddle:
       "A cloud of smoke, a flash, a fright, Three shadows vanish into the night. Codey’s gone, the dojo’s still, A clue remains to test your skill. Sprites appear in disarray, Their order lost, led astray. Chance and math, the code’s unclear, Fix the logic, bring truth near. Solve the puzzle, restore the quests, Let's hope you’re feeling blessed.",
-    comic: NinjaComic1,
+    comic: NinjaComic3,
     releaseDate: "2025-04-01T00:00:00",
     riddleURL:
       "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle3",
@@ -56,7 +62,7 @@ const riddlesData: Record<
       "With knowledge of the previous clue, an investigation on belts around the dojo was conducted, it was noticed that the white, yellow, and green belts had mysteriously disappeared. A riddle was written beneath each belt’s original resting place, potentially revealing their hidden locations, the first under white belt reads:",
     riddle:
       "If this happens, then that will too. Ninjas train here to move and fight for you. Find the place where actions begin, and ninjas start to spin!",
-    comic: NinjaComic1,
+    comic: NinjaComic4,
     releaseDate: "2025-04-08T00:00:00",
     riddleURL:
       "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle4",
@@ -67,7 +73,7 @@ const riddlesData: Record<
       "With the white belt now being found, it was time to find the yellow belt, the passage under said belt reads:",
     riddle:
       "In rows and rows, ninjas grow. Each has its place, all in a row. Look for the farm where ninjas train, neatly lined up like grain.",
-    comic: NinjaComic1,
+    comic: NinjaComic5,
     releaseDate: "2025-04-15T00:00:00",
     riddleURL:
       "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle5",
@@ -78,7 +84,7 @@ const riddlesData: Record<
       "Two belts down, and one more remains, the yellow belt riddle reads:",
     riddle:
       "Round and round, ninjas run fast, looping forever, never the last. Find the dimension where racers speed.",
-    comic: NinjaComic1,
+    comic: NinjaComic6,
     releaseDate: "2025-04-22T00:00:00",
     riddleURL:
       "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle6",

@@ -87,7 +87,7 @@ const EditProfileModal: React.FC = () => {
         }}
       >
         <div
-          className="modal-box bg-blue-50 rounded-xl shadow-md max-w-lg w-full p-10"
+          className="modal-box bg-blue-50 rounded-xl shadow-md max-w-xl w-full p-10"
           onClick={(e) => e.stopPropagation()}
         >
           <h3 className="font-bold text-xl text-[#2F2F4F] mb-4">Profile</h3>
