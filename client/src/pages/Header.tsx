@@ -171,7 +171,7 @@ export default function Header() {
     }
   };
 
-  function formatRank(rank) {
+  function formatRank(rank: number): string {
     const j = rank % 10,
       k = rank % 100;
     if (j === 1 && k !== 11) {

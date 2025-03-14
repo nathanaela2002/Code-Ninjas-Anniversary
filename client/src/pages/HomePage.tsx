@@ -152,8 +152,12 @@ const Leaderboard: React.FC = () => {
 
         setLeaderboardData(data);
       } catch (err) {
+        let errorMessage = "Error loading leaderboard";
+        if (err instanceof Error) {
+          errorMessage = err.message;
+        }
         console.error("Leaderboard fetch error:", err);
-        setError(err.message || "Error loading leaderboard");
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
