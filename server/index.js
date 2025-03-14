@@ -563,6 +563,8 @@ app.get("/notifications", authenticate, async (req, res) => {
   }
 });
 
-app.listen(8000, () => {
-  console.log("Listening on port 8000");
+const port = process.env.PORT || 8000;
+
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
