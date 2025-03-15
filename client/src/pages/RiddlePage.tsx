@@ -31,7 +31,7 @@ const riddlesData: Record<
     riddle:
       "A ninja shop, its name not right, an alligator eats yet portions are light, Two bugs in the code, one bites, one blue, fix them both to uncover the clue!",
     comic: NinjaComic1,
-    releaseDate: "2025-03-11T00:00:00",
+    releaseDate: "2025-03-18T00:00:00",
     riddleURL: "https://arcade.makecode.com/#tutorial:82529-68067-44887-22941",
   },
   "2": {

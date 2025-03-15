@@ -9,7 +9,7 @@ import { useInView } from "./useInView";
 
 // --- HOME PAGE COMPONENT ---
 const weekDates: Record<number, string> = {
-  1: "2025-03-11T00:00:00",
+  1: "2025-03-18T00:00:00",
   2: "2025-03-25T00:00:00",
   3: "2025-04-01T00:00:00",
   4: "2025-04-08T00:00:00",
