@@ -25,6 +25,14 @@ const {
 } = require("@aws-sdk/client-s3");
 require("dotenv").config({ path: "../client/.env" });
 
+app.use(
+  cors({
+    origin: "https://anniversary-frontend-compliances-projects.vercel.app",
+    //origin: `${process.env.VITE_FRONTEND_URL}`,
+    credentials: true,
+  }),
+);
+
 const s3 = new S3Client({
   region: process.env.VITE_AWS_REGION,
   credentials: {
@@ -66,13 +74,7 @@ const uploadMiddleware = multer({
   },
 });
 //TODO: change origin to production url
-app.use(
-  cors({
-    origin: "https://anniversary-frontend-compliances-projects.vercel.app",
-    //origin: `${process.env.VITE_FRONTEND_URL}`,
-    credentials: true,
-  }),
-);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
@@ -193,8 +195,8 @@ app.post("/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      domain: "anniversary-frontend-compliances-projects.vercel.app"
-      secure: process.env.NODE_ENV === "production",
+      domain: "anniversary-frontend-compliances-projects.vercel.app",
+      secure: true,
       maxAge: 3600000,
     });
 
