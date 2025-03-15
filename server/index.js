@@ -193,6 +193,7 @@ app.post("/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
+      domain: "anniversary-frontend-compliances-projects.vercel.app"
       secure: process.env.NODE_ENV === "production",
       maxAge: 3600000,
     });
