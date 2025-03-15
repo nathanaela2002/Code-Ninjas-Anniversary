@@ -25,7 +25,7 @@ const {
 require("dotenv").config({ path: "../client/.env" });
 
 const corsOptions = {
-  origin: "https://cnaurora-secondanniversary.ca",
+  origin: "https://www.cnaurora-secondanniversary.ca",
   //origin: `${process.env.VITE_FRONTEND_URL}`,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
