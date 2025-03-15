@@ -10,7 +10,6 @@ const multer = require("multer");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
 const cors = require("cors");
 const User = require("./models/User");
 const Submissions = require("./models/Submissions");
@@ -26,7 +25,7 @@ const {
 require("dotenv").config({ path: "../client/.env" });
 
 const corsOptions = {
-  origin: "https://anniversary-frontend-compliances-projects.vercel.app",
+  origin: "https://cnaurora-secondanniversary.ca",
   //origin: `${process.env.VITE_FRONTEND_URL}`,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
@@ -200,6 +199,7 @@ app.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
+      domain: "cnaurora-secondanniversary.ca",
       sameSite: "none",
       maxAge: 3600000,
     });

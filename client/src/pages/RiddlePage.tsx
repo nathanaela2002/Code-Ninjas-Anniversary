@@ -27,7 +27,7 @@ const riddlesData: Record<
   "1": {
     week: 1,
     content:
-      "Codey makes his way back to the center, he creates a map and pinpoints the locations where the decorations will be placed. To really fall in line with the birthday anniversary theme, drastic changes are made to the dojo and lab with previously existing items being replaced by ninja stars and birthday-themed decorations. All is according to plan, what is yet to be discovered is what Codey did next.",
+      "Cody makes his way back to the center, he creates a map and pinpoints the locations where the decorations will be placed. To really fall in line with the birthday anniversary theme, drastic changes are made to the dojo and lab with previously existing items being replaced by ninja stars and birthday-themed decorations. All is according to plan, what is yet to be discovered is what Cody did next.",
     riddle:
       "A ninja shop, its name not right, an alligator eats yet portions are light, Two bugs in the code, one bites, one blue, fix them both to uncover the clue!",
     comic: NinjaComic1,
@@ -37,9 +37,9 @@ const riddlesData: Record<
   "2": {
     week: 2,
     content:
-      "Codey makes his way back to the center, he creates a map and pinpoints the locations where the decorations will be placed. To really fall in line with the birthday anniversary theme, drastic changes are made to the dojo and lab with previously existing items being replaced by ninja stars and birthday themed decorations. All is according to plan, what is yet to be discovered is what Codey did next.",
+      "Cody makes his way back to the center, he creates a map and pinpoints the locations where the decorations will be placed. To really fall in line with the birthday anniversary theme, drastic changes are made to the dojo and lab with previously existing items being replaced by ninja stars and birthday themed decorations. All is according to plan, what is yet to be discovered is what Cody did next.",
     riddle:
-      "Codey’s dojo lies undone, A puzzle waits for everyone. Walls must rise and tiles align, A test of skill, a mastermind. Beware the blocks that trap or halt, One wrong move, it’s your fault. Dodge the roomba, the table too, Navigate smart, and see it through. Reach the lab where truths attack, Solve this now what word comes back?",
+      "Cody’s dojo lies undone, A puzzle waits for everyone. Walls must rise and tiles align, A test of skill, a mastermind. Beware the blocks that trap or halt, One wrong move, it’s your fault. Dodge the roomba, the table too, Navigate smart, and see it through. Reach the lab where truths attack, Solve this now what word comes back?",
     comic: NinjaComic2,
     releaseDate: "2025-03-25T00:00:00",
     riddleURL:
@@ -48,9 +48,9 @@ const riddlesData: Record<
   "3": {
     week: 3,
     content:
-      "As Codey finished setting up decorations around the dojo, a cloud of smoke washed over the room, instinctively, per his ninja training, Codey prepared for the worst. Three mysterious figures could faintly be seen behind smoke, and in the blink of an eye, they vanished. The smoke disappeared and so too did Codey. A clue was left behind, but that's for you to uncover.",
+      "As Cody finished setting up decorations around the dojo, a cloud of smoke washed over the room, instinctively, per his ninja training, Cody prepared for the worst. Three mysterious figures could faintly be seen behind smoke, and in the blink of an eye, they vanished. The smoke disappeared and so too did Cody. A clue was left behind, but that's for you to uncover.",
     riddle:
-      "A cloud of smoke, a flash, a fright, Three shadows vanish into the night. Codey’s gone, the dojo’s still, A clue remains to test your skill. Sprites appear in disarray, Their order lost, led astray. Chance and math, the code’s unclear, Fix the logic, bring truth near. Solve the puzzle, restore the quests, Let's hope you’re feeling blessed.",
+      "A cloud of smoke, a flash, a fright, Three shadows vanish into the night. Cody’s gone, the dojo’s still, A clue remains to test your skill. Sprites appear in disarray, Their order lost, led astray. Chance and math, the code’s unclear, Fix the logic, bring truth near. Solve the puzzle, restore the quests, Let's hope you’re feeling blessed.",
     comic: NinjaComic3,
     releaseDate: "2025-04-01T00:00:00",
     riddleURL:
@@ -214,7 +214,7 @@ export default function RiddlePage() {
               Each riddle contains clues that will help you move forward. Solve
               the puzzles and prove your ninja skills!
             </p>
-            <a href={currentRiddle.riddleURL}>
+            <a href={currentRiddle.riddleURL} target="_blank">
               <button className="bg-yellow-400 text-white text-lg font-semibold px-6 py-2 rounded-md shadow hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition">
                 Go to Riddle!
               </button>

@@ -30,7 +30,7 @@ const About: React.FC = () => {
         {/* Page Title */}
         <AnimatedWrapper>
           <h1 className="text-5xl md:text-6xl font-bold mb-4 text-center">
-            Codey's Missing!
+            Cody's Missing!
             <br />
             2nd Year Anniversary Challenge
           </h1>
@@ -50,8 +50,8 @@ const About: React.FC = () => {
               </h3>
               <p className="mb-4">
                 Celebrate our 2nd anniversary by solving weekly coding riddles!
-                Codey has mysteriously disappeared and needs your help to
-                return. Over the course of 7 weeks, we'll release new{" "}
+                Cody has mysteriously disappeared and needs your help to return.
+                Over the course of 6 weeks, we'll release new{" "}
                 <span className="font-bold text-cyan-600">
                   MakeCode Arcade Challenges
                 </span>{" "}
@@ -60,7 +60,7 @@ const About: React.FC = () => {
               <p>
                 Gather your coding wits and get ready to crack the clues. Bring
                 your best logic, speed, and teamwork to the table—the fate of
-                Codey is in your hands!
+                Cody is in your hands!
               </p>
             </div>
           </section>

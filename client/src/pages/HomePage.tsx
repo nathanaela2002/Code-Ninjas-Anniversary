@@ -45,7 +45,7 @@ export default function HomePage() {
             </h1>
             <p className="mb-6 text-gray-700 leading-relaxed">
               Help Cody return home by solving a series of clever riddles and
-              challenges in the coming weeks. Complete all 7 tasks to bring Cody
+              challenges in the coming weeks. Complete all 6 tasks to bring Cody
               back safely and prove your ninja expertise!
             </p>
             <a href="/about">
