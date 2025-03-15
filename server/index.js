@@ -76,7 +76,6 @@ const uploadMiddleware = multer({
     }
   },
 });
-//TODO: change origin to production url
 
 app.use(express.json());
 app.use(cookieParser());
@@ -197,9 +196,9 @@ app.post("/login", async (req, res) => {
     });
 
     res.cookie("token", token, {
-      secure: true,
-      domain: "cnaurora-secondanniversary.ca",
       sameSite: "none",
+      secure: true,
+      domain: ".cnaurora-secondanniversary.ca",
       maxAge: 3600000,
     });
 
