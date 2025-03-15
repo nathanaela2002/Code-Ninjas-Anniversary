@@ -25,13 +25,17 @@ const {
 } = require("@aws-sdk/client-s3");
 require("dotenv").config({ path: "../client/.env" });
 
-app.use(
-  cors({
-    origin: "https://anniversary-frontend-compliances-projects.vercel.app",
-    //origin: `${process.env.VITE_FRONTEND_URL}`,
-    credentials: true,
-  }),
-);
+const corsOptions = {
+  origin: "https://anniversary-frontend-compliances-projects.vercel.app",
+  //origin: `${process.env.VITE_FRONTEND_URL}`,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+};
+
+app.use(cors(corsOptions));
+
+app.options("*", cors(corsOptions));
 
 const s3 = new S3Client({
   region: process.env.VITE_AWS_REGION,
