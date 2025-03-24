@@ -42,8 +42,7 @@ const riddlesData: Record<
       "Cody’s dojo lies undone, A puzzle waits for everyone. Walls must rise and tiles align, A test of skill, a mastermind. Beware the blocks that trap or halt, One wrong move, it’s your fault. Dodge the roomba, the table too, Navigate smart, and see it through. Reach the lab where truths attack, Solve this now what word comes back?",
     comic: NinjaComic2,
     releaseDate: "2025-03-25T00:00:00",
-    riddleURL:
-      "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle2",
+    riddleURL: "https://arcade.makecode.com/#tutorial:54481-29086-82849-71235",
   },
   "3": {
     week: 3,
