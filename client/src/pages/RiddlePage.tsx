@@ -52,8 +52,7 @@ const riddlesData: Record<
       "A cloud of smoke, a flash, a fright, Three shadows vanish into the night. Cody’s gone, the dojo’s still, A clue remains to test your skill. Sprites appear in disarray, Their order lost, led astray. Chance and math, the code’s unclear, Fix the logic, bring truth near. Solve the puzzle, restore the quests, Let's hope you’re feeling blessed.",
     comic: NinjaComic3,
     releaseDate: "2025-04-01T00:00:00",
-    riddleURL:
-      "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle3",
+    riddleURL: "https://arcade.makecode.com/#tutorial:30723-24875-25813-94820",
   },
   "4": {
     week: 4,
