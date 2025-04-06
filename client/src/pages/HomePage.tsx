@@ -7,8 +7,6 @@ import Footer from "./Footer";
 import EditProfileModal from "./EditProfileModal";
 import { useInView } from "./useInView";
 
-// Adjust these if you want a different schedule
-// (Some are set to Tuesday @ 00:00, #4 is set to a test date/time.)
 const weekDates: Record<number, string> = {
   1: "2025-03-18T00:00:00",
   2: "2025-03-25T00:00:00",
@@ -139,10 +137,6 @@ function RiddleScheduler() {
   // Day-of-week logic (0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat)
   const dayOfWeek = now.getDay();
 
-  // We'll assume new riddles go live every Tuesday at 00:00
-  // and remain "live" through Friday 23:59. Then from Saturday 00:00
-  // to Monday 23:59, we show a countdown to next Tuesday if < 4 days left.
-
   const [timeLeft, setTimeLeft] = useState(
     nextRiddle
       ? calculateTimeLeft(schedule.find((s) => s.week === nextRiddle)?.date)
@@ -212,9 +206,6 @@ function calculateTimeLeft(targetDate?: Date) {
   return { total: diff, days, hours, minutes, seconds };
 }
 
-/**
- * Displays the days/hours/minutes/seconds in "dark boxes" with pink digits.
- */
 function CountdownDisplay({
   timeLeft,
 }: {

@@ -31,7 +31,7 @@ const riddlesData: Record<
     riddle:
       "A ninja shop, its name not right, an alligator eats yet portions are light, Two bugs in the code, one bites, one blue, fix them both to uncover the clue!",
     comic: NinjaComic1,
-    releaseDate: "2025-03-18T00:00:00",
+    releaseDate: "2025-03-18T16:00:00",
     riddleURL: "https://arcade.makecode.com/#tutorial:82529-68067-44887-22941",
   },
   "2": {
@@ -41,7 +41,7 @@ const riddlesData: Record<
     riddle:
       "Cody’s dojo lies undone, A puzzle waits for everyone. Walls must rise and tiles align, A test of skill, a mastermind. Beware the blocks that trap or halt, One wrong move, it’s your fault. Dodge the roomba, the table too, Navigate smart, and see it through. Reach the lab where truths attack, Solve this now what word comes back?",
     comic: NinjaComic2,
-    releaseDate: "2025-03-25T00:00:00",
+    releaseDate: "2025-03-25T16:00:00",
     riddleURL: "https://arcade.makecode.com/#tutorial:54481-29086-82849-71235",
   },
   "3": {
@@ -51,7 +51,7 @@ const riddlesData: Record<
     riddle:
       "A cloud of smoke, a flash, a fright, Three shadows vanish into the night. Cody’s gone, the dojo’s still, A clue remains to test your skill. Sprites appear in disarray, Their order lost, led astray. Chance and math, the code’s unclear, Fix the logic, bring truth near. Solve the puzzle, restore the quests, Let's hope you’re feeling blessed.",
     comic: NinjaComic3,
-    releaseDate: "2025-04-01T00:00:00",
+    releaseDate: "2025-04-01T16:00:00",
     riddleURL: "https://arcade.makecode.com/#tutorial:30723-24875-25813-94820",
   },
   "4": {
@@ -61,7 +61,7 @@ const riddlesData: Record<
     riddle:
       "If this happens, then that will too. Ninjas train here to move and fight for you. Find the place where actions begin, and ninjas start to spin!",
     comic: NinjaComic4,
-    releaseDate: "2025-04-08T00:00:00",
+    releaseDate: "2025-04-08T16:00:00",
     riddleURL:
       "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle4",
   },
@@ -72,7 +72,7 @@ const riddlesData: Record<
     riddle:
       "In rows and rows, ninjas grow. Each has its place, all in a row. Look for the farm where ninjas train, neatly lined up like grain.",
     comic: NinjaComic5,
-    releaseDate: "2025-04-15T00:00:00",
+    releaseDate: "2025-04-15T16:00:00",
     riddleURL:
       "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle5",
   },
@@ -83,7 +83,7 @@ const riddlesData: Record<
     riddle:
       "Round and round, ninjas run fast, looping forever, never the last. Find the dimension where racers speed.",
     comic: NinjaComic6,
-    releaseDate: "2025-04-22T00:00:00",
+    releaseDate: "2025-04-22T16:00:00",
     riddleURL:
       "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle6",
   },

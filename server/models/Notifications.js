@@ -10,6 +10,7 @@ const notificationSchema = new mongoose.Schema({
   type: { type: String, required: true },
   payload: {
     decision: { type: String, enum: ["approve", "disapprove"], required: true },
+    feedback: { type: String },
     submissionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Submission",

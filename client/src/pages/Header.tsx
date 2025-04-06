@@ -14,6 +14,7 @@ interface User {
 
 interface NotificationPayload {
   decision: string;
+  feedback?: string;
   riddleId?: number;
   pointsAwarded?: number;
 }
@@ -268,7 +269,7 @@ export default function Header() {
             {isNotificationsOpen && (
               <div
                 ref={notificationsRef}
-                className="absolute right-0 mt-2 w-64 bg-white shadow-lg border border-gray-200 rounded-md z-50"
+                className="absolute right-0 mt-2 w-[320px] bg-white shadow-lg border border-gray-200 rounded-md z-50"
               >
                 <ul className="max-h-64 overflow-y-auto">
                   {notifications.length ? (
@@ -279,8 +280,8 @@ export default function Header() {
                       >
                         {notif.type === "submissionUpdate" && (
                           <span>
-                            Your week {notif.payload.riddleId} riddle submission
-                            has been {notif.payload.decision}d.
+                            Week {notif.payload.riddleId} submission&nbsp;{" "}
+                            <strong>{notif.payload.decision}d.</strong>
                             {notif.payload.decision === "approve" && (
                               <span>
                                 {" "}
@@ -288,6 +289,13 @@ export default function Header() {
                                 Points awarded: {notif.payload.pointsAwarded}
                               </span>
                             )}
+                            {notif.payload.decision === "disapprove" &&
+                              notif.payload.feedback && (
+                                <div className="text-sm text-gray-500">
+                                  <strong>Feedback</strong>:{" "}
+                                  {notif.payload.feedback}
+                                </div>
+                              )}
                           </span>
                         )}
                         {/* Additional notification types can be handled here */}
@@ -344,9 +352,18 @@ export default function Header() {
                         className="px-4 py-2 border-b border-gray-100"
                       >
                         {notif.type === "submissionUpdate" && (
-                          <span>
-                            Your submission has been {notif.payload.decision}d.
-                          </span>
+                          <div>
+                            <span>
+                              Week {notif.payload.riddleId} submission&nbsp;{" "}
+                              <strong>{notif.payload.decision}d.</strong>
+                            </span>
+                            {notif.payload.decision === "disapprove" &&
+                              notif.payload.feedback && (
+                                <div className="text-sm text-gray-500">
+                                  Feedback: {notif.payload.feedback}
+                                </div>
+                              )}
+                          </div>
                         )}
                       </li>
                     ))
