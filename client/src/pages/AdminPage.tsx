@@ -67,6 +67,10 @@ const AdminPage: React.FC = () => {
   };
 
   const handleDisapprove = async (id: string) => {
+    const userFeedback = window.prompt(
+      "Enter a short message for disapproval:",
+    );
+
     if (
       window.confirm("Are you sure you want to DISAPPROVE this submission?")
     ) {
@@ -77,7 +81,10 @@ const AdminPage: React.FC = () => {
             method: "POST",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ decision: "disapprove" }),
+            body: JSON.stringify({
+              decision: "disapprove",
+              feedback: userFeedback,
+            }),
           },
         );
         if (response.ok) {
