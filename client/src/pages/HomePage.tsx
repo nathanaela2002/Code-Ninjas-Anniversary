@@ -9,12 +9,12 @@ import { useInView } from "./useInView";
 
 // --- HOME PAGE COMPONENT ---
 const weekDates: Record<number, string> = {
-  1: "2025-03-18T00:00:00",
-  2: "2025-03-25T00:00:00",
-  3: "2025-04-01T00:00:00",
-  4: "2025-04-08T00:00:00",
-  5: "2025-04-15T00:00:00",
-  6: "2025-04-22T00:00:00",
+  1: "2025-03-18T16:00:00",
+  2: "2025-03-25T16:00:00",
+  3: "2025-04-01T16:00:00",
+  4: "2025-04-08T16:00:00",
+  5: "2025-04-15T16:00:00",
+  6: "2025-04-22T16:00:00",
 };
 export default function HomePage() {
   const [heroRef, heroInView] = useInView();

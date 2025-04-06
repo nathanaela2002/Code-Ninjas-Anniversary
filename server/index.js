@@ -26,7 +26,7 @@ require("dotenv").config({ path: "../client/.env" });
 
 const corsOptions = {
   origin: "https://www.cnaurora-secondanniversary.ca",
-  //origin: `${process.env.VITE_FRONTEND_URL}`,
+  //origin: "http://localhost:3000",
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
@@ -199,6 +199,7 @@ app.post("/login", async (req, res) => {
       sameSite: "none",
       secure: true,
       domain: ".cnaurora-secondanniversary.ca",
+      //domain: "localhost",
       maxAge: 3600000,
     });
 
