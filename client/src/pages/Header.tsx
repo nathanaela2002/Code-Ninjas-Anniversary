@@ -76,7 +76,6 @@ export default function Header() {
           },
         );
         const data = await response.json();
-        console.log("rank value:", data.rank);
         setRank(data.rank);
       } catch (err) {
         console.error("Error fetching rank: ", err);
@@ -96,7 +95,6 @@ export default function Header() {
             },
           );
           const data = await response.json();
-          console.log("notif data: ", data);
           setNotifications(data);
         } catch (err) {
           console.error("Error getting notifications: ", err);

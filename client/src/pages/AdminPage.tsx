@@ -70,7 +70,6 @@ const AdminPage: React.FC = () => {
     const userFeedback = window.prompt(
       "Enter a short message for disapproval:",
     );
-    console.log("user feedback: ", userFeedback);
 
     if (
       window.confirm("Are you sure you want to DISAPPROVE this submission?")
