@@ -498,6 +498,7 @@ function calculateSubmissionOrderBonus(
 app.post("/admin/submissions/:id", authenticate, async (req, res) => {
   const { id } = req.params;
   const { decision, feedback } = req.body;
+  console.log("Request payload:", req.body);
 
   try {
     const submission = await Submissions.findById(id);
