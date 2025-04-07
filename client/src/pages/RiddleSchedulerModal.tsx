@@ -1,5 +1,5 @@
 // comment for author authentication
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { weekDates } from "./HomePage";
 
 interface TimeLeft {
