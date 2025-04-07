@@ -1,3 +1,4 @@
+// comment for author authentication
 import React, { useState, useEffect } from "react";
 import { weekDates } from "./HomePage";
 
@@ -40,7 +41,9 @@ export default function RiddleSchedulerModal() {
   const dayOfWeek = now.getDay();
 
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(
-    nextRiddle ? calculateTimeLeft(schedule.find((s) => s.week === nextRiddle)?.date) : null
+    nextRiddle
+      ? calculateTimeLeft(schedule.find((s) => s.week === nextRiddle)?.date)
+      : null,
   );
 
   useEffect(() => {
