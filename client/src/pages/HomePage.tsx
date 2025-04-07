@@ -11,7 +11,7 @@ const weekDates: Record<number, string> = {
   1: "2025-03-18T00:00:00",
   2: "2025-03-25T00:00:00",
   3: "2025-04-01T00:00:00",
-  4: "2025-04-04T16:00:00",
+  4: "2025-04-08T16:00:00",
   5: "2025-04-15T16:00:00",
   6: "2025-04-22T16:00:00",
 };
@@ -140,7 +140,7 @@ function RiddleScheduler() {
   const [timeLeft, setTimeLeft] = useState(
     nextRiddle
       ? calculateTimeLeft(schedule.find((s) => s.week === nextRiddle)?.date)
-      : null
+      : null,
   );
 
   useEffect(() => {
@@ -249,7 +249,9 @@ type LeaderboardEntry = {
 };
 
 const Leaderboard: React.FC = () => {
-  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>([]);
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
+    [],
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -267,7 +269,7 @@ const Leaderboard: React.FC = () => {
           `${import.meta.env.VITE_BACKEND_URL}/leaderboard`,
           {
             credentials: "include",
-          }
+          },
         );
 
         if (response.status === 401) {
