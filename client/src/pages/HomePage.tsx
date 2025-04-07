@@ -5,9 +5,10 @@ import DefaultAvatar from "./default.png";
 import Header from "./Header";
 import Footer from "./Footer";
 import EditProfileModal from "./EditProfileModal";
+import RiddleScheduler from "./RiddleSchedulerModal";
 import { useInView } from "./useInView";
 
-const weekDates: Record<number, string> = {
+export const weekDates: Record<number, string> = {
   1: "2025-03-18T00:00:00",
   2: "2025-03-25T00:00:00",
   3: "2025-04-01T00:00:00",
@@ -59,7 +60,7 @@ export default function HomePage() {
         {/* WEEKS SECTION */}
         <section
           ref={weeksRef}
-          className={`relative mb-16 ${weeksInView ? "reveal-show" : "reveal-hidden"}`}
+          className={`relative mb-10 ${weeksInView ? "reveal-show" : "reveal-hidden"}`}
         >
           <div className="flex flex-wrap items-start justify-center space-x-4 md:space-x-6">
             {Array.from({ length: 6 }).map((_, idx) => {
@@ -108,134 +109,6 @@ export default function HomePage() {
   );
 }
 
-function RiddleScheduler() {
-  const schedule = Object.keys(weekDates).map((key) => ({
-    week: Number(key),
-    date: new Date(weekDates[Number(key)]),
-  }));
-  schedule.sort((a, b) => a.date.getTime() - b.date.getTime());
-
-  const now = new Date();
-
-  // 1) Find the last riddle that has been released (<= now).
-  let currentRiddle = 0;
-  for (let i = 0; i < schedule.length; i++) {
-    if (schedule[i].date <= now) {
-      currentRiddle = schedule[i].week;
-    }
-  }
-
-  // 2) Find the next riddle (the first date that is > now).
-  let nextRiddle = 0;
-  for (let i = 0; i < schedule.length; i++) {
-    if (schedule[i].date > now) {
-      nextRiddle = schedule[i].week;
-      break;
-    }
-  }
-
-  // Day-of-week logic (0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat)
-  const dayOfWeek = now.getDay();
-
-  const [timeLeft, setTimeLeft] = useState(
-    nextRiddle
-      ? calculateTimeLeft(schedule.find((s) => s.week === nextRiddle)?.date)
-      : null,
-  );
-
-  useEffect(() => {
-    let timer: number | undefined;
-    if (nextRiddle && shouldShowCountdown(dayOfWeek)) {
-      timer = setInterval(() => {
-        const nextDate = schedule.find((s) => s.week === nextRiddle)?.date;
-        if (!nextDate) return;
-        setTimeLeft(calculateTimeLeft(nextDate));
-      }, 1000);
-    }
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [dayOfWeek, nextRiddle, schedule]);
-
-  // Fri->Mon, so we might show countdown if <=4 days remain
-  if (timeLeft && timeLeft.total > 0 && timeLeft.days <= 4) {
-    return (
-      <div className="flex flex-col items-center mb-16">
-        <h2 className="text-xl font-bold">Countdown to next riddle!</h2>
-        <CountdownDisplay timeLeft={timeLeft} />
-      </div>
-    );
-  } else {
-    // Time is up => nextRiddle is live
-    return (
-      <div className="text-center mb-16">
-        <h2 className="text-xl font-bold text-green-600">
-          Riddle {currentRiddle} is live now!
-        </h2>
-      </div>
-    );
-  }
-  // If it's >= 4 days away, hide the countdown
-  return null;
-}
-
-/**
- * Returns true if dayOfWeek is SAT(6), SUN(0), or MON(1),
- * meaning we show the countdown. Otherwise, we show "live now".
- */
-function shouldShowCountdown(dayOfWeek: number) {
-  return dayOfWeek === 6 || dayOfWeek === 0 || dayOfWeek === 1;
-}
-
-/**
- * Calculates the difference between now and targetDate
- */
-function calculateTimeLeft(targetDate?: Date) {
-  if (!targetDate) {
-    return { total: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
-  }
-  const now = new Date().getTime();
-  const diff = targetDate.getTime() - now;
-  if (diff <= 0) {
-    return { total: diff, days: 0, hours: 0, minutes: 0, seconds: 0 };
-  }
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-  return { total: diff, days, hours, minutes, seconds };
-}
-
-function CountdownDisplay({
-  timeLeft,
-}: {
-  timeLeft: ReturnType<typeof calculateTimeLeft>;
-}) {
-  const { days, hours, minutes, seconds } = timeLeft;
-
-  return (
-    <div className="flex flex-row space-x-4 p-6 rounded-md">
-      <CountdownBox label="Days" value={days} />
-      <CountdownBox label="Hours" value={hours} />
-      <CountdownBox label="Minutes" value={minutes} />
-      <CountdownBox label="Seconds" value={seconds} />
-    </div>
-  );
-}
-
-/** One segment of the countdown: e.g., "08" with label "Days" */
-function CountdownBox({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="flex flex-col items-center justify-center w-20 h-20 bg-gray-800 rounded-lg shadow-md">
-      <span className="text-3xl md:text-4xl font-bold text-cyan-300">
-        {String(value).padStart(2, "0")}
-      </span>
-      <span className="text-xs md:text-sm uppercase text-blue-200 mt-1">
-        {label}
-      </span>
-    </div>
-  );
-}
 
 /* ---------------------------------------------- */
 /*                LEADERBOARD CODE               */

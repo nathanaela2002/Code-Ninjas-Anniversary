@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import NinjaImage from "./ninja.png";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import RegisterModal from "./RegisterModal";
+import RiddleScheduler from "./RiddleSchedulerModal";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -83,12 +84,7 @@ const LoginPage: React.FC = () => {
       {/* Right Section: Login Form */}
       <div className="w-full xl:w-2/3 bg-white rounded-none xl:rounded-l-[2rem] flex flex-col items-center justify-center py-8 md:py-16">
         <div className="w-3/4 px-4 md:px-8">
-          <h2
-            className="text-2xl md:text-5xl font-semibold font-syne text-create-blue text-center mb-8 md:mb-10"
-            style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)" }}
-          >
-            Welcome Back to the 2nd Year Anniversary Challenge!
-          </h2>
+          <RiddleScheduler />
         </div>
 
         {/* Form Section */}
