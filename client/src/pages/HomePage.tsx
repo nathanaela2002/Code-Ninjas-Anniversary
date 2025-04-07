@@ -144,7 +144,7 @@ function RiddleScheduler() {
   );
 
   useEffect(() => {
-    let timer: NodeJS.Timeout | undefined;
+    let timer: number | undefined;
     if (nextRiddle && shouldShowCountdown(dayOfWeek)) {
       timer = setInterval(() => {
         const nextDate = schedule.find((s) => s.week === nextRiddle)?.date;
