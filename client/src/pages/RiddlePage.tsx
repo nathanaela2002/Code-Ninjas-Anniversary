@@ -62,8 +62,7 @@ const riddlesData: Record<
       "If this happens, then that will too. Ninjas train here to move and fight for you. Find the place where actions begin, and ninjas start to spin!",
     comic: NinjaComic4,
     releaseDate: "2025-04-08T16:00:00",
-    riddleURL:
-      "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle4",
+    riddleURL: "https://arcade.makecode.com/#tutorial:88857-92351-37079-58542",
   },
   "5": {
     week: 5,
