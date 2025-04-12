@@ -21,6 +21,26 @@ export default function HomePage() {
   const [heroRef, heroInView] = useInView();
   const [weeksRef, weeksInView] = useInView();
 
+  // Helper to find the current week number based on today's date.
+  const getCurrentWeekNumber = (): number => {
+    const now = new Date();
+    let currentWeek = 0;
+
+    // Check all week dates to determine the largest unlocked week
+    Object.entries(weekDates).forEach(([week, dateStr]) => {
+      const releaseDate = new Date(dateStr);
+      if (now >= releaseDate) {
+        const weekNum = parseInt(week, 10);
+        if (weekNum > currentWeek) {
+          currentWeek = weekNum;
+        }
+      }
+    });
+    return currentWeek;
+  };
+
+  const currentWeekNumber = getCurrentWeekNumber();
+
   return (
     <div className="w-full min-h-screen font-sans bg-white text-gray-800">
       <Header />
@@ -99,6 +119,25 @@ export default function HomePage() {
 
         {/* COUNTDOWN / RIDDLE-SCHEDULER SECTION */}
         <RiddleScheduler />
+
+        {/* Best submission! Section */}
+        <section className="mt-4 w-full max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-800 text-center">
+            Week {currentWeekNumber} Best Submission!
+          </h2>
+          <h2 className="text-2xl font-bold mb-2 text-cyan-500 text-center">
+            User's Game:
+          </h2>
+          <div className="flex flex-col items-center">
+            <a href="https://makecode.com/tutorial-tool" target="_blank" rel="noopener noreferrer">
+              <img
+                src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTEweWt1cG9icThyY242YnY5ZWRvNHJia3ZhMDA1ZnB1cWFvNjE1byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l6mn9pU4YQEnHpvkdv/giphy.gif"
+                alt="Top Submission"
+                className="max-w-md"
+              />
+            </a>
+          </div>
+        </section>
       </main>
 
       {/* LEADERBOARD */}
@@ -108,7 +147,6 @@ export default function HomePage() {
     </div>
   );
 }
-
 
 /* ---------------------------------------------- */
 /*                LEADERBOARD CODE               */

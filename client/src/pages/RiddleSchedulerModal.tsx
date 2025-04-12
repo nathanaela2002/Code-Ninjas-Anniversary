@@ -61,7 +61,7 @@ export default function RiddleSchedulerModal() {
   }, [dayOfWeek, nextRiddle, schedule]);
 
   // When less than or equal to 4 days remain, show the countdown
-  if (timeLeft && timeLeft.total > 0 && timeLeft.days <= 4) {
+  if (timeLeft && timeLeft.total > 0 && timeLeft.days < 4) {
     return (
       <div className="modal-container flex flex-col items-center p-4">
         <h2 className="text-3xl font-bold -mb-2">Countdown to next riddle!</h2>
