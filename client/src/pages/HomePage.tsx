@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import EditProfileModal from "./EditProfileModal";
 import RiddleScheduler from "./RiddleSchedulerModal";
 import { useInView } from "./useInView";
+import showCase from "./Mashrooms-Game.mp4";
 
 export const weekDates: Record<number, string> = {
   1: "2025-03-18T00:00:00",
@@ -125,17 +126,23 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold text-gray-800 text-center">
             Week {currentWeekNumber} Best Submission!
           </h2>
-          <h2 className="text-2xl font-bold mb-2 text-cyan-500 text-center">
-            User's Game:
-          </h2>
+          <a href="https://arcade.makecode.com/69230-13600-69008-08315" target="_blank" rel="noopener noreferrer">
+            <div className="flex justify-center">
+              <button className="mt-2 mb-2 bg-transparent hover:bg-cyan-400 text-cyan-600 font-semibold hover:text-white py-2 px-4 border border-cyan-500 hover:border-transparent rounded">
+                Mashroom's Game:
+              </button>
+            </div>
+          </a>
           <div className="flex flex-col items-center">
-            <a href="https://makecode.com/tutorial-tool" target="_blank" rel="noopener noreferrer">
-              <img
-                src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTEweWt1cG9icThyY242YnY5ZWRvNHJia3ZhMDA1ZnB1cWFvNjE1byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l6mn9pU4YQEnHpvkdv/giphy.gif"
-                alt="Top Submission"
-                className="max-w-md"
-              />
-            </a>
+            <video
+              className="w-full max-w-3xl rounded shadow-lg"
+              controls
+              width="750"
+              height="500"
+            >
+              <source src={showCase} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </section>
       </main>
