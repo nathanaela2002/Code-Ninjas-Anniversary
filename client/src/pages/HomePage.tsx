@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import EditProfileModal from "./EditProfileModal";
 import RiddleScheduler from "./RiddleSchedulerModal";
 import { useInView } from "./useInView";
+import showCase from "./Mashrooms-Game.mp4";
 
 export const weekDates: Record<number, string> = {
   1: "2025-03-18T00:00:00",
@@ -20,6 +21,26 @@ export const weekDates: Record<number, string> = {
 export default function HomePage() {
   const [heroRef, heroInView] = useInView();
   const [weeksRef, weeksInView] = useInView();
+
+  // Helper to find the current week number based on today's date.
+  const getCurrentWeekNumber = (): number => {
+    const now = new Date();
+    let currentWeek = 0;
+
+    // Check all week dates to determine the largest unlocked week
+    Object.entries(weekDates).forEach(([week, dateStr]) => {
+      const releaseDate = new Date(dateStr);
+      if (now >= releaseDate) {
+        const weekNum = parseInt(week, 10);
+        if (weekNum > currentWeek) {
+          currentWeek = weekNum;
+        }
+      }
+    });
+    return currentWeek;
+  };
+
+  const currentWeekNumber = getCurrentWeekNumber();
 
   return (
     <div className="w-full min-h-screen font-sans bg-white text-gray-800">
@@ -99,6 +120,31 @@ export default function HomePage() {
 
         {/* COUNTDOWN / RIDDLE-SCHEDULER SECTION */}
         <RiddleScheduler />
+
+        {/* Best submission! Section */}
+        <section className="mt-4 w-full max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-800 text-center">
+            Week {currentWeekNumber} Best Submission!
+          </h2>
+          <a href="https://arcade.makecode.com/69230-13600-69008-08315" target="_blank" rel="noopener noreferrer">
+            <div className="flex justify-center">
+              <button className="mt-2 mb-2 bg-transparent hover:bg-cyan-400 text-cyan-600 font-semibold hover:text-white py-2 px-4 border border-cyan-500 hover:border-transparent rounded">
+                Mashroom's Game:
+              </button>
+            </div>
+          </a>
+          <div className="flex flex-col items-center">
+            <video
+              className="w-full max-w-3xl rounded shadow-lg"
+              controls
+              width="750"
+              height="500"
+            >
+              <source src={showCase} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </section>
       </main>
 
       {/* LEADERBOARD */}
@@ -108,7 +154,6 @@ export default function HomePage() {
     </div>
   );
 }
-
 
 /* ---------------------------------------------- */
 /*                LEADERBOARD CODE               */
