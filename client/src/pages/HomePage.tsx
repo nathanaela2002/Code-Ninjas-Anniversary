@@ -49,7 +49,7 @@ export default function HomePage() {
         {/* HERO SECTION */}
         <section
           ref={heroRef}
-          className={`flex flex-col md:flex-row items-center md:space-x-8 mb-12
+          className={`flex flex-col md:flex-row items-center md:space-x-8 mb-4
             ${heroInView ? "reveal-show" : "reveal-hidden"}
           `}
         >
@@ -78,10 +78,13 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* COUNTDOWN / RIDDLE-SCHEDULER SECTION */}
+        <RiddleScheduler />
+
         {/* WEEKS SECTION */}
         <section
           ref={weeksRef}
-          className={`relative mb-10 ${weeksInView ? "reveal-show" : "reveal-hidden"}`}
+          className={`relative mb-20 ${weeksInView ? "reveal-show" : "reveal-hidden"}`}
         >
           <div className="flex flex-wrap items-start justify-center space-x-4 md:space-x-6">
             {Array.from({ length: 6 }).map((_, idx) => {
@@ -117,9 +120,6 @@ export default function HomePage() {
             })}
           </div>
         </section>
-
-        {/* COUNTDOWN / RIDDLE-SCHEDULER SECTION */}
-        <RiddleScheduler />
 
         {/* Best submission! Section */}
         <section className="mt-4 w-full max-w-2xl mx-auto">
