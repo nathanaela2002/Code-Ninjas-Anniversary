@@ -22,6 +22,7 @@ const riddlesData: Record<
     comic: string;
     releaseDate: string;
     riddleURL: string;
+    JSriddleURL?: string;
   }
 > = {
   "1": {
@@ -72,8 +73,9 @@ const riddlesData: Record<
       "In rows and rows, ninjas grow. Each has its place, all in a row. Look for the farm where ninjas train, neatly lined up like grain.",
     comic: NinjaComic5,
     releaseDate: "2025-04-15T16:00:00",
-    riddleURL:
-      "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle5",
+    riddleURL: "https://arcade.makecode.com/#tutorial:20312-69718-31302-05834",
+    JSriddleURL:
+      "https://arcade.makecode.com/#tutorial:12589-16113-95061-38690",
   },
   "6": {
     week: 6,
@@ -211,11 +213,28 @@ export default function RiddlePage() {
               Each riddle contains clues that will help you move forward. Solve
               the puzzles and prove your ninja skills!
             </p>
-            <a href={currentRiddle.riddleURL} target="_blank">
-              <button className="bg-yellow-400 text-white text-lg font-semibold px-6 py-2 rounded-md shadow hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition">
-                Go to Riddle!
-              </button>
-            </a>
+            <div className="flex flex-col space-y-4">
+              <a
+                href={currentRiddle.riddleURL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="bg-yellow-400 text-white text-lg font-semibold px-6 py-2 rounded-md shadow hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition">
+                  Go to Riddle!
+                </button>
+              </a>
+              {currentRiddle.JSriddleURL && (
+                <a
+                  href={currentRiddle.JSriddleURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <button className="bg-blue-400 text-white text-lg font-semibold px-6 py-2 rounded-md shadow hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
+                    JavaScript Version
+                  </button>
+                </a>
+              )}
+            </div>
           </div>
         </section>
 
