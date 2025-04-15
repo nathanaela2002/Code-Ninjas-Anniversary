@@ -124,9 +124,13 @@ export default function HomePage() {
         {/* Best submission! Section */}
         <section className="mt-4 w-full max-w-2xl mx-auto">
           <h2 className="text-3xl font-bold text-gray-800 text-center">
-            Week {currentWeekNumber} Best Submission!
+            Week {currentWeekNumber} Submission Showcase!
           </h2>
-          <a href="https://arcade.makecode.com/69230-13600-69008-08315" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://arcade.makecode.com/69230-13600-69008-08315"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div className="flex justify-center">
               <button className="mt-2 mb-2 bg-transparent hover:bg-cyan-400 text-cyan-600 font-semibold hover:text-white py-2 px-4 border border-cyan-500 hover:border-transparent rounded">
                 Mashroom's Game:
