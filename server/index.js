@@ -421,7 +421,7 @@ app.post("/reset-password/:token", async (req, res) => {
   }
 });
 
-app.get("/leaderboard", authenticate, async (req, res) => {
+app.get("/leaderboard", async (req, res) => {
   try {
     const users = await User.find()
       .sort({ points: -1 })

@@ -178,7 +178,13 @@ export default function RiddlePage() {
         setMakeCodeURL("");
       } else {
         const errorData = await response.json();
-        setSubmitMessage(`Error: ${errorData.message}`);
+        if (response.status === 401) {
+          setSubmitMessage(
+            `It looks like you're not logged in. To continue, please visit this link to log in: https://www.cnaurora-secondanniversary.ca/login`,
+          );
+        } else {
+          setSubmitMessage(`Error: ${errorData.message}`);
+        }
       }
     } catch (err) {
       console.error("Error submitting MakeCode URL: ", err);
