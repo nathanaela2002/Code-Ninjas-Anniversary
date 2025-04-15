@@ -59,6 +59,21 @@ const authenticate = (req, res, next) => {
   }
 };
 
+const optionalAuthenticate = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    req.userId = null;
+    return next();
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.VITE_JWT_SECRET);
+    req.userId = decoded.id;
+  } catch (error) {
+    req.userId = null;
+  }
+  next();
+};
+
 const uploadMiddleware = multer({
   storage: multerS3({
     s3: s3,
@@ -282,7 +297,11 @@ app.post(
   },
 );
 
-app.get("/profile", authenticate, async (req, res) => {
+app.get("/profile", optionalAuthenticate, async (req, res) => {
+  if (!req.userId) {
+    return res.status(200).json({ user: null });
+  }
+
   try {
     const user = await User.findById(req.userId).select("-password");
     if (!user) {
