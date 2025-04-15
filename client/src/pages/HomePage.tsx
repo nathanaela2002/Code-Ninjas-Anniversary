@@ -189,15 +189,7 @@ const Leaderboard: React.FC = () => {
       try {
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/leaderboard`,
-          {
-            credentials: "include",
-          },
         );
-
-        if (response.status === 401) {
-          window.location.href = "/login";
-          return;
-        }
 
         const contentType = response.headers.get("content-type");
         if (!contentType || !contentType.includes("application/json")) {

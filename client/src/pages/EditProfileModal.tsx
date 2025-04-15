@@ -24,11 +24,6 @@ const EditProfileModal: React.FC = () => {
           },
         );
 
-        if (response.status === 404) {
-          window.location.href = "/login";
-          return;
-        }
-
         const data = await response.json();
         if (data.user) {
           setFormData({
