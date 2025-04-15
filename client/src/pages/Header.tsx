@@ -3,6 +3,7 @@ import DefaultAvatar from "./default.png";
 import LOGOImage from "./codeninjalogo.png";
 import { IoIosNotifications } from "react-icons/io";
 import { useInView } from "./useInView";
+import { FaUserNinja } from "react-icons/fa";
 
 const MOBILE_BREAKPOINT = 768;
 
@@ -30,7 +31,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const [user, setUser] = useState<User>({});
+  const [user, setUser] = useState<User | null>(null);
   const [rank, setRank] = useState<number | null>(null);
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -42,24 +43,19 @@ export default function Header() {
       try {
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/profile`,
-          {
-            credentials: "include",
-          },
+          { credentials: "include" },
         );
 
-        if (response.status === 404) {
-          window.location.href = "/login";
+        if (!response.ok) {
+          setUser(null); // Not logged in
           return;
         }
 
         const data = await response.json();
-        if (data.user) {
-          setUser(data.user);
-        } else {
-          console.error("missing user data", data);
-        }
+        setUser(data.user || null);
       } catch (err) {
         console.error("Profile fetch error: ", err);
+        setUser(null);
       }
     };
 
@@ -68,12 +64,11 @@ export default function Header() {
 
   useEffect(() => {
     const fetchRank = async () => {
+      if (!user) return;
       try {
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/rank`,
-          {
-            credentials: "include",
-          },
+          { credentials: "include" },
         );
         const data = await response.json();
         setRank(data.rank);
@@ -82,27 +77,25 @@ export default function Header() {
       }
     };
     fetchRank();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    if (isNotificationsOpen) {
-      const fetchNotifications = async () => {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_BACKEND_URL}/notifications`,
-            {
-              credentials: "include",
-            },
-          );
-          const data = await response.json();
-          setNotifications(data);
-        } catch (err) {
-          console.error("Error getting notifications: ", err);
-        }
-      };
-      fetchNotifications();
-    }
-  }, [isNotificationsOpen]);
+    if (!isNotificationsOpen || !user) return;
+
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/notifications`,
+          { credentials: "include" },
+        );
+        const data = await response.json();
+        setNotifications(data || []);
+      } catch (err) {
+        console.error("Error getting notifications: ", err);
+      }
+    };
+    fetchNotifications();
+  }, [isNotificationsOpen, user]);
 
   useEffect(() => {
     if (!isNotificationsOpen) return;
@@ -118,7 +111,6 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isNotificationsOpen]);
 
-  // Track if the viewport is mobile based on a breakpoint.
   const [isMobile, setIsMobile] = useState(
     window.innerWidth <= MOBILE_BREAKPOINT,
   );
@@ -131,9 +123,8 @@ export default function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Close the Riddle dropdown when clicking outside (only on non-mobile view)
   useEffect(() => {
-    if (isMobile) return; // disable on mobile
+    if (isMobile) return;
 
     function handleClickOutside(e: MouseEvent) {
       if (
@@ -174,15 +165,9 @@ export default function Header() {
     if (rank === null) return "N/A";
     const j = rank % 10,
       k = rank % 100;
-    if (j === 1 && k !== 11) {
-      return `${rank}st`;
-    }
-    if (j === 2 && k !== 12) {
-      return `${rank}nd`;
-    }
-    if (j === 3 && k !== 13) {
-      return `${rank}rd`;
-    }
+    if (j === 1 && k !== 11) return `${rank}st`;
+    if (j === 2 && k !== 12) return `${rank}nd`;
+    if (j === 3 && k !== 13) return `${rank}rd`;
     return `${rank}th`;
   }
 
@@ -194,51 +179,46 @@ export default function Header() {
     >
       {/* Desktop Header */}
       <div className="hidden md:flex items-center justify-between h-16 px-6">
-        {/* Left: Logo & Brand Name */}
+        {/* Logo */}
         <div className="flex items-center space-x-2">
           <a href="/" className="flex items-center space-x-2">
             <img
               src={LOGOImage}
-              alt="Code Ninjas Logo"
+              alt="Logo"
               className="h-8 w-auto object-contain"
             />
           </a>
         </div>
 
-        {/* Center: Navigation Menu */}
+        {/* Navigation */}
         <nav className="flex items-center space-x-6">
-          <a
-            href="/"
-            className="text-md font-bold hover:text-blue-700 transition-colors"
-          >
+          <a href="/" className="text-md font-bold hover:text-blue-700">
             Home
           </a>
-          <a
-            href="/about"
-            className="text-md font-bold hover:text-blue-700 transition-colors"
-          >
+          <a href="/about" className="text-md font-bold hover:text-blue-700">
             About
           </a>
-          {/* Riddle Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={toggleRiddleDropdown}
-              className="text-md font-bold hover:text-blue-700 transition-colors flex items-center gap-1"
+              className="text-md font-bold hover:text-blue-700 flex items-center gap-1"
             >
               Riddle
               <span
-                className={`transform transition-transform ${isRiddleOpen ? "rotate-90" : "rotate-0"}`}
+                className={`transform transition-transform ${
+                  isRiddleOpen ? "rotate-90" : "rotate-0"
+                }`}
               >
                 ►
               </span>
             </button>
             {isRiddleOpen && (
-              <ul className="absolute top-8 left-0 w-32 bg-white shadow-md rounded-md border border-gray-200 flex flex-col z-50 py-2">
+              <ul className="absolute top-8 left-0 w-32 bg-white shadow-md rounded-md border border-gray-200 z-50 py-2">
                 {[1, 2, 3, 4, 5, 6].map((week) => (
                   <li key={week}>
                     <a
                       href={`/riddle/${week}`}
-                      className="block px-4 py-2 text-sm font-semibold text-gray-700 hover:text-blue-700 transition"
+                      className="block px-4 py-2 text-sm hover:text-blue-700"
                     >
                       Week {week}
                     </a>
@@ -247,190 +227,156 @@ export default function Header() {
               </ul>
             )}
           </div>
-          <a
-            href="/prizes"
-            className="text-md font-bold hover:text-blue-700 transition-colors"
-          >
+          <a href="/prizes" className="text-md font-bold hover:text-blue-700">
             Prizes
           </a>
         </nav>
 
+        {/* User / Auth Options */}
         <div className="flex items-center space-x-4">
-          {/* NEW: Notifications Icon */}
-          <div className="relative">
-            <span
-              onClick={toggleNotifications}
-              className="cursor-pointer text-2xl"
-            >
-              <IoIosNotifications className="text-3xl" />
-            </span>
-            {isNotificationsOpen && (
-              <div
-                ref={notificationsRef}
-                className="absolute right-0 mt-2 w-[320px] bg-white shadow-lg border border-gray-200 rounded-md z-50"
-              >
-                <ul className="max-h-64 overflow-y-auto">
-                  {notifications.length ? (
-                    notifications.map((notif, index) => (
-                      <li
-                        key={index}
-                        className="px-4 py-2 border-b border-gray-100"
-                      >
-                        {notif.type === "submissionUpdate" && (
-                          <span>
-                            Week {notif.payload.riddleId} submission&nbsp;{" "}
-                            <strong>{notif.payload.decision}d.</strong>
-                            {notif.payload.decision === "approve" && (
-                              <span>
-                                {" "}
-                                <br />
-                                Points awarded: {notif.payload.pointsAwarded}
-                              </span>
+          {user?.username ? (
+            <>
+              <div className="relative">
+                <span
+                  onClick={toggleNotifications}
+                  className="cursor-pointer text-2xl"
+                >
+                  <IoIosNotifications className="text-3xl" />
+                </span>
+                {isNotificationsOpen && (
+                  <div
+                    ref={notificationsRef}
+                    className="absolute right-0 mt-2 w-[320px] bg-white shadow-lg border border-gray-200 rounded-md z-50"
+                  >
+                    <ul className="max-h-64 overflow-y-auto">
+                      {notifications.length ? (
+                        notifications.map((notif, index) => (
+                          <li
+                            key={index}
+                            className="px-4 py-2 border-b border-gray-100"
+                          >
+                            {notif.type === "submissionUpdate" && (
+                              <>
+                                Week {notif.payload.riddleId} submission{" "}
+                                <strong>{notif.payload.decision}d</strong>
+                                {notif.payload.decision === "approve" && (
+                                  <>
+                                    <br />
+                                    Points: {notif.payload.pointsAwarded}
+                                  </>
+                                )}
+                                {notif.payload.feedback && (
+                                  <div className="text-sm text-gray-500">
+                                    Feedback: {notif.payload.feedback}
+                                  </div>
+                                )}
+                              </>
                             )}
-                            {notif.payload.decision === "disapprove" &&
-                              notif.payload.feedback && (
-                                <div className="text-sm text-gray-500">
-                                  <strong>Feedback</strong>:{" "}
-                                  {notif.payload.feedback}
-                                </div>
-                              )}
-                          </span>
-                        )}
-                        {/* Additional notification types can be handled here */}
-                      </li>
-                    ))
-                  ) : (
-                    <li className="px-4 py-2">No notifications</li>
-                  )}
-                </ul>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="px-4 py-2">No notifications</li>
+                      )}
+                    </ul>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-
-          <span className="font-bold">{formatRank(rank)}</span>
-          <img
-            src={user.profilePicture || DefaultAvatar}
-            className="h-8 w-auto object-cover rounded-full cursor-pointer"
-            alt="User Avatar"
-            onClick={openEditProfileModal}
-          />
-          <span className="font-bold">{user.username}</span>
-          <span>{user.points} pts</span>
+              <span className="font-bold">{formatRank(rank)}</span>
+              <img
+                src={user.profilePicture || DefaultAvatar}
+                className="h-8 w-auto object-cover rounded-full cursor-pointer"
+                alt="Avatar"
+                onClick={openEditProfileModal}
+              />
+              <span className="font-bold">{user.username}</span>
+              <span>{user.points} pts</span>
+            </>
+          ) : (
+            <>
+              <a
+                href="/login"
+                className="text-md font-bold hover:text-blue-700 flex items-center mr-4"
+              >
+                <FaUserNinja className="inline-block text-xl mr-2" /> Login
+              </a>
+            </>
+          )}
         </div>
       </div>
 
       {/* Mobile Header */}
       <div className="flex md:hidden items-center justify-between h-16 px-4">
-        {/* Hamburger Menu Button */}
-        <button
-          onClick={toggleMobileMenu}
-          className="text-2xl focus:outline-none"
-        >
+        <button onClick={toggleMobileMenu} className="text-2xl">
           ☰
         </button>
         <div className="flex items-center space-x-2">
-          <span className="font-bold">{formatRank(rank)}</span>
-          <div className="relative">
-            <span
-              onClick={toggleNotifications}
-              className="cursor-pointer text-xl"
-            >
-              <IoIosNotifications className="text-3xl" />
-            </span>
-            {isNotificationsOpen && (
-              <div
-                ref={notificationsRef}
-                className="absolute right-0 mt-2 w-64 bg-white shadow-lg border border-gray-200 rounded-md z-50"
+          {user?.username ? (
+            <>
+              <span className="font-bold">{formatRank(rank)}</span>
+              <IoIosNotifications
+                className="text-3xl cursor-pointer"
+                onClick={toggleNotifications}
+              />
+              <img
+                src={user.profilePicture || DefaultAvatar}
+                className="h-8 w-auto object-cover rounded-full cursor-pointer"
+                alt="Avatar"
+                onClick={openEditProfileModal}
+              />
+              <span className="font-bold">{user.username}</span>
+              <span>{user.points} pts</span>
+            </>
+          ) : (
+            <>
+              <a
+                href="/login"
+                className="text-md font-bold hover:text-blue-700 flex items-center mr-4"
               >
-                <ul className="max-h-64 overflow-y-auto">
-                  {notifications.length ? (
-                    notifications.map((notif, index) => (
-                      <li
-                        key={index}
-                        className="px-4 py-2 border-b border-gray-100"
-                      >
-                        {notif.type === "submissionUpdate" && (
-                          <div>
-                            <span>
-                              Week {notif.payload.riddleId} submission&nbsp;{" "}
-                              <strong>{notif.payload.decision}d.</strong>
-                            </span>
-                            {notif.payload.decision === "disapprove" &&
-                              notif.payload.feedback && (
-                                <div className="text-sm text-gray-500">
-                                  Feedback: {notif.payload.feedback}
-                                </div>
-                              )}
-                          </div>
-                        )}
-                      </li>
-                    ))
-                  ) : (
-                    <li className="px-4 py-2">No notifications</li>
-                  )}
-                </ul>
-              </div>
-            )}
-          </div>
-          <img
-            src={user.profilePicture || DefaultAvatar}
-            className="h-8 w-auto object-cover rounded-full cursor-pointer"
-            alt="User Avatar"
-            onClick={openEditProfileModal}
-          />
-          <span className="font-bold">{user.username}</span>
-          <span>{user.points} pts</span>
+                <FaUserNinja className="inline-block text-xl mr-2" /> Login
+              </a>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu (Navigation Only) */}
+      {/* Mobile Nav Menu */}
       {isMobileMenuOpen && (
         <div
           ref={mobileMenuRef}
           className="md:hidden absolute top-16 left-0 right-0 bg-white shadow-lg z-40"
         >
           <div className="flex flex-col space-y-4 p-4">
-            {/* Logo */}
             <a href="/" className="flex items-center space-x-2">
-              <img
-                src={LOGOImage}
-                alt="Code Ninjas Logo"
-                className="h-8 w-auto object-contain"
-              />
+              <img src={LOGOImage} alt="Logo" className="h-8 w-auto" />
             </a>
-            {/* Navigation */}
             <nav className="flex flex-col space-y-2">
-              <a
-                href="/"
-                className="text-md font-bold hover:text-blue-700 transition-colors"
-              >
+              <a href="/" className="font-bold hover:text-blue-700">
                 Home
               </a>
-              <a
-                href="/about"
-                className="text-md font-bold hover:text-blue-700 transition-colors"
-              >
+              <a href="/about" className="font-bold hover:text-blue-700">
                 About
               </a>
               <div className="relative">
                 <button
                   onClick={toggleRiddleDropdown}
-                  className="text-md font-bold hover:text-blue-700 transition-colors flex items-center gap-1"
+                  className="font-bold hover:text-blue-700 flex items-center gap-1"
                 >
                   Riddle
                   <span
-                    className={`transform transition-transform ${isRiddleOpen ? "rotate-90" : "rotate-0"}`}
+                    className={`transform transition-transform ${
+                      isRiddleOpen ? "rotate-90" : "rotate-0"
+                    }`}
                   >
                     ►
                   </span>
                 </button>
                 {isRiddleOpen && (
-                  <ul className="mt-2 ml-4 mr-4 bg-gray-50 shadow-lg rounded-md border border-gray-300 flex flex-col z-50 py-2">
+                  <ul className="mt-2 ml-4 mr-4 bg-gray-50 shadow-lg border rounded-md py-2">
                     {[1, 2, 3, 4, 5, 6].map((week) => (
                       <li key={week}>
                         <a
                           href={`/riddle/${week}`}
-                          className="block px-4 py-2 text-sm font-semibold text-gray-700 hover:text-blue-700 transition"
+                          className="block px-4 py-2 text-sm hover:text-blue-700"
                         >
                           Week {week}
                         </a>
@@ -439,10 +385,7 @@ export default function Header() {
                   </ul>
                 )}
               </div>
-              <a
-                href="/prizes"
-                className="text-md font-bold hover:text-blue-700 transition-colors"
-              >
+              <a href="/prizes" className="font-bold hover:text-blue-700">
                 Prizes
               </a>
             </nav>
