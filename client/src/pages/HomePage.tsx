@@ -78,11 +78,40 @@ export default function HomePage() {
           </div>
         </section>
 
-        <div className="mt-6 p-6 bg-yellow-100 border-2 border-yellow-400 rounded-lg max-w-md mx-auto text-lg text-center">
-          <p className="text-yellow-700 font-bold text-xl">
-            🕵️ Heads up ninjas! Week 6 will be judged by 3 judges so take your
-            time and do your best. Speed doesn't matter this time!
-          </p>
+        <div className="relative mt-6 mb-16 max-w-md mx-auto overflow-hidden rounded-2xl bg-yellow-50 shadow-xl ring-4 ring-red-400/70 ring-offset-4 ring-offset-orange-100">
+          <div className="p-6 space-y-3 text-center">
+            {/* Header line */}
+            <h3 className="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight text-yellow-900 drop-shadow-sm">
+              🌟 Week 6 Spotlight
+            </h3>
+
+            {/* Judges emphasis with line break */}
+            <p className="text-lg font-semibold text-yellow-800">
+              Personally assessed by<br/>
+              <span className="font-black decoration-yellow-500">
+                3 Judges
+              </span>
+              &nbsp;so bring your A‑game!
+            </p>
+
+            {/* Speed doesn’t matter emphasis */}
+            <p className="text-lg font-semibold text-yellow-800">
+              <span className="inline-flex items-center gap-1">
+                🐢
+                <span className="font-black">SPEED DOES NOT MATTER</span>
+              </span>
+              <br/> Take it slow and craft your best!
+            </p>
+
+            {/* Submission deadline */}
+            <p className="mt-4 text-base font-medium text-yellow-700">
+              Submission deadline for all riddles:<br/>
+              <span className="font-black">Friday, April 25 at 4:00 PM EST</span>
+            </p>
+
+            {/* Gentle attention‑grabber */}
+            <span className="absolute inset-0 animate-pulse rounded-2xl bg-yellow-200/20 pointer-events-none" />
+          </div>
         </div>
 
         {/* COUNTDOWN / RIDDLE-SCHEDULER SECTION */}
