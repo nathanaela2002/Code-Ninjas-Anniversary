@@ -78,6 +78,8 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* splash section*/}
+
         <div className="relative mt-6 mb-16 max-w-md mx-auto overflow-hidden rounded-2xl bg-yellow-50 shadow-xl ring-4 ring-red-400/70 ring-offset-4 ring-offset-orange-100">
           <div className="p-6 space-y-3 text-center">
             {/* Header line */}
@@ -87,10 +89,9 @@ export default function HomePage() {
 
             {/* Judges emphasis with line break */}
             <p className="text-lg font-semibold text-yellow-800">
-              Personally assessed by<br/>
-              <span className="font-black decoration-yellow-500">
-                3 Judges
-              </span>
+              Personally assessed by
+              <br />
+              <span className="font-black decoration-yellow-500">3 Judges</span>
               &nbsp;so bring your A‑game!
             </p>
 
@@ -100,13 +101,16 @@ export default function HomePage() {
                 🐢
                 <span className="font-black">SPEED DOES NOT MATTER</span>
               </span>
-              <br/> Take it slow and craft your best!
+              <br /> Take it slow and craft your best!
             </p>
 
             {/* Submission deadline */}
             <p className="mt-4 text-base font-medium text-yellow-700">
-              Submission deadline for all riddles:<br/>
-              <span className="font-black">Friday, April 25 at 4:00 PM EST</span>
+              Submission deadline for all riddles:
+              <br />
+              <span className="font-black">
+                Friday, April 25 at 4:00 PM EST
+              </span>
             </p>
 
             {/* Gentle attention‑grabber */}
