@@ -25,8 +25,8 @@ const {
 require("dotenv").config({ path: "../client/.env" });
 
 const corsOptions = {
-  origin: "https://www.cnaurora-secondanniversary.ca",
-  //origin: "http://localhost:3000",
+  //origin: "https://www.cnaurora-secondanniversary.ca",
+  origin: "http://localhost:3000",
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
@@ -213,8 +213,8 @@ app.post("/login", async (req, res) => {
     res.cookie("token", token, {
       sameSite: "none",
       secure: true,
-      domain: ".cnaurora-secondanniversary.ca",
-      //domain: "localhost",
+      //domain: ".cnaurora-secondanniversary.ca",
+      domain: "localhost",
       maxAge: 3600000,
     });
 

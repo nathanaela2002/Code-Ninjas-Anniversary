@@ -78,6 +78,13 @@ export default function HomePage() {
           </div>
         </section>
 
+        <div className="mt-6 p-6 bg-yellow-100 border-2 border-yellow-400 rounded-lg max-w-md mx-auto text-lg text-center">
+          <p className="text-yellow-700 font-bold text-xl">
+            🕵️ Heads up ninjas! Week 6 will be judged by 3 judges so take your
+            time and do your best. Speed doesn't matter this time!
+          </p>
+        </div>
+
         {/* COUNTDOWN / RIDDLE-SCHEDULER SECTION */}
         <RiddleScheduler />
 
