@@ -22,26 +22,6 @@ export default function HomePage() {
   const [heroRef, heroInView] = useInView();
   const [weeksRef, weeksInView] = useInView();
 
-  // Helper to find the current week number based on today's date.
-  const getCurrentWeekNumber = (): number => {
-    const now = new Date();
-    let currentWeek = 0;
-
-    // Check all week dates to determine the largest unlocked week
-    Object.entries(weekDates).forEach(([week, dateStr]) => {
-      const releaseDate = new Date(dateStr);
-      if (now >= releaseDate) {
-        const weekNum = parseInt(week, 10);
-        if (weekNum > currentWeek) {
-          currentWeek = weekNum;
-        }
-      }
-    });
-    return currentWeek;
-  };
-
-  const currentWeekNumber = getCurrentWeekNumber();
-
   return (
     <div className="w-full min-h-screen font-sans bg-white text-gray-800">
       <Header />
