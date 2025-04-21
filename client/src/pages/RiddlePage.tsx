@@ -85,8 +85,7 @@ const riddlesData: Record<
       "Round and round, ninjas run fast, looping forever, never the last. Find the dimension where racers speed.",
     comic: NinjaComic6,
     releaseDate: "2025-04-22T16:00:00",
-    riddleURL:
-      "https://arcade.makecode.com/#tutorial:github:mame-mor-m/code-ninjas-tutorials/Riddle6",
+    riddleURL: "https://arcade.makecode.com/#tutorial:09665-68344-78279-80193",
   },
 };
 
