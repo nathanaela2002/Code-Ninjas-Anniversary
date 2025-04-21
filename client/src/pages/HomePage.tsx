@@ -7,7 +7,9 @@ import Footer from "./Footer";
 import EditProfileModal from "./EditProfileModal";
 import RiddleScheduler from "./RiddleSchedulerModal";
 import { useInView } from "./useInView";
-import showCase from "./Mashrooms-Game.mp4";
+import week4Game from "./Mashrooms-Game.mp4";
+import week5Game from "./NcGuy's-Game.mp4";
+
 
 export const weekDates: Record<number, string> = {
   1: "2025-03-18T00:00:00",
@@ -145,7 +147,7 @@ export default function HomePage() {
                 width="750"
                 height="500"
               >
-                <source src={showCase} type="video/mp4" />
+                <source src={week4Game} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -156,7 +158,7 @@ export default function HomePage() {
               Week 5 Submission Showcase!
             </h2>
             <a
-              href="https://arcade.makecode.com/69230-13600-69008-08315"
+              href="https://arcade.makecode.com/53229-94237-71812-34784"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -173,7 +175,7 @@ export default function HomePage() {
                 width="750"
                 height="500"
               >
-                <source src={showCase} type="video/mp4" />
+                <source src={week5Game} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>
