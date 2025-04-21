@@ -162,33 +162,63 @@ export default function HomePage() {
         </section>
 
         {/* Best submission! Section */}
-        <section className="mt-4 w-full max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-800 text-center">
-            Week {currentWeekNumber} Submission Showcase!
-          </h2>
-          <a
-            href="https://arcade.makecode.com/69230-13600-69008-08315"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className="flex justify-center">
-              <button className="mt-2 mb-2 bg-transparent hover:bg-cyan-400 text-cyan-600 font-semibold hover:text-white py-2 px-4 border border-cyan-500 hover:border-transparent rounded">
-                Mashroom's Game:
-              </button>
-            </div>
-          </a>
-          <div className="flex flex-col items-center">
-            <video
-              className="w-full max-w-3xl rounded shadow-lg"
-              controls
-              width="750"
-              height="500"
+        <div className="mt-4 w-full max-w-7xl mx-auto grid grid-cols-2 gap-8">
+          <section className="w-full">
+            <h2 className="text-3xl font-bold text-gray-800 text-center">
+              Week 4 Submission Showcase!
+            </h2>
+            <a
+              href="https://arcade.makecode.com/69230-13600-69008-08315"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <source src={showCase} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </section>
+              <div className="flex justify-center">
+                <button className="mt-2 mb-2 bg-transparent hover:bg-cyan-400 text-cyan-600 font-semibold hover:text-white py-2 px-4 border border-cyan-500 hover:border-transparent rounded">
+                  Mashroom's Game:
+                </button>
+              </div>
+            </a>
+            <div className="flex flex-col items-center">
+              <video
+                className="w-full rounded shadow-lg"
+                controls
+                width="750"
+                height="500"
+              >
+                <source src={showCase} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </section>
+
+          <section className="w-full">
+            <h2 className="text-3xl font-bold text-gray-800 text-center">
+              Week 5 Submission Showcase!
+            </h2>
+            <a
+              href="https://arcade.makecode.com/69230-13600-69008-08315"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="flex justify-center">
+                <button className="mt-2 mb-2 bg-transparent hover:bg-cyan-400 text-cyan-600 font-semibold hover:text-white py-2 px-4 border border-cyan-500 hover:border-transparent rounded">
+                  NC Guy's Game:
+                </button>
+              </div>
+            </a>
+            <div className="flex flex-col items-center">
+              <video
+                className="w-full rounded shadow-lg"
+                controls
+                width="750"
+                height="500"
+              >
+                <source src={showCase} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </section>
+        </div>
       </main>
 
       {/* LEADERBOARD */}
