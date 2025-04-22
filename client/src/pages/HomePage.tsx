@@ -10,7 +10,6 @@ import { useInView } from "./useInView";
 import week4Game from "./Mashrooms-Game.mp4";
 import week5Game from "./NcGuy's-Game.mp4";
 
-
 export const weekDates: Record<number, string> = {
   1: "2025-03-18T00:00:00",
   2: "2025-03-25T00:00:00",
@@ -143,6 +142,8 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* week 5 commit */}
+
         {/* Best submission! Section */}
         <div className="mt-4 w-full max-w-7xl mx-auto grid grid-cols-2 gap-8">
           <section className="w-full">
@@ -201,7 +202,6 @@ export default function HomePage() {
             </div>
           </section>
         </div>
-
       </main>
 
       {/* LEADERBOARD */}
