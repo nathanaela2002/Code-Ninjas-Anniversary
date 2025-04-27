@@ -5,7 +5,6 @@ import DefaultAvatar from "./default.png";
 import Header from "./Header";
 import Footer from "./Footer";
 import EditProfileModal from "./EditProfileModal";
-import RiddleScheduler from "./RiddleSchedulerModal";
 import { useInView } from "./useInView";
 
 /* thumbnails for podium */
