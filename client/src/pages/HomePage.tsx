@@ -7,8 +7,15 @@ import Footer from "./Footer";
 import EditProfileModal from "./EditProfileModal";
 import RiddleScheduler from "./RiddleSchedulerModal";
 import { useInView } from "./useInView";
-import showCase from "./Mashrooms-Game.mp4";
 
+/* thumbnails for podium */
+import firstPlaceBg from "./first-place-game.png";
+import secondPlaceBg from "./second-place-game.png";
+import thirdPlaceBg from "./third-place-game.png";
+
+/* ───────────────────────────────────────────────
+   WEEK RELEASE DATES
+   ───────────────────────────────────────────── */
 export const weekDates: Record<number, string> = {
   1: "2025-03-18T00:00:00",
   2: "2025-03-25T00:00:00",
@@ -18,6 +25,9 @@ export const weekDates: Record<number, string> = {
   6: "2025-04-22T16:00:00",
 };
 
+/* ───────────────────────────────────────────────
+   HOMEPAGE COMPONENT
+   ───────────────────────────────────────────── */
 export default function HomePage() {
   const [heroRef, heroInView] = useInView();
   const [weeksRef, weeksInView] = useInView();
@@ -25,8 +35,9 @@ export default function HomePage() {
   return (
     <div className="w-full min-h-screen font-sans bg-white text-gray-800">
       <Header />
+
       <main className="max-w-6xl mx-auto px-4 py-8">
-        {/* HERO SECTION */}
+        {/* ───────── HERO ───────── */}
         <section
           ref={heroRef}
           className={`flex flex-col md:flex-row items-center md:space-x-8 mb-4
@@ -42,83 +53,74 @@ export default function HomePage() {
           </div>
           <div className="md:w-1/2 lg:w-2/3">
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-              OH NO! Cody’s gone missing! <br className="hidden md:block" />
+              OH NO! Cody’s gone missing! <br className="hidden md:block" />
               Only you have the expertise to find him.
             </h1>
             <p className="mb-6 text-gray-700 leading-relaxed">
               Help Cody return home by solving a series of clever riddles and
-              challenges in the coming weeks. Complete all 6 tasks to bring Cody
+              challenges in the coming weeks. Complete all 6 tasks to bring Cody
               back safely and prove your ninja expertise!
             </p>
             <a href="/about">
               <button className="bg-yellow-400 text-white text-lg font-semibold px-6 py-2 rounded-md shadow hover:bg-yellow-500">
-                Learn More...
+                Learn More…
               </button>
             </a>
           </div>
         </section>
 
-        {/* splash section*/}
-
+        {/* ───────── WEEK‑6 SPOTLIGHT BANNER ───────── 
         <div className="relative mt-6 mb-16 max-w-md mx-auto overflow-hidden rounded-2xl bg-yellow-50 shadow-xl ring-4 ring-red-400/70 ring-offset-4 ring-offset-orange-100">
           <div className="p-6 space-y-3 text-center">
-            {/* Header line */}
             <h3 className="flex items-center justify-center gap-2 text-3xl font-extrabold tracking-tight text-yellow-900 drop-shadow-sm">
-              🌟 Week 6 Spotlight
+              🌟 Week 6 Spotlight
             </h3>
 
-            {/* Judges emphasis with line break */}
             <p className="text-lg font-semibold text-yellow-800">
               Personally assessed by
               <br />
               <span className="font-black decoration-yellow-500">3 Judges</span>
-              &nbsp;so bring your A‑game!
+              &nbsp;so bring your A‑game!
             </p>
 
-            {/* Speed doesn’t matter emphasis */}
             <p className="text-lg font-semibold text-yellow-800">
               <span className="inline-flex items-center gap-1">
-                🐢
-                <span className="font-black">SPEED DOES NOT MATTER</span>
+                🐢 <span className="font-black">SPEED DOES NOT MATTER</span>
               </span>
-              <br /> Take it slow and craft your best!
+              <br />Take it slow and craft your best!
             </p>
 
-            {/* Submission deadline */}
             <p className="mt-4 text-base font-medium text-yellow-700">
               Submission deadline for all riddles:
               <br />
               <span className="font-black">
-                Friday, April 25 at 4:00 PM EST
+                Friday, April 25 at 4 PM EST
               </span>
             </p>
 
-            {/* Gentle attention‑grabber */}
             <span className="absolute inset-0 animate-pulse rounded-2xl bg-yellow-200/20 pointer-events-none" />
           </div>
         </div>
+        */}
 
-        {/* COUNTDOWN / RIDDLE-SCHEDULER SECTION */}
-        <RiddleScheduler />
+        {/* ───────── COUNTDOWN / RIDDLE‑SCHEDULER ───────── */}
+        {/*<RiddleScheduler />*/}
 
-        {/* WEEKS SECTION */}
+        {/* ───────── WEEK LINKS ───────── */}
         <section
           ref={weeksRef}
-          className={`relative mb-20 ${weeksInView ? "reveal-show" : "reveal-hidden"}`}
+          className={`relative mb-2 ${weeksInView ? "reveal-show" : "reveal-hidden"}`}
         >
           <div className="flex flex-wrap items-start justify-center space-x-4 md:space-x-6">
             {Array.from({ length: 6 }).map((_, idx) => {
               const weekNumber = idx + 1;
-              const weekDateStr = weekDates[weekNumber];
-              const weekDate = new Date(weekDateStr);
+              const weekDate = new Date(weekDates[weekNumber]);
               const isClickable = new Date() >= weekDate;
 
-              const content = (
-                <>
-                  <div className="bg-white w-24 h-28 shadow-md flex flex-col justify-center items-center relative">
-                    <span className="font-bold text-sm">Week {weekNumber}</span>
-                  </div>
-                </>
+              const card = (
+                <div className="bg-white w-24 h-28 shadow-md flex flex-col justify-center items-center">
+                  <span className="font-bold text-sm">Week {weekNumber}</span>
+                </div>
               );
 
               return isClickable ? (
@@ -127,61 +129,38 @@ export default function HomePage() {
                   to={`/riddle/${weekNumber}`}
                   className="flex flex-col items-center transform hover:scale-105"
                 >
-                  {content}
+                  {card}
                 </Link>
               ) : (
                 <div
                   key={idx}
                   className="flex flex-col items-center opacity-50 cursor-not-allowed"
                 >
-                  {content}
+                  {card}
                 </div>
               );
             })}
           </div>
         </section>
-
-        {/* Best submission! Section */}
-        <section className="mt-4 w-full max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-800 text-center">
-            Week 4 Submission Showcase!
-          </h2>
-          <a
-            href="https://arcade.makecode.com/69230-13600-69008-08315"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className="flex justify-center">
-              <button className="mt-2 mb-2 bg-transparent hover:bg-cyan-400 text-cyan-600 font-semibold hover:text-white py-2 px-4 border border-cyan-500 hover:border-transparent rounded">
-                Mashroom's Game:
-              </button>
-            </div>
-          </a>
-          <div className="flex flex-col items-center">
-            <video
-              className="w-full max-w-3xl rounded shadow-lg"
-              controls
-              width="750"
-              height="500"
-            >
-              <source src={showCase} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </section>
       </main>
 
-      {/* LEADERBOARD */}
+      
+
+      {/* ───────── PODIUM (TOP 3) ───────── */}
+      <Podium />
+
+            {/* ───────── LEADERBOARD ───────── */}
       <Leaderboard />
+      
       <Footer />
       <EditProfileModal />
     </div>
   );
 }
 
-/* ---------------------------------------------- */
-/*                LEADERBOARD CODE               */
-/* ---------------------------------------------- */
+/* ====================================================================== */
+/*                         LEADERBOARD  (unchanged)                       */
+/* ====================================================================== */
 
 type LeaderboardEntry = {
   id: number;
@@ -191,188 +170,281 @@ type LeaderboardEntry = {
 };
 
 const Leaderboard: React.FC = () => {
-  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
-    [],
-  );
+  const [data, setData] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Use in-view hooks for the podium and for the "others" list
   const [podiumRef, podiumInView] = useInView();
 
-  // Separate the top 3 from the rest once data arrives
-  const topThree = leaderboardData.slice(0, 3);
-  const others = leaderboardData.slice(3);
-
   useEffect(() => {
-    const fetchLeaderboard = async () => {
+    const load = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/leaderboard`,
-        );
-
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-          const text = await response.text();
-          console.error("Invalid response format:", text);
-          throw new Error("Server did not return JSON.");
-        }
-
-        const data = await response.json();
-        setLeaderboardData(data);
-      } catch (err) {
-        let errorMessage = "Error loading leaderboard";
-        if (err instanceof Error) {
-          errorMessage = err.message;
-        }
-        console.error("Leaderboard fetch error:", err);
-        setError(errorMessage);
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/leaderboard`);
+        const json = await res.json();
+        setData(json);
+      } catch (e) {
+        setError("Error loading leaderboard");
       } finally {
         setLoading(false);
       }
     };
-
-    fetchLeaderboard();
+    load();
   }, []);
 
-  if (loading) return <p className="text-center text-gray-600">Loading...</p>;
-  if (error) return <p className="text-center text-red-500">{error}</p>;
-  if (leaderboardData.length === 0) {
+  if (loading) return <p className="text-center text-gray-600">Loading…</p>;
+  if (error)   return <p className="text-center text-red-500">{error}</p>;
+  if (!data.length)
     return <p className="text-center text-gray-600">No data yet.</p>;
-  }
+
+  const topThree = data.slice(0, 3);
+  const others   = data.slice(3);
 
   return (
     <div className="flex flex-col items-center w-full bg-white p-8">
       <h1 className="text-3xl font-bold mb-2 text-blue-800">Leaderboard</h1>
-      <div className="w-40 h-1 bg-blue-400 rounded-full mb-8"></div>
+      <div className="w-40 h-1 bg-blue-400 rounded-full mb-8" />
 
-      {/* Top 3 Container */}
+      {/* top‑3 avatars (simple) */}
       <div
         ref={podiumRef}
         className={`flex justify-center items-end gap-4 mb-10
           ${podiumInView ? "reveal-show" : "reveal-hidden"}
         `}
       >
-        {/* 2nd place */}
-        <div
-          style={{ transitionDelay: "0.1s" }}
-          className={`flex flex-col items-center transform hover:scale-105 transition
-            ${podiumInView ? "reveal-show" : "reveal-hidden"}
-          `}
-        >
-          {topThree[1] && (
-            <>
-              <div className="relative w-20 h-20 mb-2">
-                <img
-                  src={topThree[1].avatarUrl || DefaultAvatar}
-                  alt={topThree[1].name}
-                  className="w-full h-full object-cover rounded-full shadow-xl border-4 border-cyan-200"
-                />
-                <div className="absolute top-16 left-1/2 transform -translate-x-1/2">
-                  <span className="text-l bg-blue-400 rounded-full px-2.5 py-1 text-white shadow-md">
-                    2
-                  </span>
-                </div>
-              </div>
-              <p className="text-center text-blue-700 font-semibold">
-                {topThree[1].name}
-              </p>
-              <p className="text-gray-600">{topThree[1].points} pts</p>
-            </>
-          )}
-        </div>
-
-        {/* 1st place with crown */}
-        <div
-          style={{ transitionDelay: "0.2s" }}
-          className={`flex flex-col items-center transform hover:scale-105 transition
-            ${podiumInView ? "reveal-show" : "reveal-hidden"}
-          `}
-        >
-          {topThree[0] && (
-            <>
-              <div className="relative w-24 h-24 mb-2">
-                <img
-                  src={topThree[0].avatarUrl || DefaultAvatar}
-                  alt={topThree[0].name}
-                  className="w-full h-full object-cover rounded-full shadow-xl border-4 border-cyan-200"
-                />
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="text-2xl bg-blue-400 rounded-full px-2 py-1 text-white shadow-md">
-                    👑
-                  </span>
-                </div>
-                <div className="absolute top-20 left-1/2 transform -translate-x-1/2">
-                  <span className="text-xl bg-blue-400 rounded-full px-3 py-1 text-white shadow-md">
-                    1
-                  </span>
-                </div>
-              </div>
-              <p className="text-center text-blue-800 font-bold text-lg">
-                {topThree[0].name}
-              </p>
-              <p className="text-gray-700 font-medium">
-                {topThree[0].points} pts
-              </p>
-            </>
-          )}
-        </div>
-
-        {/* 3rd place */}
-        <div
-          style={{ transitionDelay: "0.3s" }}
-          className={`flex flex-col items-center transform hover:scale-105 transition
-            ${podiumInView ? "reveal-show" : "reveal-hidden"}
-          `}
-        >
-          {topThree[2] && (
-            <>
-              <div className="relative w-20 h-20 mb-2 ">
-                <img
-                  src={topThree[2].avatarUrl || DefaultAvatar}
-                  alt={topThree[2].name}
-                  className="w-full h-full object-cover rounded-full shadow-xl border-4 border-cyan-200"
-                />
-                <div className="absolute top-16 left-1/2 transform -translate-x-1/2">
-                  <span className="text-l bg-blue-400 rounded-full px-2.5 py-1 text-white shadow-md">
-                    3
-                  </span>
-                </div>
-              </div>
-              <p className="text-center text-blue-700 font-semibold">
-                {topThree[2].name}
-              </p>
-              <p className="text-gray-600">{topThree[2].points} pts</p>
-            </>
-          )}
-        </div>
+        {topThree.map((p, i) => (
+          <div key={p.id} className="flex flex-col items-center">
+            <img
+              src={p.avatarUrl || DefaultAvatar}
+              alt={p.name}
+              className={`w-${i === 0 ? "24" : "20"} h-${i === 0 ? "24" : "20"}
+                rounded-full shadow-xl border-4 border-cyan-200`}
+            />
+            <p className="mt-2 font-semibold text-blue-700">{p.name}</p>
+            <p className="text-gray-600">{p.points} pts</p>
+          </div>
+        ))}
       </div>
 
+      {/* rest of list */}
       <div className="w-full max-w-md bg-blue-200 rounded-xl shadow-lg p-10">
         <ol className="space-y-4">
-          {others.map((entry, index) => (
+          {others.map((e, i) => (
             <li
-              key={entry.id}
-              className="flex items-center justify-between p-3 rounded-md shadow-sm bg-white hover:bg-blue-50"
+              key={e.id}
+              className="flex justify-between items-center p-3 bg-white rounded-md shadow-sm hover:bg-blue-50"
             >
-              <div className="flex items-center gap-3">
-                <span className="text-gray-500 font-semibold w-5 text-right">
-                  {index + 4}
+              <span className="flex items-center gap-3">
+                <span className="w-6 text-right font-semibold text-gray-500">
+                  {i + 4}
                 </span>
                 <img
-                  src={entry.avatarUrl || DefaultAvatar}
-                  alt={entry.name}
-                  className="w-10 h-10 rounded-full shadow-md"
+                  src={e.avatarUrl || DefaultAvatar}
+                  alt={e.name}
+                  className="w-8 h-8 rounded-full"
                 />
-                <span className="font-medium text-gray-700">{entry.name}</span>
-              </div>
-              <span className="font-semibold text-gray-600">
-                {entry.points} pts
+                <span className="font-medium">{e.name}</span>
               </span>
+              <span className="font-semibold">{e.points} pts</span>
             </li>
           ))}
         </ol>
       </div>
     </div>
+  );
+};
+
+/* ====================================================================== */
+/*                             PODIUM COMPONENT                           */
+/* ====================================================================== */
+
+type PodiumEntry = {
+  id: number;
+  name: string;
+  points: number;
+  belt: string;
+  gameUrl: string;
+  avatarUrl?: string;
+};
+
+/* mock data if API is offline */
+const MOCK_PODIUM: PodiumEntry[] = [
+  {
+    id: 1,
+    name: "Nc guy",
+    points: 2389,
+    belt: "Orange Belt",
+    gameUrl: "https://makecode.com/_8t7H5hMt25pH",
+  },
+  {
+    id: 2,
+    name: "WillSkr",
+    points: 2360,
+    belt: "Yellow Belt",
+    gameUrl: "https://arcade.makecode.com/S74283-38867-31477-44837",
+  },
+  {
+    id: 3,
+    name: "Etoile",
+    points: 2350,
+    belt: "Yellow Belt",
+    gameUrl: "https://makecode.com/_1d3aEuWUo9y6",
+  },
+];
+
+const getBg = (rank: 1 | 2 | 3) =>
+  rank === 1 ? firstPlaceBg : rank === 2 ? secondPlaceBg : thirdPlaceBg;
+
+/* ───────── Glow-card itself ───────── */
+const PodiumCard: React.FC<{ rank: 1 | 2 | 3; entry: PodiumEntry }> = ({
+  rank,
+  entry,
+}) => (
+  <div
+    className={`
+      relative flex flex-col justify-end
+      ${rank === 1 ? "w-60 h-96" : "w-52 h-80 translate-y-4"}
+      rounded-2xl overflow-hidden cursor-pointer
+      shadow-[0_0_25px_6px_rgba(0,255,255,0.35)]
+      hover:shadow-[0_0_35px_12px_rgba(0,255,255,0.45)]
+      transition-transform duration-300 hover:scale-105
+    `}
+  >
+    {/* background comic thumbnail */}
+    <div
+      className="absolute inset-0 bg-cover bg-center"
+      style={{ backgroundImage: `url(${getBg(rank)})` }}
+    />
+
+    {/* dark overlay for readability */}
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/80" />
+
+    {/* medal emoji badge */}
+    <span
+      className={`absolute -top-1 left-1/2 -translate-x-1/2 text-white font-black
+        ${rank === 1 ? "text-4xl" : "text-3xl"}`}
+    >
+      {rank === 1 ? "🥇" : rank === 2 ? "🥈" : "🥉"}
+    </span>
+
+    {/* text + CTA */}
+    <div className="relative z-10 p-4 text-white select-none">
+      <h3 className="text-2xl font-extrabold drop-shadow-md leading-tight">
+        {entry.name}
+      </h3>
+      <p
+        className={`font-semibold mb-4 ${
+          entry.belt === "Yellow Belt"
+            ? "text-yellow-400"
+            : entry.belt === "White Belt"
+            ? "text-white"
+            : entry.belt === "Orange Belt"
+            ? "text-orange-500"
+            : ""
+        }`}
+      >
+        {entry.belt}
+      </p>
+      <a
+        href={entry.gameUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block w-full"
+      >
+        <button className="w-full bg-rose-500/90 backdrop-blur-md py-2 rounded-md font-bold hover:bg-rose-600/90">
+          PLAY GAME
+        </button>
+      </a>
+    </div>
+  </div>
+);
+
+/* ───────── Caption + card combo ───────── */
+const RankedCard: React.FC<{ rank: 1 | 2 | 3; entry: PodiumEntry }> = ({
+  rank,
+  entry,
+}) => {
+  const caption =
+    rank === 1 ? "1st PLACE" : rank === 2 ? "2nd PLACE" : "3rd PLACE";
+  return (
+    <div className="flex flex-col items-center">
+
+      <p
+        className={`
+          mb-4 text-2xl font-extrabold tracking-tight
+          ${
+            rank === 1
+              ? "text-yellow-400"    
+              : rank === 2
+              ? "text-gray-400"    
+              : rank === 3
+              ? "text-orange-800"   
+              : "text-gray-300"   
+          }
+        `}
+        >
+        {caption}
+      </p>
+      <PodiumCard rank={rank} entry={entry} />
+    </div>
+  );
+};
+
+/* ───────── Whole Podium section ───────── */
+const Podium: React.FC = () => {
+  const [entries, setEntries] = useState<PodiumEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [podiumRef, podiumInView] = useInView();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const base = import.meta.env.VITE_BACKEND_URL;
+        if (!base) throw new Error("no URL");
+        const res  = await fetch(`${base}/leaderboard`);
+        const json = await res.json();
+        setEntries(json.slice(0, 3));
+      } catch {
+        console.warn("Using mock podium data ✨");
+        setEntries(MOCK_PODIUM);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  if (loading) return null;
+
+  return (
+    <section
+      ref={podiumRef}
+      style={{
+        background: `linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #f9fafb 8%,
+          #1f2937 15%,
+          #000000 25%,
+          #000000 75%,
+          #1f2937 85%,
+          #f9fafb 92%,
+          #ffffff 100%
+        )`,
+      }}
+      className={`
+        relative w-full flex flex-col items-center py-80 pt-72
+        transition-colors duration-700
+        ${podiumInView ? "text-white" : "text-gray-800"}
+      `}
+    >
+      {/* ← New section title */}
+      <h2 className="relative z-10 text-4xl font-extrabold mb-8">
+        Final Week Submission Showcase
+      </h2>
+
+      <div className="relative z-10 flex items-end justify-center gap-10">
+        {entries[1] && <RankedCard rank={2} entry={entries[1]} />}
+        {entries[0] && <RankedCard rank={1} entry={entries[0]} />}
+        {entries[2] && <RankedCard rank={3} entry={entries[2]} />}
+      </div>
+    </section>
   );
 };
