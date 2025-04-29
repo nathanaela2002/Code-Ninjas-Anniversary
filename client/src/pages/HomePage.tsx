@@ -143,12 +143,19 @@ export default function HomePage() {
         </section>
       </main>
 
+<<<<<<< HEAD
       <Leaderboard />
 
+=======
+>>>>>>> f2524b7 (Replaced dynamic data with static data in leaderboard's useEffect)
       {/* ───────── PODIUM (TOP 3) ───────── */}
       <Podium />
 
       {/* ───────── LEADERBOARD ───────── */}
+<<<<<<< HEAD
+=======
+      <Leaderboard />
+>>>>>>> f2524b7 (Replaced dynamic data with static data in leaderboard's useEffect)
 
       <Footer />
       <EditProfileModal />
@@ -390,27 +397,11 @@ const RankedCard: React.FC<{ rank: 1 | 2 | 3; entry: PodiumEntry }> = ({
 /* ───────── Whole Podium section ───────── */
 const Podium: React.FC = () => {
   const [entries, setEntries] = useState<PodiumEntry[]>([]);
-  const [loading, setLoading] = useState(true);
   const [podiumRef, podiumInView] = useInView();
 
   useEffect(() => {
-    (async () => {
-      try {
-        const base = import.meta.env.VITE_BACKEND_URL;
-        if (!base) throw new Error("no URL");
-        const res = await fetch(`${base}/leaderboard`);
-        const json = await res.json();
-        setEntries(json.slice(0, 3));
-      } catch {
-        console.warn("Using mock podium data ✨");
-        setEntries(MOCK_PODIUM);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    setEntries(MOCK_PODIUM);
   }, []);
-
-  if (loading) return null;
 
   return (
     <section
