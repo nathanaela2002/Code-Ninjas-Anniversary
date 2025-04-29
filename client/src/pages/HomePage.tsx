@@ -143,19 +143,10 @@ export default function HomePage() {
         </section>
       </main>
 
-<<<<<<< HEAD
       <Leaderboard />
 
-=======
->>>>>>> f2524b7 (Replaced dynamic data with static data in leaderboard's useEffect)
       {/* ───────── PODIUM (TOP 3) ───────── */}
       <Podium />
-
-      {/* ───────── LEADERBOARD ───────── */}
-<<<<<<< HEAD
-=======
-      <Leaderboard />
->>>>>>> f2524b7 (Replaced dynamic data with static data in leaderboard's useEffect)
 
       <Footer />
       <EditProfileModal />
@@ -438,4 +429,3 @@ const Podium: React.FC = () => {
     </section>
   );
 };
-
