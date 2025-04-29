@@ -1,42 +1,44 @@
 import { useEffect, useState, useCallback } from "react";
 
-/**
- * A generic version of useInView that works with any HTML element type.
- * It also applies a smooth fade transition when the element enters or leaves the viewport.
- */
+interface InViewOptions extends IntersectionObserverInit {
+  /** when true (default) the hook stops observing after first enter */
+  once?: boolean;
+}
+
 export function useInView<T extends HTMLElement = HTMLDivElement>(
-  options?: IntersectionObserverInit,
+  options: InViewOptions = {},
 ): [(node: T | null) => void, boolean] {
+  const { once = true, threshold = 0.2, root, rootMargin } = options;
+
   const [node, setNode] = useState<T | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  const ref = useCallback((node: T | null) => {
-    setNode(node);
-  }, []);
+  const ref = useCallback((el: T | null) => setNode(el), []);
 
   useEffect(() => {
     if (!node) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          if (once) observer.disconnect(); // stop listening
+        } else if (!once) {
+          setIsVisible(false);
+        }
       },
-      { threshold: 0.1, ...options },
+      { root, rootMargin, threshold },
     );
 
     observer.observe(node);
+    return () => observer.disconnect();
+  }, [node, once, root, rootMargin, threshold]);
 
-    return () => {
-      observer.disconnect();
-    };
-  }, [node, options]);
-
+  /* one-time inline style for fade in/out */
   useEffect(() => {
-    if (node) {
-      node.style.opacity = isVisible ? "1" : "0";
-      // Apply a smooth transition for opacity changes
-      node.style.transition = "opacity 0.6s ease-in-out";
-    }
+    if (!node) return;
+    node.style.transition = "opacity 0.6s ease-in-out";
+    node.style.opacity = isVisible ? "1" : "0";
   }, [node, isVisible]);
 
   return [ref, isVisible];

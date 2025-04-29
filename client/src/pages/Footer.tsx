@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer
       ref={footerRef}
-      className={`mt-10 pb-6 bg-blue-200 text-white text-sm ${
+      className={`mt-0 pb-6 bg-blue-200 text-white text-sm ${
         footerInView ? "reveal-show" : "reveal-hidden"
       }`}
     >
