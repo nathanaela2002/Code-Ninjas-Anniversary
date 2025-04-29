@@ -143,14 +143,13 @@ export default function HomePage() {
         </section>
       </main>
 
-      
+      <Leaderboard />
 
       {/* ───────── PODIUM (TOP 3) ───────── */}
       <Podium />
 
-            {/* ───────── LEADERBOARD ───────── */}
-      <Leaderboard />
-      
+      {/* ───────── LEADERBOARD ───────── */}
+
       <Footer />
       <EditProfileModal />
     </div>
@@ -177,7 +176,9 @@ const Leaderboard: React.FC = () => {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/leaderboard`);
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/leaderboard`,
+        );
         const json = await res.json();
         setData(json);
       } catch (e) {
@@ -190,12 +191,12 @@ const Leaderboard: React.FC = () => {
   }, []);
 
   if (loading) return <p className="text-center text-gray-600">Loading…</p>;
-  if (error)   return <p className="text-center text-red-500">{error}</p>;
+  if (error) return <p className="text-center text-red-500">{error}</p>;
   if (!data.length)
     return <p className="text-center text-gray-600">No data yet.</p>;
 
   const topThree = data.slice(0, 3);
-  const others   = data.slice(3);
+  const others = data.slice(3);
 
   return (
     <div className="flex flex-col items-center w-full bg-white p-8">
@@ -334,10 +335,10 @@ const PodiumCard: React.FC<{ rank: 1 | 2 | 3; entry: PodiumEntry }> = ({
           entry.belt === "Yellow Belt"
             ? "text-yellow-400"
             : entry.belt === "White Belt"
-            ? "text-white"
-            : entry.belt === "Orange Belt"
-            ? "text-orange-500"
-            : ""
+              ? "text-white"
+              : entry.belt === "Orange Belt"
+                ? "text-orange-500"
+                : ""
         }`}
       >
         {entry.belt}
@@ -365,21 +366,20 @@ const RankedCard: React.FC<{ rank: 1 | 2 | 3; entry: PodiumEntry }> = ({
     rank === 1 ? "1st PLACE" : rank === 2 ? "2nd PLACE" : "3rd PLACE";
   return (
     <div className="flex flex-col items-center">
-
       <p
         className={`
           mb-4 text-2xl font-extrabold tracking-tight
           ${
             rank === 1
-              ? "text-yellow-400"    
+              ? "text-yellow-400"
               : rank === 2
-              ? "text-gray-400"    
-              : rank === 3
-              ? "text-orange-800"   
-              : "text-gray-300"   
+                ? "text-gray-400"
+                : rank === 3
+                  ? "text-orange-800"
+                  : "text-gray-300"
           }
         `}
-        >
+      >
         {caption}
       </p>
       <PodiumCard rank={rank} entry={entry} />
@@ -398,7 +398,7 @@ const Podium: React.FC = () => {
       try {
         const base = import.meta.env.VITE_BACKEND_URL;
         if (!base) throw new Error("no URL");
-        const res  = await fetch(`${base}/leaderboard`);
+        const res = await fetch(`${base}/leaderboard`);
         const json = await res.json();
         setEntries(json.slice(0, 3));
       } catch {
@@ -447,3 +447,4 @@ const Podium: React.FC = () => {
     </section>
   );
 };
+
