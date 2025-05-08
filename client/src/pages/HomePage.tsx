@@ -108,7 +108,7 @@ export default function HomePage() {
         {/* ───────── WEEK LINKS ───────── */}
         <section
           ref={weeksRef}
-          className={`relative mb-2 ${weeksInView ? "reveal-show" : "reveal-hidden"}`}
+          className={`relative -mb-2 ${weeksInView ? "reveal-show" : "reveal-hidden"}`}
         >
           <div className="flex flex-wrap items-start justify-center space-x-4 md:space-x-6">
             {Array.from({ length: 6 }).map((_, idx) => {
@@ -143,11 +143,9 @@ export default function HomePage() {
         </section>
       </main>
 
-      <Leaderboard />
-
       {/* ───────── PODIUM (TOP 3) ───────── */}
       <Podium />
-
+      <Leaderboard />
       <Footer />
       <EditProfileModal />
     </div>
