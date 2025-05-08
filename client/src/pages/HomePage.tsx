@@ -143,8 +143,6 @@ export default function HomePage() {
         </section>
       </main>
 
-      
-
       {/* ───────── PODIUM (TOP 3) ───────── */}
       <Podium />
       <Leaderboard />
