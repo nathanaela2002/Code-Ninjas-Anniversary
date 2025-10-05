@@ -2,7 +2,7 @@
 
 Celebrate Code Ninjas Aurora’s second anniversary with a web experience built to release and showcase weekly MakeCode Arcade challenges for kids. Families could follow along, complete challenges, and track progress throughout the celebration.
 
-• [Visit the Prize Page](https://www.cnaurora-secondanniversary.ca/prizes)
+[Visit the Prize Page!](https://www.cnaurora-secondanniversary.ca/prizes)
 
 ### Overview
 - **What it is**: A full-stack app for publishing weekly game dev challenges using Microsoft MakeCode Arcade, collecting submissions, and engaging our local ninjas during the anniversary celebration.
